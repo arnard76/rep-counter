@@ -7,6 +7,7 @@
 
   let cameraLiveFeedVideoEl = null;
   let snapshotFrameImgEl = null;
+  let keypointsOverlayCanvasEl = null;
   let stream = null;
   let keypoints = null;
 
@@ -36,8 +37,9 @@
 
       console.log(res);
       keypoints = res[0].keypoints;
+      drawCanvas(res[0], videoWidth, videoHeight, keypointsOverlayCanvasEl);
     });
-  }, 500);
+  }, 100);
 
   onDestroy(() => {
     clearInterval(snapAndDetect);
@@ -48,12 +50,6 @@
 
 <div style="position: relative;">
   <video src="" bind:this={cameraLiveFeedVideoEl} />
-  <img
-    src=""
-    alt="latest-snapshot-from-video-stream"
-    style="display:none;"
-    bind:this={imageSrcEl}
-  />
   <div id="diagram" style="position:absolute; ">
     {#if keypoints}
       {#each keypoints as keypoint (keypoint)}
@@ -64,9 +60,24 @@
       {/each}
     {/if}
   </div>
+  <!-- <img
+    src=""
+    style="display:none;"
+    alt="latest-snapshot-from-video-stream"
+    bind:this={snapshotFrameImgEl}
+  /> -->
+  <canvas bind:this={keypointsOverlayCanvasEl} />
 </div>
 
 <style>
+  canvas {
+    position: absolute;
+    top: 0px;
+    border: 2px solid black;
+    left: 0px;
+    z-index: 9;
+  }
+
   #diagram {
     top: 0;
     left: 0;
