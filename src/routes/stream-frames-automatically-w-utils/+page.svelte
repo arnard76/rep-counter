@@ -1,6 +1,7 @@
 <script>
   import { submitPose } from "$lib/detector.js";
   import { captureVideo } from "$lib/frameCapture.js";
+  import { drawCanvas } from "$lib/drawKeypoints.js";
   import { browser } from "$app/environment";
   import { onDestroy } from "svelte";
 

@@ -63,3 +63,20 @@ export function drawKeypoints(keypoints, minConfidence, ctx, scale = 1) {
     drawPoint(ctx, y * scale, x * scale, 3, color);
   }
 }
+
+/**
+ *  transforms keypoints to visible diagram
+ *
+ * @param {Object} pose
+ * @param {number} videoWidth
+ * @param {number} videoHeight
+ * @param {HTMLElement} canvas
+ */
+export function drawCanvas(pose, videoWidth, videoHeight, canvas) {
+  const ctx = canvas.getContext("2d");
+  canvas.width = videoWidth;
+  canvas.height = videoHeight;
+
+  drawKeypoints(pose["keypoints"], 0.0, ctx);
+  drawSkeleton(pose["keypoints"], ctx);
+}
