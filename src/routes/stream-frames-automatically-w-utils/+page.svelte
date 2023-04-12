@@ -29,11 +29,7 @@
     const videoWidth = cameraLiveFeedVideoEl.videoWidth;
     const videoHeight = cameraLiveFeedVideoEl.videoHeight;
 
-    // Set video width
-    videoEl.width = videoWidth;
-    videoEl.height = videoHeight;
-
-    imageSrcEl.src = captureVideo(videoEl);
+    snapshotFrameImgEl.src = captureVideo(cameraLiveFeedVideoEl);
 
     getPose(cameraLiveFeedVideoEl).then((res) => {
       if (!res) return;

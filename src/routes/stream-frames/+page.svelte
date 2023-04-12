@@ -24,14 +24,6 @@
 <video src="" bind:this={videoEl} />
 <button
   on:click={() => {
-    // Get Video Properties
-    const videoWidth = videoEl.videoWidth;
-    const videoHeight = videoEl.videoHeight;
-
-    // Set video width
-    videoEl.width = videoWidth;
-    videoEl.height = videoHeight;
-
     imageSrcEl.src = captureVideo(videoEl);
 
     getPose(videoEl).then((res) => {
