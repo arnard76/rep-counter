@@ -1,4 +1,7 @@
+import * as poseDetection from "@tensorflow-models/pose-detection";
+
 const color = "blue";
+const lineColor = "green";
 const boundingBoxColor = "red";
 const lineWidth = 2;
 
@@ -17,23 +20,26 @@ export function drawSegment([ay, ax], [by, bx], color, scale, ctx) {
   ctx.moveTo(ax * scale, ay * scale);
   ctx.lineTo(bx * scale, by * scale);
   ctx.lineWidth = lineWidth;
-  ctx.strokeStyle = color;
+  ctx.strokeStyle = lineColor;
   ctx.stroke();
 }
 
 /**
  * Draws a pose skeleton by looking up all adjacent keypoints/joints
  */
-export function drawSkeleton(keypoints, minConfidence, ctx, scale = 1) {
-  const adjacentKeyPoints = posenet.getAdjacentKeyPoints(
-    keypoints,
-    minConfidence
+export function drawSkeleton(keypoints, ctx, scale = 1) {
+  function toTuple({ y, x }) {
+    return [y, x];
+  }
+
+  const adjacentKeyPoints = poseDetection.util.getAdjacentPairs(
+    poseDetection.SupportedModels.MoveNet
   );
 
-  adjacentKeyPoints.forEach((keypoints) => {
+  adjacentKeyPoints.forEach((twoAdjacentKeypoints) => {
     drawSegment(
-      toTuple(keypoints[0].position),
-      toTuple(keypoints[1].position),
+      toTuple(keypoints[twoAdjacentKeypoints[0]]),
+      toTuple(keypoints[twoAdjacentKeypoints[1]]),
       color,
       scale,
       ctx
