@@ -47,24 +47,17 @@
   }}>snap & detect this frame</button
 >
 
-<img src="" alt="latest-snapshot-from-video-stream" bind:this={imageSrcEl} />
-
-<canvas
-  bind:this={canvasEl}
-  style="
-    "
-/>
+<div style="position: relative;">
+  <img src="" alt="latest-snapshot-from-video-stream" bind:this={imageSrcEl} />
+  <canvas bind:this={canvasEl} />
+</div>
 
 <style>
   canvas {
-    position: "absolute";
-    margin-left: "auto";
-    margin-right: "auto";
-    left: 0;
-    right: 0;
-    text-align: "center";
+    position: absolute;
+    top: 0px;
+    border: 2px solid black;
+    left: 0px;
     z-index: 9;
-    width: 640;
-    height: 480;
   }
 </style>
