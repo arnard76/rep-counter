@@ -1,5 +1,5 @@
 <script>
-  import { submitPose } from "$lib/detector.js";
+  import { getPose } from "$lib/detector.js";
   import { captureVideo } from "$lib/frameCapture.js";
   import { browser } from "$app/environment";
   import { onDestroy } from "svelte";
@@ -15,31 +15,22 @@
       .then((res) => (stream = res));
   }
 
-  let snapAndDetect;
   $: if (stream) {
     videoEl.srcObject = stream;
     videoEl.play();
   }
 
-  snapAndDetect = setInterval(() => {
-    if (!videoEl) return;
-
-    // Get Video Properties
-    const videoWidth = videoEl.videoWidth;
-    const videoHeight = videoEl.videoHeight;
-
-    // Set video width
-    videoEl.width = videoWidth;
-    videoEl.height = videoHeight;
-
-    imageSrcEl.src = captureVideo(videoEl);
-
-    submitPose(videoEl).then((res) => {
-      if (!res) return;
-      console.log(res);
-      keypoints = res[0].keypoints;
-    });
-  }, 500);
+  let snapAndDetect;
+  $: if (videoEl) {
+    snapAndDetect = setInterval(() => {
+      // imageSrcEl.src = captureVideo(videoEl);
+      getPose(videoEl).then((res) => {
+        if (!res) return;
+        console.log(res);
+        keypoints = res[0].keypoints;
+      });
+    }, 500);
+  }
 
   onDestroy(() => {
     clearInterval(snapAndDetect);

@@ -24,7 +24,7 @@
 
   let submittingPose = false;
   let imgEl, dupeImgEl;
-  async function submitPose() {
+  async function getPose() {
     submittingPose = true;
     if (!detector) {
       console.log("detector not defined");
@@ -60,7 +60,7 @@
 <img bind:this={imgEl} alt="the uploaded 🤞" style="max-width:150px;" />
 <button
   on:click={() => {
-    submitPose().then((keypoints) => {
+    getPose().then((keypoints) => {
       submittingPose = false;
       estimateKeypoints = keypoints[0].keypoints;
     });

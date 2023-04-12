@@ -1,5 +1,5 @@
 <script>
-  import { submitPose } from "$lib/detector.js";
+  import { getPose } from "$lib/detector.js";
   import { captureVideo } from "$lib/frameCapture.js";
   import { browser } from "$app/environment";
   import { drawCanvas } from "$lib/drawKeypoints.js";
@@ -28,7 +28,7 @@
 
     imageSrcEl.src = captureVideo(videoEl);
 
-    submitPose(videoEl).then((res) => {
+    getPose(videoEl).then((res) => {
       if (!res) return;
 
       console.log(res);
@@ -40,6 +40,7 @@
 
 <!-- svelte-ignore a11y-media-has-caption -->
 <video src="" bind:this={videoEl} />
+
 <button
   on:click={() => {
     snapAndDetect();

@@ -1,34 +1,20 @@
 import * as poseDetection from "@tensorflow-models/pose-detection";
 import "@tensorflow/tfjs-backend-cpu";
 import "@tensorflow/tfjs-backend-webgl";
-import { writable } from "svelte/store";
-
-const model = poseDetection.SupportedModels.MoveNet;
 
 async function createDetector() {
-  // let modelType = poseDetection.movenet.modelType.SINGLEPOSE_LIGHTNING;
-  //   let modelUrl = STATE.modelConfig.customModel;
-  return poseDetection.createDetector(model, {
-    // quantBytes: 4,
-    // architecture: "MobileNetV1",
-    // outputStride: 16,
-    // inputResolution: { width: 480, height: 640 },
-    // multiplier: 0.75,
-    // modelType,
-    // runtime: "tfjs"
-    modelType: poseDetection.movenet.modelType.SINGLEPOSE_THUNDER,
-  });
+  const model = poseDetection.SupportedModels.MoveNet;
+  const modelType = poseDetection.movenet.modelType.SINGLEPOSE_THUNDER;
+
+  return poseDetection.createDetector(model, { modelType });
 }
 
 let detector = null;
 createDetector().then((res) => (detector = res));
 
-let submittingPose = writable(false);
-
-async function submitPose(srcEl) {
-  submittingPose.set(true);
+async function getPose(srcEl) {
   if (!detector) {
-    console.log("detector not defined");
+    console.log("detector not defined", detector);
     return;
   }
   console.log("submitting something", detector);
@@ -36,8 +22,7 @@ async function submitPose(srcEl) {
     flippedHorizontal: false,
     scaled: 0.1,
   });
-  submittingPose.set(false);
   return estimate;
 }
 
-export { submitPose, submittingPose };
+export { getPose };

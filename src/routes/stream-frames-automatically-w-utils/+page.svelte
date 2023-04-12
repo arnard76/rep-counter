@@ -1,12 +1,12 @@
 <script>
-  import { submitPose } from "$lib/detector.js";
   import { captureVideo } from "$lib/frameCapture.js";
+  import { getPose } from "$lib/detector.js";
   import { drawCanvas } from "$lib/drawKeypoints.js";
   import { browser } from "$app/environment";
   import { onDestroy } from "svelte";
 
-  let videoEl = null;
-  let imageSrcEl = null;
+  let cameraLiveFeedVideoEl = null;
+  let snapshotFrameImgEl = null;
   let stream = null;
   let keypoints = null;
 
@@ -18,16 +18,16 @@
 
   let snapAndDetect;
   $: if (stream) {
-    videoEl.srcObject = stream;
-    videoEl.play();
+    cameraLiveFeedVideoEl.srcObject = stream;
+    cameraLiveFeedVideoEl.play();
   }
 
   snapAndDetect = setInterval(() => {
-    if (!videoEl) return;
+    if (!cameraLiveFeedVideoEl) return;
 
     // Get Video Properties
-    const videoWidth = videoEl.videoWidth;
-    const videoHeight = videoEl.videoHeight;
+    const videoWidth = cameraLiveFeedVideoEl.videoWidth;
+    const videoHeight = cameraLiveFeedVideoEl.videoHeight;
 
     // Set video width
     videoEl.width = videoWidth;
@@ -35,8 +35,9 @@
 
     imageSrcEl.src = captureVideo(videoEl);
 
-    submitPose(videoEl).then((res) => {
+    getPose(cameraLiveFeedVideoEl).then((res) => {
       if (!res) return;
+
       console.log(res);
       keypoints = res[0].keypoints;
     });
@@ -49,8 +50,8 @@
 
 <!-- svelte-ignore a11y-media-has-caption -->
 
-<div style="position:relative;">
-  <video src="" bind:this={videoEl} />
+<div style="position: relative;">
+  <video src="" bind:this={cameraLiveFeedVideoEl} />
   <img
     src=""
     alt="latest-snapshot-from-video-stream"

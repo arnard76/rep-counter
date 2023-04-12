@@ -1,5 +1,5 @@
 <script>
-  import { submitPose } from "$lib/detector.js";
+  import { getPose } from "$lib/detector.js";
   import { captureVideo } from "$lib/frameCapture.js";
   import { browser } from "$app/environment";
 
@@ -34,7 +34,9 @@
 
     imageSrcEl.src = captureVideo(videoEl);
 
-    submitPose(videoEl).then((res) => {
+    getPose(videoEl).then((res) => {
+      if (!res) return;
+
       console.log(res);
       keypoints = res[0].keypoints;
     });
