@@ -1,11 +1,11 @@
 <script>
   import { getPose } from "$lib/detector.js";
-  import { captureVideo } from "$lib/frameCapture.js";
+  // import { captureVideo } from "$lib/frameCapture.js";
   import { browser } from "$app/environment";
   import { onDestroy } from "svelte";
 
   let videoEl = null;
-  let imageSrcEl = null;
+  // let imageSrcEl = null;
   let stream = null;
   let keypoints = null;
 
@@ -41,12 +41,12 @@
 
 <div style="position:relative;">
   <video src="" bind:this={videoEl} />
-  <img
+  <!-- <img
     src=""
     alt="latest-snapshot-from-video-stream"
     style="display:none;"
     bind:this={imageSrcEl}
-  />
+  /> -->
   <div id="diagram" style="position:absolute; ">
     {#if keypoints}
       {#each keypoints as keypoint (keypoint)}
