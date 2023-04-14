@@ -17,7 +17,6 @@ async function getPose(srcEl) {
     console.log("detector not defined", detector);
     return;
   }
-  console.log("submitting something", detector);
   let estimate = await detector.estimatePoses(srcEl, {
     flippedHorizontal: false,
     scaled: 0.1,

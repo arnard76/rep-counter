@@ -24,14 +24,14 @@ export function drawSegment([ay, ax], [by, bx], color, scale, ctx) {
   ctx.stroke();
 }
 
+function toTuple({ y, x }) {
+  return [y, x];
+}
+
 /**
  * Draws a pose skeleton by looking up all adjacent keypoints/joints
  */
 export function drawSkeleton(keypoints, ctx, scale = 1) {
-  function toTuple({ y, x }) {
-    return [y, x];
-  }
-
   const adjacentKeyPoints = poseDetection.util.getAdjacentPairs(
     poseDetection.SupportedModels.MoveNet
   );
@@ -63,6 +63,26 @@ export function drawKeypoints(keypoints, minConfidence, ctx, scale = 1) {
   }
 }
 
+/**
+ *  Connect the keypoints (in order) using line segments
+ * @param {Array} keypoints
+ * @param {*} ctx
+ */
+export function connectTheDots(keypoints, ctx) {
+  for (
+    let indexCounter = 0;
+    indexCounter <= keypoints.length - 2;
+    indexCounter++
+  ) {
+    drawSegment(
+      toTuple(keypoints[indexCounter]),
+      toTuple(keypoints[indexCounter + 1]),
+      color,
+      1,
+      ctx
+    );
+  }
+}
 /**
  *  transforms keypoints to visible diagram
  *
