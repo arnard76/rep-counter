@@ -1,6 +1,6 @@
 <script>
   import { getPose } from "$lib/detector.js";
-  import { drawCanvas, connectTheDots } from "$lib/drawKeypoints.js";
+  import { drawCanvas, connectTheDots } from "$lib/visualizeKeypoints.js";
   import { browser } from "$app/environment";
   import { onDestroy } from "svelte";
   import keypointNames from "$lib/keypointNames.json";

@@ -1,7 +1,7 @@
 <script>
   import { captureVideo } from "$lib/frameCapture.js";
   import { getPose } from "$lib/detector.js";
-  import { drawCanvas } from "$lib/drawKeypoints.js";
+  import { drawCanvas } from "$lib/visualizeKeypoints.js";
   import { browser } from "$app/environment";
   import { onDestroy } from "svelte";
 

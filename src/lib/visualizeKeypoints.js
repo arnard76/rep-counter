@@ -83,6 +83,29 @@ export function connectTheDots(keypoints, ctx) {
     );
   }
 }
+
+/**
+ *
+ * @param {Object} keypointsObj
+ * @param {number} videoWidth
+ * @param {number} videoHeight
+ * @param {HTMLElement} canvas
+ */
+export function connectDotsToMakeManyLines(
+  keypointsObj,
+  videoWidth,
+  videoHeight,
+  canvas
+) {
+  canvas.width = videoWidth;
+  canvas.height = videoHeight;
+  const ctx = canvas.getContext("2d");
+
+  Object.entries(keypointsObj).map((keypointsOfName) => {
+    connectTheDots(keypointsOfName[1], ctx);
+  });
+}
+
 /**
  *  transforms keypoints to visible diagram
  *

@@ -2,7 +2,7 @@
   import { getPose } from "$lib/detector.js";
   import { captureVideo } from "$lib/frameCapture.js";
   import { browser } from "$app/environment";
-  import { drawCanvas } from "$lib/drawKeypoints.js";
+  import { drawCanvas } from "$lib/visualizeKeypoints.js";
 
   let videoEl = null;
   let imageSrcEl = null;
