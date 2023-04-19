@@ -41,7 +41,7 @@
     const ctx = keypointsOverlayCanvasEl.getContext("2d");
 
     getPose(cameraLiveFeedVideoEl).then((res) => {
-      if (!res) return;
+      if (!res || !res.length) return;
 
       console.log(res);
       keypoints = res[0].keypoints;
