@@ -1,5 +1,5 @@
 <script>
-  import { getPose } from "$lib/detector.js";
+  import { getPose } from "$lib/pose-detection/detector.js";
   import { captureVideo } from "$lib/frameCapture.js";
   import { browser } from "$app/environment";
   import { drawCanvas } from "$lib/visualizeKeypoints.js";

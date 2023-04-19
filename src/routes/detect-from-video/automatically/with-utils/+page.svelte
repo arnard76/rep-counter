@@ -1,10 +1,10 @@
 <script>
   import { captureVideo } from "$lib/frameCapture.js";
-  import { getPose } from "$lib/detector.js";
+  import { getPose } from "$lib/pose-detection/detector.js";
   import { drawCanvas } from "$lib/visualizeKeypoints.js";
   import { browser } from "$app/environment";
   import { onDestroy } from "svelte";
-  import Keypoint from "$lib/Keypoint.svelte";
+  import Keypoint from "$lib/common-shapes/Keypoint.svelte";
 
   let cameraLiveFeedVideoEl = null;
   let snapshotFrameImgEl = null;
