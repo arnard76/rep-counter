@@ -5,6 +5,7 @@
   import { onDestroy } from "svelte";
   import keypointNames from "$lib/pose-detection/keypointNames.json";
   import Keypoint from "$lib/common-shapes/Keypoint.svelte";
+  import KeypointsFilter from "$lib/inputs/SelectManyKeypoints.svelte";
 
   let cameraLiveFeedVideoEl = null;
   let keypointsOverlayCanvasEl = null;
@@ -66,36 +67,12 @@
   onDestroy(() => {
     clearInterval(snapAndDetect);
   });
-
-  /**
-   * @param {string} ogName
-   */
-  function getVerboseKeypointName(ogName) {
-    return ogName.replace("_", " ");
-  }
 </script>
 
-{#if keypoints}
-  <div
-    style="display:grid; max-width: 100vw; grid-template-columns: repeat(6, 100px);"
-  >
-    {#each keypoints as keypoint (keypoint.name)}
-      <div style="display:flex; margin-inline: 50px;">
-        <p>{getVerboseKeypointName(keypoint.name)}</p>
-        <input
-          type="checkbox"
-          name=""
-          id=""
-          bind:checked={hiddenKeypoints[keypoint.name]}
-        />
-      </div>
-    {/each}
-  </div>
-{/if}
-
-<!-- svelte-ignore a11y-media-has-caption -->
+<KeypointsFilter {keypoints} {hiddenKeypoints} />
 
 <div style="position: relative;">
+  <!-- svelte-ignore a11y-media-has-caption -->
   <video src="" bind:this={cameraLiveFeedVideoEl} />
   <div id="diagram" style="position:absolute; ">
     {#if keypoints}
