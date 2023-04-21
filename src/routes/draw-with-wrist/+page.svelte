@@ -5,15 +5,13 @@
   import { onDestroy } from "svelte";
   import keypointNames from "$lib/pose-detection/keypointNames.json";
   import Keypoint from "$lib/common-shapes/Keypoint.svelte";
-  import KeypointsFilter from "$lib/inputs/SelectManyKeypoints.svelte";
+  import SelectMany from "$lib/inputs/SelectManyKeypoints.svelte";
 
   let cameraLiveFeedVideoEl = null;
   let keypointsOverlayCanvasEl = null;
   let stream = null;
   let keypoints = null;
-  let hiddenKeypoints = Object.fromEntries(
-    keypointNames.map((name) => [name, true])
-  );
+  let visibleKeypoints = []; // or [...keypointNames]
   let previousKeypoints = Object.fromEntries(
     keypointNames.map((name) => [name, []])
   );
@@ -45,8 +43,9 @@
 
       console.log(res);
       keypoints = res[0].keypoints;
+
       for (let keypoint of keypoints) {
-        if (hiddenKeypoints[keypoint.name] === true) {
+        if (!visibleKeypoints.includes(keypoint.name)) {
           if (previousKeypoints[keypoint.name].length) {
             previousKeypoints[keypoint.name] = [];
           }
@@ -69,15 +68,13 @@
   });
 </script>
 
-<KeypointsFilter {keypointNames} {hiddenKeypoints} />
-
 <div style="position: relative;">
   <!-- svelte-ignore a11y-media-has-caption -->
   <video src="" bind:this={cameraLiveFeedVideoEl} />
   <div id="diagram" style="position:absolute; ">
     {#if keypoints}
       {#each keypoints as keypoint (keypoint)}
-        {#if !hiddenKeypoints[keypoint.name]}
+        {#if visibleKeypoints.includes(keypoint.name)}
           <Keypoint {keypoint} />
         {/if}
       {/each}
@@ -86,6 +83,8 @@
 
   <canvas bind:this={keypointsOverlayCanvasEl} />
 </div>
+
+<SelectMany {keypointNames} bind:selectedKeypoints={visibleKeypoints} />
 
 <style>
   canvas {
