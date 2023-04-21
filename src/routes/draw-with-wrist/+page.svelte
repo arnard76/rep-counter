@@ -69,7 +69,7 @@
   });
 </script>
 
-<KeypointsFilter {keypoints} {hiddenKeypoints} />
+<KeypointsFilter {keypointNames} {hiddenKeypoints} />
 
 <div style="position: relative;">
   <!-- svelte-ignore a11y-media-has-caption -->

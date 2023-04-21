@@ -1,23 +1,23 @@
 <script>
   import { getVerboseKeypointName } from "$lib/transformKeypointData.js";
 
-  export let keypoints;
+  export let keypointNames;
 
   export let selectedKeypoint = null;
 </script>
 
-{#if keypoints}
+{#if keypointNames}
   <div
     style="display:grid; max-width: 100vw; grid-template-columns: repeat(6, 100px);"
   >
-    {#each keypoints as keypoint (keypoint.name)}
+    {#each keypointNames as keypointName (keypointName)}
       <div style="display:flex; margin-inline: 50px;">
-        <p>{getVerboseKeypointName(keypoint.name)}</p>
+        <p>{getVerboseKeypointName(keypointName)}</p>
 
         <input
           type="radio"
           bind:group={selectedKeypoint}
-          value={keypoint.name}
+          value={keypointName}
         />
       </div>
     {/each}
