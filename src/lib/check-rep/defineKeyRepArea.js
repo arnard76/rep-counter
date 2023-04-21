@@ -17,10 +17,12 @@ export class Area {
 
   /**
    * Checks if a keypoint is in this area
-   * @param {{x: number, y:number}} keypoint
+   * @param {Array} keypoints - array of all keypoints (not just names)
+   * @param {string} keypoint - name of keypoint
    * @returns {boolean}
    */
   pointInArea(keypoints, keypoint) {
+    if (!this.relativeToWhichKeypoint) return false;
     if (!keypoint || !keypoints || !keypoints.length) return false;
 
     let relativeKeypoint = keypoints.find(
@@ -32,10 +34,12 @@ export class Area {
       y: relativeKeypoint.y + this.topLeft.y,
     };
 
-    if (keypoint.x < absTopLeft.x) return false;
-    if (keypoint.x > absTopLeft.x + this.areaSize.width) return false;
-    if (keypoint.y < absTopLeft.y) return false;
-    if (keypoint.y > absTopLeft.y + this.areaSize.height) return false;
+    let focusKeypoint = keypoints.find((keypt) => keypt.name === keypoint);
+
+    if (focusKeypoint.x < absTopLeft.x) return false;
+    if (focusKeypoint.x > absTopLeft.x + this.areaSize.width) return false;
+    if (focusKeypoint.y < absTopLeft.y) return false;
+    if (focusKeypoint.y > absTopLeft.y + this.areaSize.height) return false;
 
     return true;
   }
@@ -45,6 +49,8 @@ export class Area {
    * @param {Array} keypoints
    */
   calcAreaCorners(keypoints) {
+    if (!this.relativeToWhichKeypoint) return;
+
     let relativeKeypoint = keypoints.find(
       (keypoint) => keypoint?.name === this.relativeToWhichKeypoint
     );

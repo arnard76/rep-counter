@@ -48,29 +48,51 @@
     clearInterval(snapAndDetect);
   });
 
-  let focusKeypointName;
+  let keyRepAreas = [
+    { relativeTo: "right_ear", focus: "right_wrist" },
+    { relativeTo: "left_ear", focus: "right_wrist" },
+  ];
 </script>
 
 <div class="container">
-  <div>
-    <p>Where is the focus?</p>
-    <SelectOneKeypoint {keypoints} bind:selectedKeypoint={focusKeypointName} />
-  </div>
+  {#each keyRepAreas as keyRepArea, index (keyRepArea)}
+    <div>
+      <p>Key area relative to?</p>
+      <SelectOneKeypoint
+        {keypointNames}
+        bind:selectedKeypoint={keyRepAreas[index].relativeTo}
+      />
+    </div>
+    <div>
+      <p>Where is the focus?</p>
+      <SelectOneKeypoint
+        {keypointNames}
+        bind:selectedKeypoint={keyRepAreas[index].focus}
+      />
+    </div>
+  {/each}
 
   <!-- svelte-ignore a11y-media-has-caption -->
 
   <div style="position: relative;">
     <video src="" bind:this={cameraLiveFeedVideoEl} />
-    <KeyRepArea
-      relativeToWhichKeypoint={"nose"}
-      {keypoints}
-      focusKeypoint={keypoints &&
-        keypoints.find((keypoint) => keypoint.name === focusKeypointName)}
-    />
+
+    {#each keyRepAreas as keyRepArea, index (keyRepArea)}
+      <KeyRepArea
+        relativeToWhichKeypoint={keyRepArea.relativeTo}
+        {keypoints}
+        focusKeypoint={keyRepArea.focus}
+      />
+    {/each}
+
     <div id="diagram" style="position:absolute;">
       {#if keypoints}
         {#each keypoints as keypoint (keypoint)}
-          {#if keypoint.name === "nose" || focusKeypointName === keypoint.name}
+          {#if keyRepAreas
+            .map((keyRepArea) => keyRepArea.relativeTo)
+            .includes(keypoint.name) || keyRepAreas
+              .map((keyRepArea) => keyRepArea.focus)
+              .includes(keypoint.name)}
             <Keypoint {keypoint} />
           {/if}
         {/each}

@@ -5,7 +5,7 @@
 
   export let topLeft = { x: 10, y: 20 },
     areaSize = { width: 50, height: 50 },
-    relativeToWhichKeypoint = "nose";
+    relativeToWhichKeypoint;
 
   export let keypoints;
   export let focusKeypoint = null;
