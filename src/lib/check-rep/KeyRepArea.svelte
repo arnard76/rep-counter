@@ -24,17 +24,29 @@
       : false;
   }
 
-  $: colour = inArea ? "green" : "blue";
+  $: colour = inArea ? "green" : "lightgrey";
 </script>
 
 {#if corners}
   <div class="area">
     <Keypoint keypoint={corners.topLeft} {colour} />
-    <Line point1={corners.topLeft} point2={corners.topRight} />
+    <Line point1={corners.topLeft} point2={corners.topRight} {colour} />
     <Keypoint keypoint={corners.topRight} {colour} />
+    <Line
+      point1={corners.topLeft}
+      point2={corners.bottomLeft}
+      horizontal={false}
+      {colour}
+    />
     <Keypoint keypoint={corners.bottomLeft} {colour} />
-    <Line point1={corners.bottomLeft} point2={corners.bottomRight} />
+    <Line point1={corners.bottomLeft} point2={corners.bottomRight} {colour} />
     <Keypoint keypoint={corners.bottomRight} {colour} />
+    <Line
+      point1={corners.topRight}
+      point2={corners.bottomRight}
+      horizontal={false}
+      {colour}
+    />
   </div>
 {/if}
 
