@@ -1,16 +1,15 @@
 <script>
-  import { getPose } from "$lib/pose-detection/detector.js";
-  import { connectTheDots } from "$lib/visualizeKeypoints.js";
   import { browser } from "$app/environment";
-  import { onDestroy } from "svelte";
+  import { videoEl, keypoints } from "$lib/pose-detection/keypoints.js";
   import keypointNames from "$lib/pose-detection/keypointNames.json";
+  import { connectTheDots } from "$lib/visualizeKeypoints.js";
+
   import Keypoint from "$lib/common-shapes/Keypoint.svelte";
   import SelectMany from "$lib/inputs/SelectManyKeypoints.svelte";
 
-  let cameraLiveFeedVideoEl = null;
-  let keypointsOverlayCanvasEl = null;
   let stream = null;
-  let keypoints = null;
+
+  let keypointsOverlayCanvasEl = null;
   let visibleKeypoints = []; // or [...keypointNames]
   let previousKeypoints = Object.fromEntries(
     keypointNames.map((name) => [name, []])
@@ -22,58 +21,42 @@
       .then((res) => (stream = res));
   }
 
-  let snapAndDetect;
   $: if (stream) {
-    cameraLiveFeedVideoEl.srcObject = stream;
-    cameraLiveFeedVideoEl.play();
+    $videoEl.srcObject = stream;
+    $videoEl.play();
   }
 
-  snapAndDetect = setInterval(() => {
-    if (!cameraLiveFeedVideoEl) return;
-
-    // Get Video Properties
-    const videoWidth = cameraLiveFeedVideoEl.videoWidth;
-    const videoHeight = cameraLiveFeedVideoEl.videoHeight;
+  // draw previous points on canvas using utils
+  $: if ($keypoints && keypointsOverlayCanvasEl) {
+    const videoWidth = $videoEl.videoWidth;
+    const videoHeight = $videoEl.videoHeight;
     keypointsOverlayCanvasEl.width = videoWidth;
     keypointsOverlayCanvasEl.height = videoHeight;
     const ctx = keypointsOverlayCanvasEl.getContext("2d");
 
-    getPose(cameraLiveFeedVideoEl).then((res) => {
-      if (!res || !res.length) return;
-
-      console.log(res);
-      keypoints = res[0].keypoints;
-
-      for (let keypoint of keypoints) {
-        if (!visibleKeypoints.includes(keypoint.name)) {
-          if (previousKeypoints[keypoint.name].length) {
-            previousKeypoints[keypoint.name] = [];
-          }
-          continue;
+    for (let keypoint of $keypoints) {
+      if (!visibleKeypoints.includes(keypoint.name)) {
+        if (previousKeypoints[keypoint.name].length) {
+          previousKeypoints[keypoint.name] = [];
         }
-
-        if (previousKeypoints[keypoint.name].length > 10) {
-          previousKeypoints[keypoint.name].splice(0, 1);
-        }
-        previousKeypoints[keypoint.name].push(keypoint);
-        connectTheDots(previousKeypoints[keypoint.name], ctx);
+        continue;
       }
 
-      // drawCanvas(res[0], videoWidth, videoHeight, keypointsOverlayCanvasEl);
-    });
-  }, 100);
-
-  onDestroy(() => {
-    clearInterval(snapAndDetect);
-  });
+      if (previousKeypoints[keypoint.name].length > 10) {
+        previousKeypoints[keypoint.name].splice(0, 1);
+      }
+      previousKeypoints[keypoint.name].push(keypoint);
+      connectTheDots(previousKeypoints[keypoint.name], ctx);
+    }
+  }
 </script>
 
 <div style="position: relative;">
   <!-- svelte-ignore a11y-media-has-caption -->
-  <video src="" bind:this={cameraLiveFeedVideoEl} />
+  <video src="" bind:this={$videoEl} />
   <div id="diagram" style="position:absolute; ">
-    {#if keypoints}
-      {#each keypoints as keypoint (keypoint)}
+    {#if $keypoints}
+      {#each $keypoints as keypoint (keypoint)}
         {#if visibleKeypoints.includes(keypoint.name)}
           <Keypoint {keypoint} />
         {/if}

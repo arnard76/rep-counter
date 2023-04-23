@@ -1,18 +1,13 @@
 <script>
   import { browser } from "$app/environment";
-  import { getPose } from "$lib/pose-detection/detector.js";
+  import { videoEl, keypoints } from "$lib/pose-detection/keypoints.js";
   import keypointNames from "$lib/pose-detection/keypointNames.json";
-  import { drawCanvas, connectTheDots } from "$lib/visualizeKeypoints.js";
-  import { onDestroy } from "svelte";
 
   import Keypoint from "$lib/common-shapes/Keypoint.svelte";
   import SelectOneKeypoint from "$lib/inputs/SelectOneKeypoint.svelte";
   import KeyRepArea from "$lib/check-rep/KeyRepArea.svelte";
 
-  let cameraLiveFeedVideoEl = null;
-  let keypointsOverlayCanvasEl = null;
   let stream = null;
-  let keypoints = null;
 
   $: if (browser) {
     window.navigator.mediaDevices
@@ -21,32 +16,9 @@
   }
 
   $: if (stream) {
-    cameraLiveFeedVideoEl.srcObject = stream;
-    cameraLiveFeedVideoEl.play();
+    $videoEl.srcObject = stream;
+    $videoEl.play();
   }
-
-  let snapAndDetect;
-  snapAndDetect = setInterval(() => {
-    if (!cameraLiveFeedVideoEl) return;
-
-    // Get Video Properties
-    const videoWidth = cameraLiveFeedVideoEl.videoWidth;
-    const videoHeight = cameraLiveFeedVideoEl.videoHeight;
-    keypointsOverlayCanvasEl.width = videoWidth;
-    keypointsOverlayCanvasEl.height = videoHeight;
-    const ctx = keypointsOverlayCanvasEl.getContext("2d");
-
-    getPose(cameraLiveFeedVideoEl).then((res) => {
-      if (!res || !res.length) return;
-
-      // console.log(res);
-      keypoints = res[0].keypoints;
-    });
-  }, 100);
-
-  onDestroy(() => {
-    clearInterval(snapAndDetect);
-  });
 
   let keyRepAreas = [
     { relativeTo: "right_ear", focus: "right_wrist" },
@@ -75,19 +47,19 @@
   <!-- svelte-ignore a11y-media-has-caption -->
 
   <div style="position: relative;">
-    <video src="" bind:this={cameraLiveFeedVideoEl} />
+    <video src="" bind:this={$videoEl} />
 
     {#each keyRepAreas as keyRepArea, index (keyRepArea)}
       <KeyRepArea
         relativeToWhichKeypoint={keyRepArea.relativeTo}
-        {keypoints}
+        keypoints={$keypoints}
         focusKeypoint={keyRepArea.focus}
       />
     {/each}
 
     <div id="diagram" style="position:absolute;">
-      {#if keypoints}
-        {#each keypoints as keypoint (keypoint)}
+      {#if $keypoints}
+        {#each $keypoints as keypoint (keypoint)}
           {#if keyRepAreas
             .map((keyRepArea) => keyRepArea.relativeTo)
             .includes(keypoint.name) || keyRepAreas
@@ -98,8 +70,6 @@
         {/each}
       {/if}
     </div>
-
-    <canvas bind:this={keypointsOverlayCanvasEl} />
   </div>
 </div>
 
@@ -109,14 +79,6 @@
     flex-direction: row-reverse;
     align-items: flex-start;
     justify-content: left;
-  }
-
-  canvas {
-    position: absolute;
-    top: 0px;
-    border: 2px solid black;
-    left: 0px;
-    z-index: 9;
   }
 
   #diagram {
