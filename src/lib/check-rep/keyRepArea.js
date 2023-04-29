@@ -1,16 +1,16 @@
-export class Area {
+export default class Area {
   relativeToWhichKeypoint = null;
   topLeft = null;
   areaSize = null;
 
   /**
    *
-   * @param {string} keypointName
+   * @param {string} relativeKeypointName
    * @param {{x : number, y :number}} topleft
    * @param {{width: number, height: number}} areaSize
    */
-  constructor(keypointName, { x, y }, { width, height }) {
-    this.relativeToWhichKeypoint = keypointName;
+  constructor(relativeKeypointName, { x, y }, { width, height }) {
+    this.relativeToWhichKeypoint = relativeKeypointName;
     this.topLeft = { x, y };
     this.areaSize = { width, height };
   }

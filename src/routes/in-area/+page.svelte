@@ -2,6 +2,8 @@
   import { browser } from "$app/environment";
   import { videoEl, keypoints } from "$lib/pose-detection/keypoints.js";
   import keypointNames from "$lib/pose-detection/keypointNames.json";
+  import repArea from "$lib/check-rep/keyRepArea.js";
+  import exerciseRep from "$lib/check-rep/exerciseRep.js";
 
   import Keypoint from "$lib/common-shapes/Keypoint.svelte";
   import SelectOneKeypoint from "$lib/inputs/SelectOneKeypoint.svelte";
@@ -20,26 +22,30 @@
     $videoEl.play();
   }
 
-  let keyRepAreas = [
-    { relativeTo: "right_ear", focus: "right_wrist" },
-    { relativeTo: "left_ear", focus: "right_wrist" },
+  let areas = [
+    new repArea("right_ear", { x: 1, y: 2 }, { width: 50, height: 30 }),
+    new repArea("left_ear", { x: 100, y: 25 }, { width: 50, height: 30 }),
   ];
+  let { keyAreas: keyRepAreas } = exerciseRep;
+  let focusKeypoints = ["right_wrist", "right_wrist"];
+
+  keyRepAreas.addNewRepAreas(areas);
 </script>
 
 <div class="container">
-  {#each keyRepAreas as keyRepArea, index (keyRepArea)}
+  {#each $keyRepAreas as keyRepArea, index (keyRepArea)}
     <div>
       <p>Key area relative to?</p>
       <SelectOneKeypoint
         {keypointNames}
-        bind:selectedKeypoint={keyRepAreas[index].relativeTo}
+        bind:selectedKeypoint={keyRepArea.relativeToWhichKeypoint}
       />
     </div>
     <div>
       <p>Where is the focus?</p>
       <SelectOneKeypoint
         {keypointNames}
-        bind:selectedKeypoint={keyRepAreas[index].focus}
+        bind:selectedKeypoint={focusKeypoints[index]}
       />
     </div>
   {/each}
@@ -49,22 +55,20 @@
   <div style="position: relative;">
     <video src="" bind:this={$videoEl} />
 
-    {#each keyRepAreas as keyRepArea, index (keyRepArea)}
+    {#each $keyRepAreas as keyRepArea, index (keyRepArea)}
       <KeyRepArea
-        relativeToWhichKeypoint={keyRepArea.relativeTo}
+        {keyRepArea}
         keypoints={$keypoints}
-        focusKeypoint={keyRepArea.focus}
+        focusKeypoint={focusKeypoints[index]}
       />
     {/each}
 
     <div id="diagram" style="position:absolute;">
       {#if $keypoints}
         {#each $keypoints as keypoint (keypoint)}
-          {#if keyRepAreas
-            .map((keyRepArea) => keyRepArea.relativeTo)
-            .includes(keypoint.name) || keyRepAreas
-              .map((keyRepArea) => keyRepArea.focus)
-              .includes(keypoint.name)}
+          {#if $keyRepAreas
+            .map((keyRepArea) => keyRepArea.relativeToWhichKeypoint)
+            .includes(keypoint.name) || focusKeypoints.includes(keypoint.name)}
             <Keypoint {keypoint} />
           {/if}
         {/each}

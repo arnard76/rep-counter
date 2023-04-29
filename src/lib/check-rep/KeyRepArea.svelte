@@ -1,26 +1,16 @@
 <script>
-  import { Area } from "$lib/check-rep/defineKeyRepArea.js";
   import Keypoint from "$lib/common-shapes/Keypoint.svelte";
   import Line from "$lib/common-shapes/StraightLine.svelte";
 
-  export let topLeft = { x: 10, y: 20 },
-    areaSize = { width: 50, height: 50 },
-    relativeToWhichKeypoint;
-
+  export let keyRepArea;
   export let keypoints;
   export let focusKeypoint = null;
 
-  const keyArea = new Area(relativeToWhichKeypoint, topLeft, areaSize);
-
-  $: if (relativeToWhichKeypoint) {
-    keyArea.relativeToWhichKeypoint = relativeToWhichKeypoint;
-  }
-
   let corners, inArea;
   $: if (keypoints) {
-    corners = keyArea.calcAreaCorners(keypoints);
+    corners = keyRepArea.calcAreaCorners(keypoints);
     inArea = focusKeypoint
-      ? keyArea.pointInArea(keypoints, focusKeypoint)
+      ? keyRepArea.pointInArea(keypoints, focusKeypoint)
       : false;
   }
 
