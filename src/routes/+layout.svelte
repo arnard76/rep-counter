@@ -8,9 +8,16 @@
   </title>
 </svelte:head>
 
+{#if $page.route.id !== "/"}
+  <p>
+    <a href="/"> back to home 🏠 </a>
+  </p>
+{/if}
+
 <p>
   {$page.route.id.replaceAll("/", " ").trim()}
 </p>
+
 <slot />
 
 <style>
