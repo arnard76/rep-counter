@@ -3,7 +3,7 @@
   // import { captureVideo } from "$lib/frameCapture.js";
   import { browser } from "$app/environment";
   import { onDestroy } from "svelte";
-  import Keypoint from "$lib/common-shapes/Keypoint.svelte";
+  import KeypointsOverlay from "$lib/common-shapes/KeypointsOverlay.svelte";
 
   let videoEl = null;
   // let imageSrcEl = null;
@@ -48,18 +48,6 @@
     style="display:none;"
     bind:this={imageSrcEl}
   /> -->
-  <div id="diagram" style="position:absolute; ">
-    {#if keypoints}
-      {#each keypoints as keypoint (keypoint)}
-        <Keypoint {keypoint} />
-      {/each}
-    {/if}
-  </div>
-</div>
 
-<style>
-  #diagram {
-    top: 0;
-    left: 0;
-  }
-</style>
+  <KeypointsOverlay {keypoints} />
+</div>

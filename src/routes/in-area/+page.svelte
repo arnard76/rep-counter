@@ -5,7 +5,7 @@
   import repArea from "$lib/check-rep/keyRepArea.js";
   import exerciseRep from "$lib/check-rep/exerciseRep.js";
 
-  import Keypoint from "$lib/common-shapes/Keypoint.svelte";
+  import KeypointsOverlay from "$lib/common-shapes/KeypointsOverlay.svelte";
   import SelectOneKeypoint from "$lib/inputs/SelectOneKeypoint.svelte";
   import KeyRepArea from "$lib/check-rep/KeyRepArea.svelte";
 
@@ -30,6 +30,13 @@
   let focusKeypoints = ["right_wrist", "right_wrist"];
 
   keyRepAreas.addNewRepAreas(areas);
+
+  $: keypointsToShow = $keypoints.filter(
+    (keypoint) =>
+      keyRepAreas.find(
+        (keyRepArea) => keyRepArea.relativeToWhichKeypoint === keypoint.name
+      ) || focusKeypoints.includes(keypoint.name)
+  );
 </script>
 
 <div class="container">
@@ -63,17 +70,7 @@
       />
     {/each}
 
-    <div id="diagram" style="position:absolute;">
-      {#if $keypoints}
-        {#each $keypoints as keypoint (keypoint)}
-          {#if $keyRepAreas
-            .map((keyRepArea) => keyRepArea.relativeToWhichKeypoint)
-            .includes(keypoint.name) || focusKeypoints.includes(keypoint.name)}
-            <Keypoint {keypoint} />
-          {/if}
-        {/each}
-      {/if}
-    </div>
+    <KeypointsOverlay keypoints={keypointsToShow} />
   </div>
 </div>
 
@@ -83,10 +80,5 @@
     flex-direction: row-reverse;
     align-items: flex-start;
     justify-content: left;
-  }
-
-  #diagram {
-    top: 0;
-    left: 0;
   }
 </style>

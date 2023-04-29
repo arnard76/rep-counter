@@ -3,7 +3,7 @@
   import { videoEl, keypoints } from "$lib/pose-detection/keypoints.js";
   import keypointNames from "$lib/pose-detection/keypointNames.json";
 
-  import Keypoint from "$lib/common-shapes/Keypoint.svelte";
+  import KeypointsOverlay from "$lib/common-shapes/KeypointsOverlay.svelte";
   import SelectOneKeypoint from "$lib/inputs/SelectOneKeypoint.svelte";
   import KeyRepArea from "$lib/check-rep/KeyRepArea.svelte";
 
@@ -26,6 +26,12 @@
     { relativeTo: "right_ear", focus: "right_wrist" },
     { relativeTo: "left_ear", focus: "right_wrist" },
   ];
+  $: keypointsToShow = $keypoints.filter(
+    (keypoint) =>
+      keyRepAreas.find(
+        (keyRepArea) => keyRepArea.relativeToWhichKeypoint === keypoint.name
+      ) || focusKeypoint === keypoint.name
+  );
 </script>
 
 <div class="container">
@@ -60,19 +66,7 @@
       />
     {/each}
 
-    <div id="diagram" style="position:absolute;">
-      {#if $keypoints}
-        {#each $keypoints as keypoint (keypoint)}
-          {#if keyRepAreas
-            .map((keyRepArea) => keyRepArea.relativeTo)
-            .includes(keypoint.name) || keyRepAreas
-              .map((keyRepArea) => keyRepArea.focus)
-              .includes(keypoint.name)}
-            <Keypoint {keypoint} />
-          {/if}
-        {/each}
-      {/if}
-    </div>
+    <KeypointsOverlay keypoints={keypointsToShow} />
   </div>
 </div>
 
@@ -82,11 +76,6 @@
     flex-direction: row-reverse;
     align-items: flex-start;
     justify-content: left;
-  }
-
-  #diagram {
-    top: 0;
-    left: 0;
   }
 
   .inputs {

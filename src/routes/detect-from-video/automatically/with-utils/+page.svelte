@@ -4,7 +4,7 @@
   import { drawCanvas } from "$lib/visualizeKeypoints.js";
   import { browser } from "$app/environment";
   import { onDestroy } from "svelte";
-  import Keypoint from "$lib/common-shapes/Keypoint.svelte";
+  import KeypointsOverlay from "$lib/common-shapes/KeypointsOverlay.svelte";
 
   let cameraLiveFeedVideoEl = null;
   let snapshotFrameImgEl = null;
@@ -51,13 +51,8 @@
 
 <div style="position: relative;">
   <video src="" bind:this={cameraLiveFeedVideoEl} />
-  <div id="diagram" style="position:absolute; ">
-    {#if keypoints}
-      {#each keypoints as keypoint (keypoint)}
-        <Keypoint {keypoint} />
-      {/each}
-    {/if}
-  </div>
+  <KeypointsOverlay {keypoints} />
+
   <!-- <img
     src=""
     style="display:none;"
@@ -74,10 +69,5 @@
     border: 2px solid black;
     left: 0px;
     z-index: 9;
-  }
-
-  #diagram {
-    top: 0;
-    left: 0;
   }
 </style>

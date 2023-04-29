@@ -2,7 +2,7 @@
   import { getPose } from "$lib/pose-detection/detector.js";
   import { captureVideo } from "$lib/frameCapture.js";
   import { browser } from "$app/environment";
-  import Keypoint from "$lib/common-shapes/Keypoint.svelte";
+  import KeypointsOverlay from "$lib/common-shapes/KeypointsOverlay.svelte";
 
   let videoEl = null;
   let imageSrcEl = null;
@@ -39,18 +39,5 @@
 
 <div style="position:relative;">
   <img src="" alt="latest-snapshot-from-video-stream" bind:this={imageSrcEl} />
-  <div id="diagram" style="position:absolute; ">
-    {#if keypoints}
-      {#each keypoints as keypoint (keypoint)}
-        <Keypoint {keypoint} />
-      {/each}
-    {/if}
-  </div>
+  <KeypointsOverlay {keypoints} />
 </div>
-
-<style>
-  #diagram {
-    top: 0;
-    left: 0;
-  }
-</style>

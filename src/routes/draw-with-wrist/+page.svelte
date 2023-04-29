@@ -4,8 +4,8 @@
   import keypointNames from "$lib/pose-detection/keypointNames.json";
   import { connectTheDots } from "$lib/visualizeKeypoints.js";
 
-  import Keypoint from "$lib/common-shapes/Keypoint.svelte";
   import SelectMany from "$lib/inputs/SelectManyKeypoints.svelte";
+  import KeypointsOverlay from "$lib/common-shapes/KeypointsOverlay.svelte";
 
   let stream = null;
 
@@ -54,15 +54,8 @@
 <div style="position: relative;">
   <!-- svelte-ignore a11y-media-has-caption -->
   <video src="" bind:this={$videoEl} />
-  <div id="diagram" style="position:absolute; ">
-    {#if $keypoints}
-      {#each $keypoints as keypoint (keypoint)}
-        {#if visibleKeypoints.includes(keypoint.name)}
-          <Keypoint {keypoint} />
-        {/if}
-      {/each}
-    {/if}
-  </div>
+
+  <KeypointsOverlay keypoints={$keypoints} />
 
   <canvas bind:this={keypointsOverlayCanvasEl} />
 </div>
@@ -76,10 +69,5 @@
     border: 2px solid black;
     left: 0px;
     z-index: 9;
-  }
-
-  #diagram {
-    top: 0;
-    left: 0;
   }
 </style>
