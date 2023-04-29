@@ -5,7 +5,9 @@
 
   import KeypointsOverlay from "$lib/common-shapes/KeypointsOverlay.svelte";
   import SelectOneKeypoint from "$lib/inputs/SelectOneKeypoint.svelte";
-  import KeyRepArea from "$lib/check-rep/KeyRepArea.svelte";
+  import RepsCounter from "$lib/check-rep/RepsCounter.svelte";
+  import KeyRepArea from "$lib/check-rep/keyRepArea.js";
+  import KeyRepAreaSC from "$lib/check-rep/KeyRepArea.svelte";
 
   let stream = null;
 
@@ -20,37 +22,34 @@
     $videoEl.play();
   }
 
-  // $: videoEl.set(cameraLiveFeedVideoEl);
-
   let keyRepAreas = [
-    { relativeTo: "right_ear", focus: "right_wrist" },
-    { relativeTo: "left_ear", focus: "right_wrist" },
+    new KeyRepArea("right_ear", { x: 1, y: 2 }, { width: 50, height: 30 }),
+    new KeyRepArea("left_ear", { x: 100, y: 25 }, { width: 50, height: 30 }),
   ];
-  $: keypointsToShow = $keypoints.filter(
-    (keypoint) =>
-      keyRepAreas.find(
-        (keyRepArea) => keyRepArea.relativeToWhichKeypoint === keypoint.name
-      ) || focusKeypoint === keypoint.name
-  );
+
+  let focusKeypoint = "right_wrist";
+
+  $: keypointsToShow =
+    $keypoints &&
+    $keypoints.filter(
+      (keypoint) =>
+        keyRepAreas.find(
+          (keyRepArea) => keyRepArea.relativeToWhichKeypoint === keypoint.name
+        ) || focusKeypoint === keypoint.name
+    );
 </script>
 
 <div class="container">
   <div class="inputs">
     {#each keyRepAreas as keyRepArea, index (keyRepArea)}
-      <div style="display:flex; margin-bottom: 50px;">
-        <p>Key area relative to?</p>
-        <SelectOneKeypoint
-          {keypointNames}
-          bind:selectedKeypoint={keyRepAreas[index].relativeTo}
-        />
-
-        <p>Where is the focus?</p>
-        <SelectOneKeypoint
-          {keypointNames}
-          bind:selectedKeypoint={keyRepAreas[index].focus}
-        />
-      </div>
+      <p>Key area relative to?</p>
+      <SelectOneKeypoint
+        {keypointNames}
+        bind:selectedKeypoint={keyRepAreas[index].relativeToWhichKeypoint}
+      />
     {/each}
+    <p>Where is the focus?</p>
+    <SelectOneKeypoint {keypointNames} bind:selectedKeypoint={focusKeypoint} />
   </div>
 
   <!-- svelte-ignore a11y-media-has-caption -->
@@ -58,15 +57,13 @@
   <div style="position: relative;">
     <video src="" bind:this={$videoEl} />
 
-    {#each keyRepAreas as keyRepArea, index (keyRepArea)}
-      <KeyRepArea
-        relativeToWhichKeypoint={keyRepArea.relativeTo}
-        keypoints={$keypoints}
-        focusKeypoint={keyRepArea.focus}
-      />
-    {/each}
+    <RepsCounter {keyRepAreas} {focusKeypoint} />
 
     <KeypointsOverlay keypoints={keypointsToShow} />
+
+    {#each keyRepAreas as keyRepArea (keyRepArea)}
+      <KeyRepAreaSC {keyRepArea} keypoints={$keypoints} {focusKeypoint} />
+    {/each}
   </div>
 </div>
 
