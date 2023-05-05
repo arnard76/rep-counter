@@ -7,14 +7,11 @@
   export let keyRepAreas = null;
   export let focusKeypoint = null;
 
-  let lastIndex, repCount;
-
   let repCounter = new RepsCounter(keyRepAreas);
 
   let keepCountingReps = setInterval(() => {
     repCounter.isLimbInNextKeyArea($keypoints, focusKeypoint);
-    repCount = repCounter.numberOfReps;
-    lastIndex = repCounter.lastKeyAreaIndex;
+    repCounter = repCounter;
   }, 500);
 
   onDestroy(() => {
@@ -23,5 +20,5 @@
 </script>
 
 <p style="position:absolute;top: 0;left:0">
-  last index: {lastIndex}, count: {repCount}
+  last index: {repCounter.lastKeyAreaIndex}, count: {repCounter.numberOfReps}
 </p>
