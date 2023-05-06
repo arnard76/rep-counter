@@ -1,4 +1,4 @@
-import { get, readable, writable } from "svelte/store";
+import { derived, get, readable, writable } from "svelte/store";
 import { getPose } from "$lib/pose-detection/detector.js";
 
 export const videoEl = writable(null);
@@ -15,4 +15,15 @@ export const keypoints = readable(null, (set) => {
   }, 100);
 
   return () => clearInterval(snapAndDetect);
+});
+
+export const paused = {
+  ...writable(false),
+  toggle() {
+    this.update((currentlyPaused) => (currentlyPaused = !currentlyPaused));
+  },
+};
+
+export const pausedKeypoints = derived(paused, ($paused, set) => {
+  set($paused ? get(pausedKeypoints) : null);
 });
