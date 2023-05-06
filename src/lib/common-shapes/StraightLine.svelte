@@ -16,14 +16,19 @@
 
 <style>
   div {
-    background-color: var(--colour);
     width: calc(var(--x2) - var(--x1));
     height: 2px;
 
     position: absolute;
     top: 0;
     left: 0;
+    z-index: 10;
+
     transform: translate(var(--x1), var(--y1));
+
+    background-color: var(--colour);
+    pointer-events: all;
+    cursor: pointer;
   }
 
   .vertical {

@@ -7,6 +7,8 @@
   export let focusKeypoint = null;
 
   let corners, inArea;
+  const origin = { x: 0, y: 0 };
+
   $: if (keypoints) {
     corners = keyRepArea.calcAreaCorners(keypoints);
     inArea = focusKeypoint
@@ -18,22 +20,41 @@
 </script>
 
 {#if corners}
-  <div class="area">
-    <Keypoint keypoint={corners.topLeft} {colour} />
-    <Line point1={corners.topLeft} point2={corners.topRight} {colour} />
-    <Keypoint keypoint={corners.topRight} {colour} />
+  <div
+    class="area"
+    style="--width: {keyRepArea.areaSize.width}px; --height: {keyRepArea
+      .areaSize.height}px; --topLeftCornerX: {corners.topLeft
+      .x}px; --topLeftCornerY: {corners.topLeft.y}px;"
+  >
+    <Keypoint keypoint={origin} {colour} />
     <Line
-      point1={corners.topLeft}
-      point2={corners.bottomLeft}
+      point1={origin}
+      point2={{ ...origin, x: keyRepArea.areaSize.width }}
+      {colour}
+    />
+    <Keypoint keypoint={{ ...origin, x: keyRepArea.areaSize.width }} {colour} />
+    <Line
+      point1={origin}
+      point2={{ ...origin, y: keyRepArea.areaSize.height }}
       horizontal={false}
       {colour}
     />
-    <Keypoint keypoint={corners.bottomLeft} {colour} />
-    <Line point1={corners.bottomLeft} point2={corners.bottomRight} {colour} />
-    <Keypoint keypoint={corners.bottomRight} {colour} />
+    <Keypoint
+      keypoint={{ ...origin, y: keyRepArea.areaSize.height }}
+      {colour}
+    />
     <Line
-      point1={corners.topRight}
-      point2={corners.bottomRight}
+      point1={{ ...origin, y: keyRepArea.areaSize.height }}
+      point2={{ x: keyRepArea.areaSize.width, y: keyRepArea.areaSize.height }}
+      {colour}
+    />
+    <Keypoint
+      {colour}
+      keypoint={{ x: keyRepArea.areaSize.width, y: keyRepArea.areaSize.height }}
+    />
+    <Line
+      point1={{ ...origin, x: keyRepArea.areaSize.width }}
+      point2={{ x: keyRepArea.areaSize.width, y: keyRepArea.areaSize.height }}
       horizontal={false}
       {colour}
     />
@@ -45,5 +66,8 @@
     position: absolute;
     top: 0;
     left: 0;
+    width: var(--width);
+    height: var(--height);
+    transform: translate(var(--topLeftCornerX), var(--topLeftCornerY));
   }
 </style>
