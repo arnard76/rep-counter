@@ -7,14 +7,12 @@
   $: ({ x: x2, y: y2 } = point2);
 </script>
 
-{#if x1 && y1 && x2 && y2}
-  <div
-    style="--x1: {x1}px; --y1: {y1}px; --x2: {x2}px; --y2: {y2}px; --colour: {colour
-      ? colour
-      : 'red'}"
-    class={horizontal ? "" : "vertical"}
-  />
-{/if}
+<div
+  style="--x1: {x1}px; --y1: {y1}px; --x2: {x2}px; --y2: {y2}px; --colour: {colour
+    ? colour
+    : 'red'}"
+  class={horizontal ? "horizontal" : "vertical"}
+/>
 
 <style>
   div {

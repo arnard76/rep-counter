@@ -6,12 +6,10 @@
   $: verifiedColour = colour || "rgba(255, 0, 25, 0.7)";
 </script>
 
-{#if keypoint.x && keypoint.y}
-  <div
-    class="keypoint"
-    style={`--x: ${keypoint.x}px; --y: ${keypoint.y}px; --colour: ${verifiedColour};`}
-  />
-{/if}
+<div
+  class="keypoint"
+  style={`--x: ${keypoint.x}px; --y: ${keypoint.y}px; --colour: ${verifiedColour};`}
+/>
 
 <style>
   .keypoint {

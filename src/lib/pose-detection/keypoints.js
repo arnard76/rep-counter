@@ -10,7 +10,6 @@ export const keypoints = readable(null, (set) => {
     getPose(get(videoEl)).then((res) => {
       if (!res || !res.length) return;
 
-      console.log(res);
       set(res[0].keypoints);
     });
   }, 100);
