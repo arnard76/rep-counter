@@ -25,5 +25,5 @@ export const paused = {
 };
 
 export const pausedKeypoints = derived(paused, ($paused, set) => {
-  set($paused ? get(pausedKeypoints) : null);
+  set($paused ? get(keypoints) : null);
 });
