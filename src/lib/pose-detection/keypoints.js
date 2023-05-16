@@ -27,3 +27,10 @@ export const paused = {
 export const pausedKeypoints = derived(paused, ($paused, set) => {
   set($paused ? get(keypoints) : null);
 });
+
+export const controlledKeypoints = derived(
+  [paused, pausedKeypoints, keypoints],
+  ([$paused, $pausedKeypoints, $keypoints], set) => {
+    set($paused ? $pausedKeypoints : $keypoints);
+  }
+);
