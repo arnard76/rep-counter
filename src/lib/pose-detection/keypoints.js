@@ -20,7 +20,11 @@ export const keypoints = readable(null, (set) => {
 export const paused = {
   ...writable(false),
   toggle() {
-    this.update((currentlyPaused) => (currentlyPaused = !currentlyPaused));
+    this.update((currentlyPaused) => {
+      currentlyPaused ? get(videoEl).play() : get(videoEl).pause();
+      currentlyPaused = !currentlyPaused;
+      return currentlyPaused;
+    });
   },
 };
 
