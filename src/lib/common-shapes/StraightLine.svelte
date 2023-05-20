@@ -27,8 +27,6 @@
     transform: translate(var(--x1), var(--y1));
 
     background-color: var(--colour);
-    pointer-events: all;
-    cursor: pointer;
   }
 
   .vertical {
