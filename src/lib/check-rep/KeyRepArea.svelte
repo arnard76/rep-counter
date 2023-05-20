@@ -40,6 +40,49 @@
     }}
     on:dragend={(e) => moveTopLeft(e)}
   >
+    <!-- lines -->
+    <Line
+      point1={origin}
+      point2={{ ...origin, x: keyRepArea.areaSize.width }}
+      {colour}
+    />
+
+    <Line
+      point1={origin}
+      point2={{ ...origin, y: keyRepArea.areaSize.height }}
+      horizontal={false}
+      {colour}
+    />
+
+    <Line
+      point1={{ ...origin, y: keyRepArea.areaSize.height }}
+      point2={{ x: keyRepArea.areaSize.width, y: keyRepArea.areaSize.height }}
+      {colour}
+    />
+
+    <Line
+      point1={{ ...origin, x: keyRepArea.areaSize.width }}
+      point2={{ x: keyRepArea.areaSize.width, y: keyRepArea.areaSize.height }}
+      horizontal={false}
+      {colour}
+    />
+
+    <!-- keypoints -->
+    <Keypoint keypoint={{ ...origin, x: keyRepArea.areaSize.width }} {colour} />
+
+    <Keypoint
+      keypoint={{ ...origin, y: keyRepArea.areaSize.height }}
+      {colour}
+    />
+
+    <Keypoint
+      {colour}
+      keypoint={{
+        x: keyRepArea.areaSize.width,
+        y: keyRepArea.areaSize.height,
+      }}
+    />
+
     <Keypoint
       keypoint={origin}
       colour="blue"
@@ -53,37 +96,6 @@
       }}
       draggable
     />
-    <Line
-      point1={origin}
-      point2={{ ...origin, x: keyRepArea.areaSize.width }}
-      {colour}
-    />
-    <Keypoint keypoint={{ ...origin, x: keyRepArea.areaSize.width }} {colour} />
-    <Line
-      point1={origin}
-      point2={{ ...origin, y: keyRepArea.areaSize.height }}
-      horizontal={false}
-      {colour}
-    />
-    <Keypoint
-      keypoint={{ ...origin, y: keyRepArea.areaSize.height }}
-      {colour}
-    />
-    <Line
-      point1={{ ...origin, y: keyRepArea.areaSize.height }}
-      point2={{ x: keyRepArea.areaSize.width, y: keyRepArea.areaSize.height }}
-      {colour}
-    />
-    <Keypoint
-      {colour}
-      keypoint={{ x: keyRepArea.areaSize.width, y: keyRepArea.areaSize.height }}
-    />
-    <Line
-      point1={{ ...origin, x: keyRepArea.areaSize.width }}
-      point2={{ x: keyRepArea.areaSize.width, y: keyRepArea.areaSize.height }}
-      horizontal={false}
-      {colour}
-    />
   </div>
 {/if}
 
@@ -95,6 +107,8 @@
     width: var(--width);
     height: var(--height);
     transform: translate(var(--topLeftCornerX), var(--topLeftCornerY));
+
+    background-color: rgba(0, 0, 0, 0.3);
     cursor: move;
   }
 </style>
