@@ -35,6 +35,10 @@
     style="--width: {keyRepArea.areaSize.width}px; --height: {keyRepArea
       .areaSize.height}px; --topLeftCornerX: {corners.topLeft
       .x}px; --topLeftCornerY: {corners.topLeft.y}px;"
+    on:drag={(e) => {
+      moveTopLeft(e);
+    }}
+    on:dragend={(e) => moveTopLeft(e)}
   >
     <Keypoint
       keypoint={origin}
