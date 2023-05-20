@@ -22,7 +22,6 @@
     position: absolute;
     top: 0;
     left: 0;
-    z-index: 10;
 
     transform: translate(var(--x1), var(--y1));
 
