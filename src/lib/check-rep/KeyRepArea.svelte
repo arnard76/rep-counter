@@ -95,5 +95,6 @@
     width: var(--width);
     height: var(--height);
     transform: translate(var(--topLeftCornerX), var(--topLeftCornerY));
+    cursor: move;
   }
 </style>
