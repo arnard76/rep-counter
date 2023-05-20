@@ -9,7 +9,7 @@
   let corners, inArea;
   const origin = { x: 0, y: 0 };
 
-  $: if (keypoints) {
+  $: if (keyRepArea && keypoints) {
     corners = keyRepArea.calcAreaCorners(keypoints);
     inArea = focusKeypoint
       ? keyRepArea.pointInArea(keypoints, focusKeypoint)
@@ -17,6 +17,16 @@
   }
 
   $: colour = inArea ? "green" : "lightgrey";
+
+  function moveTopLeft(e) {
+    keyRepArea.topLeft.x = keyRepArea.topLeft.x + e.offsetX;
+    keyRepArea.topLeft.y = keyRepArea.topLeft.y + e.offsetY;
+  }
+
+  function adjustSize(e) {
+    keyRepArea.areaSize.width = keyRepArea.areaSize.width - e.offsetX;
+    keyRepArea.areaSize.height = keyRepArea.areaSize.height - e.offsetY;
+  }
 </script>
 
 {#if corners}
@@ -26,7 +36,19 @@
       .areaSize.height}px; --topLeftCornerX: {corners.topLeft
       .x}px; --topLeftCornerY: {corners.topLeft.y}px;"
   >
-    <Keypoint keypoint={origin} {colour} />
+    <Keypoint
+      keypoint={origin}
+      colour="blue"
+      on:drag={(e) => {
+        moveTopLeft(e);
+        adjustSize(e);
+      }}
+      on:dragend={(e) => {
+        moveTopLeft(e);
+        adjustSize(e);
+      }}
+      draggable
+    />
     <Line
       point1={origin}
       point2={{ ...origin, x: keyRepArea.areaSize.width }}
