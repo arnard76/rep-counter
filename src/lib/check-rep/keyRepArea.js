@@ -1,4 +1,4 @@
-export default class Area {
+export default class KeyRepArea {
   relativeToWhichKeypoint = null;
   topLeft = null;
   areaSize = null;
@@ -74,5 +74,13 @@ export default class Area {
         y: originY + this.topLeft.y + this.areaSize.height,
       },
     };
+  }
+
+  cloneInstance() {
+    return new KeyRepArea(
+      this.relativeToWhichKeypoint,
+      this.topLeft,
+      this.areaSize
+    );
   }
 }
