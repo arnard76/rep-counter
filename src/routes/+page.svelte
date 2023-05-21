@@ -83,6 +83,14 @@
   $: console.log(structuredMenu);
 </script>
 
+<svelte:head>
+  <title>rep-counter</title>
+  <meta
+    name="description"
+    content="Navigate to any page created during the development of rep-counter."
+  />
+</svelte:head>
+
 {#if usefulPages}
   {#each usefulPages as { url, pageTitle } (url)}
     <p>

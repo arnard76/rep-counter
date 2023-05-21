@@ -1,0 +1,35 @@
+{
+    "name": "rep-counter",
+    "short_name": "rep-counter",
+    "start_url": ".",
+    "display": "standalone",
+    "theme_color": "blue",
+    "background_color": "lightblue",
+    "description": "The development app for rep-counter",
+    "icons": [
+        {
+            "src": "logos/manifest-icon-192.maskable.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "logos/manifest-icon-192.maskable.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "maskable"
+        },
+        {
+            "src": "logos/manifest-icon-512.maskable.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "logos/manifest-icon-512.maskable.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "maskable"
+        }
+    ]
+}
