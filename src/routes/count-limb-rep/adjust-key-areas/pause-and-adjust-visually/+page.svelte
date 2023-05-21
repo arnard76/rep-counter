@@ -18,7 +18,10 @@
   $: if (browser) {
     window.navigator.mediaDevices
       .getUserMedia({ video: true })
-      .then((res) => (stream = res));
+      .then((res) => (stream = res))
+      .catch((error) => {
+        console.log("oops! the camera is not accessible for some reason 🥲🥲");
+      });
   }
 
   $: if (stream) {
