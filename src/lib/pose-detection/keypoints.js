@@ -5,9 +5,9 @@ export const videoEl = writable(null);
 
 export const keypoints = readable(null, (set) => {
   const snapAndDetect = setInterval(() => {
-    if (!get(videoEl)) return;
-
-    getPose(get(videoEl)).then((res) => {
+    let $videoEl = get(videoEl);
+    if (!$videoEl || $videoEl.paused || !$videoEl.srcObject) return;
+    getPose($videoEl).then((res) => {
       if (!res || !res.length) return;
 
       set(res[0].keypoints);
