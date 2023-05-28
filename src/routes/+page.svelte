@@ -80,7 +80,11 @@
   //   if (browser) {
   //     structuredMenu = addAPage(structuredMenu, ["cool", "beans"]);
   //   }
-  $: console.log(structuredMenu);
+  if (browser && "serviceWorker" in navigator) {
+    addEventListener("load", function () {
+      navigator.serviceWorker.register("service-worker.js");
+    });
+  }
 </script>
 
 <svelte:head>
