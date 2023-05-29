@@ -16,7 +16,7 @@
     let repUpdated = repCounter.updateRepProgress($keypoints, focusKeypoint);
     if (!repUpdated) return;
 
-    repCounter.lastKeyAreaIndex != canNotStartNextRep &&
+    repCounter.lastKeyAreaIndex == canNotStartNextRep &&
       repCounter.getReadyForNextRep();
     repCounter = repCounter;
   }, 500);
