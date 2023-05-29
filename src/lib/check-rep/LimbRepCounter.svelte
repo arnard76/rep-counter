@@ -10,10 +10,11 @@
   export let keyRepAreas = null;
   export let focusKeypoint = null;
 
-  let repCounter = new LimbRepCounter(keyRepAreas);
+  let repCounter = new LimbRepCounter(focusKeypoint, keyRepAreas);
+  $: repCounter.focusLimbName = focusKeypoint;
 
   let keepCountingReps = setInterval(() => {
-    let repUpdated = repCounter.updateRepProgress($keypoints, focusKeypoint);
+    let repUpdated = repCounter.updateRepProgress($keypoints);
     if (!repUpdated) return;
 
     repCounter.lastKeyAreaIndex == canNotStartNextRep &&

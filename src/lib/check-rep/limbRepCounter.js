@@ -7,12 +7,13 @@ export class LimbRepCounter {
   numberOfReps = 0;
 
   /**
+   * @param {string} focusLimbName
    * @param {Array<Area>} keyAreas - Array of key rep areas
    */
-  constructor(keyAreas) {
+  constructor(focusLimbName, keyAreas) {
     if (!keyAreas.length) {
       throw Error(
-        "keyAreas must be not be empty. Include all the key areas of this exercise's rep in input Array."
+        "keyAreas must be not be empty. Include all the key areas of a rep for this limb in input Array."
       );
     }
 
@@ -24,6 +25,7 @@ export class LimbRepCounter {
 
     // check if all elements are keyArea types - how?
 
+    this.focusLimbName = focusLimbName;
     this.keyAreas = keyAreas;
     this.lastKeyAreaIndex = -1; // hasn't started a rep yet
   }
@@ -40,13 +42,12 @@ export class LimbRepCounter {
   /**
    *
    * @param {Array} keypoints - list of all keypoints
-   * @param {string} limbName - name of the limb being tracked
    * @returns {boolean} - was the rep updated? true means yes
    */
-  updateRepProgress(keypoints, limbName) {
+  updateRepProgress(keypoints) {
     if (this.lastKeyAreaIndex === canNotStartNextRep) return false;
 
-    if (!this.isLimbInNextKeyArea(keypoints, limbName)) return false;
+    if (!this.isLimbInNextKeyArea(keypoints, this.focusLimbName)) return false;
 
     this.lastKeyAreaIndex++;
 
@@ -59,12 +60,14 @@ export class LimbRepCounter {
   /**
    *
    * @param {Array} keypoints - list of all keypoints
-   * @param {string} limbName - name of the limb being tracked
    * @returns {boolean} - is limb in next area
    */
-  isLimbInNextKeyArea(keypoints, limbName) {
+  isLimbInNextKeyArea(keypoints) {
     if (
-      !this.keyAreas[this.lastKeyAreaIndex + 1].pointInArea(keypoints, limbName)
+      !this.keyAreas[this.lastKeyAreaIndex + 1].pointInArea(
+        keypoints,
+        this.focusLimbName
+      )
     )
       return false;
 
