@@ -5,7 +5,7 @@
 
   import KeypointsOverlay from "$lib/common-shapes/KeypointsOverlay.svelte";
   import SelectOneKeypoint from "$lib/inputs/SelectOneKeypoint.svelte";
-  import RepsCounter from "$lib/check-rep/RepsCounter.svelte";
+  import LimbRepCounter from "$lib/check-rep/LimbRepCounter.svelte";
   import KeyRepArea from "$lib/check-rep/keyRepArea.js";
   import KeyRepAreaSC from "$lib/check-rep/KeyRepArea.svelte";
 
@@ -83,7 +83,7 @@
   <div style="position: relative;">
     <video src="" bind:this={$videoEl} />
 
-    <RepsCounter {keyRepAreas} {focusKeypoint} />
+    <LimbRepCounter {keyRepAreas} {focusKeypoint} />
 
     <KeypointsOverlay keypoints={keypointsToShow} />
 
