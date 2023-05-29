@@ -2,7 +2,7 @@
   import { browser } from "$app/environment";
   import { videoEl, keypoints } from "$lib/pose-detection/keypoints.js";
   import keypointNames from "$lib/pose-detection/keypointNames.json";
-  import { connectTheDots } from "$lib/visualizeKeypoints.js";
+  import { connectTheDots } from "$lib/pose-detection/visualizeKeypoints.js";
 
   import SelectMany from "$lib/inputs/SelectManyKeypoints.svelte";
   import KeypointsOverlay from "$lib/common-shapes/KeypointsOverlay.svelte";

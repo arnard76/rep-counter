@@ -1,7 +1,7 @@
 import { derived, get, readable, writable } from "svelte/store";
 import { getPose } from "$lib/pose-detection/detector.js";
 
-export const videoEl = writable(null);
+export const videoEl = writable(null); // need for keypoints 🤷😁
 
 export const keypoints = readable(null, (set) => {
   const snapAndDetect = setInterval(() => {

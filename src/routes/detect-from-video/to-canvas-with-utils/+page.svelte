@@ -1,8 +1,8 @@
 <script>
   import { getPose } from "$lib/pose-detection/detector.js";
-  import { captureVideo } from "$lib/frameCapture.js";
+  import { captureVideo } from "$lib/video/frameCapture.js";
   import { browser } from "$app/environment";
-  import { drawCanvas } from "$lib/visualizeKeypoints.js";
+  import { drawCanvas } from "$lib/pose-detection/visualizeKeypoints.js";
 
   let videoEl = null;
   let imageSrcEl = null;

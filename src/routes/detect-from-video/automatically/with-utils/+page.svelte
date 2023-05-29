@@ -1,7 +1,7 @@
 <script>
-  import { captureVideo } from "$lib/frameCapture.js";
+  import { captureVideo } from "$lib/video/frameCapture.js";
   import { getPose } from "$lib/pose-detection/detector.js";
-  import { drawCanvas } from "$lib/visualizeKeypoints.js";
+  import { drawCanvas } from "$lib/pose-detection/visualizeKeypoints.js";
   import { browser } from "$app/environment";
   import { onDestroy } from "svelte";
   import KeypointsOverlay from "$lib/common-shapes/KeypointsOverlay.svelte";

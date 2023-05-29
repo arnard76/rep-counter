@@ -1,6 +1,6 @@
 <script>
   import { getPose } from "$lib/pose-detection/detector.js";
-  import { captureVideo } from "$lib/frameCapture.js";
+  import { captureVideo } from "$lib/video/frameCapture.js";
   import { browser } from "$app/environment";
   import KeypointsOverlay from "$lib/common-shapes/KeypointsOverlay.svelte";
 

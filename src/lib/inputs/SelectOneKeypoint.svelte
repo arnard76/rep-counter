@@ -1,5 +1,5 @@
 <script>
-  import { getVerboseKeypointName } from "$lib/transformKeypointData.js";
+  import { getVerboseKeypointName } from "$lib/pose-detection/transformKeypointData.js";
 
   export let keypointNames;
   export let selectedKeypoint = null;
