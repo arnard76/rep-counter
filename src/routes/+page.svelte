@@ -22,7 +22,6 @@
         cleanedPageName.length - 1
       );
 
-      console.log("ting", cleanedPageName);
       return {
         url: usefulPage.replace("+page.svelte", ""),
         pageTitle: cleanedPageName,
@@ -39,14 +38,11 @@
    */
   function addAPage(structuredMenu, pageToAdd) {
     let existingStructuredPage = structuredMenu.findIndex((structuredPage) => {
-      console.log(structuredPage);
       return structuredPage.name === pageToAdd[0];
     });
-    console.log(existingStructuredPage, pageToAdd);
 
     if (existingStructuredPage !== -1) {
       let existingRoute = pageToAdd.splice(0, 1)[0];
-      console.log("existing", existingStructuredPage, existingRoute);
       structuredMenu[existingStructuredPage].subPages = addAPage(
         structuredMenu[existingStructuredPage].subPages,
         pageToAdd

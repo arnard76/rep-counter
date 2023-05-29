@@ -10,8 +10,6 @@
     }"><p><a href="${structuredPage.url}"> ${structuredPage.name}</a></p>
       `;
 
-    console.log(structuredPage);
-
     for (let page of structuredPage.subPages) {
       //   console.log(page);
       menu = menu + createMenu(page, !horizontal);
