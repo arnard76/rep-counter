@@ -23,7 +23,14 @@ export class LimbRepCounter {
       );
     }
 
-    // check if all elements are keyArea types - how?
+    // check if all elements are keyArea types
+    for (let keyArea of keyAreas) {
+      if (!(keyArea instanceof Area)) {
+        throw Error(
+          `one of the key areas (${keyArea}) is not of type KeyRepArea. It is type ${typeof keyArea}.`
+        );
+      }
+    }
 
     this.focusLimbName = focusLimbName;
     this.keyAreas = keyAreas;
