@@ -3,7 +3,6 @@
   import { videoEl, keypoints } from "$lib/pose-detection/keypoints.js";
   import keypointNames from "$lib/pose-detection/keypointNames.json";
   import repArea from "$lib/check-rep/keyRepArea.js";
-  import exerciseRep from "$lib/check-rep/exerciseRep.js";
 
   import KeypointsOverlay from "$lib/common-shapes/KeypointsOverlay.svelte";
   import SelectOneKeypoint from "$lib/inputs/SelectOneKeypoint.svelte";
@@ -22,25 +21,24 @@
     $videoEl.play();
   }
 
-  let areas = [
+  let keyRepAreas = [
     new repArea("right_ear", { x: 1, y: 2 }, { width: 50, height: 30 }),
     new repArea("left_ear", { x: 100, y: 25 }, { width: 50, height: 30 }),
   ];
-  let { keyAreas: keyRepAreas } = exerciseRep;
   let focusKeypoints = ["right_wrist", "right_wrist"];
 
-  keyRepAreas.addNewRepAreas(areas);
-
-  $: keypointsToShow = $keypoints.filter(
-    (keypoint) =>
-      keyRepAreas.find(
-        (keyRepArea) => keyRepArea.relativeToWhichKeypoint === keypoint.name
-      ) || focusKeypoints.includes(keypoint.name)
-  );
+  $: keypointsToShow =
+    $keypoints &&
+    $keypoints.filter(
+      (keypoint) =>
+        keyRepAreas.find(
+          (keyRepArea) => keyRepArea.relativeToWhichKeypoint === keypoint.name
+        ) || focusKeypoints.includes(keypoint.name)
+    );
 </script>
 
 <div class="container">
-  {#each $keyRepAreas as keyRepArea, index (keyRepArea)}
+  {#each keyRepAreas as keyRepArea, index (keyRepArea)}
     <div>
       <p>Key area relative to?</p>
       <SelectOneKeypoint
@@ -62,7 +60,7 @@
   <div style="position: relative;">
     <video src="" bind:this={$videoEl} />
 
-    {#each $keyRepAreas as keyRepArea, index (keyRepArea)}
+    {#each keyRepAreas as keyRepArea, index (keyRepArea)}
       <KeyRepArea
         {keyRepArea}
         keypoints={$keypoints}
