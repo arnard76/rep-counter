@@ -1,0 +1,165 @@
+<script>
+  import { browser } from "$app/environment";
+  import keypointNames from "$lib/pose-detection/keypointNames.json";
+  import {
+    videoEl,
+    paused,
+    controlledKeypoints,
+  } from "$lib/pose-detection/keypoints.js";
+
+  import KeypointsOverlay from "$lib/common-shapes/KeypointsOverlay.svelte";
+  import SelectOneKeypoint from "$lib/inputs/SelectOneKeypoint.svelte";
+  import KeyRepArea from "$lib/check-rep/keyRepArea.js";
+  import KeyRepAreas from "$lib/check-rep/KeyRepAreas.svelte";
+  import RepCounter from "$lib/check-rep/RepCounter.svelte";
+
+  let stream = null;
+
+  $: if (browser) {
+    window.navigator.mediaDevices
+      .getUserMedia({ video: true })
+      .then((res) => (stream = res))
+      .catch((error) => {
+        console.log("oops! the camera is not accessible for some reason 🥲🥲");
+      });
+  }
+
+  $: if (stream) {
+    $videoEl.srcObject = stream;
+    $videoEl.play();
+  }
+
+  const keyRepAreasForEachLimb = {
+    right_wrist: [
+      new KeyRepArea(
+        "right_elbow",
+        { x: 20, y: -40 },
+        { width: 80, height: 80 }
+      ),
+      new KeyRepArea(
+        "right_shoulder",
+        { x: -20, y: -40 },
+        { width: 80, height: 80 }
+      ),
+      new KeyRepArea(
+        "right_elbow",
+        { x: 20, y: -40 },
+        { width: 80, height: 80 }
+      ),
+    ],
+    left_wrist: [
+      new KeyRepArea(
+        "left_elbow",
+        { x: 20, y: -40 },
+        { width: 80, height: 80 }
+      ),
+      new KeyRepArea(
+        "left_shoulder",
+        { x: -20, y: -40 },
+        { width: 80, height: 80 }
+      ),
+      new KeyRepArea(
+        "left_elbow",
+        { x: 20, y: -40 },
+        { width: 80, height: 80 }
+      ),
+    ],
+  };
+
+  $: relativeAndFocusKeypoints =
+    $controlledKeypoints &&
+    $controlledKeypoints.filter((keypoint) => {
+      let found = false;
+      for (const [focusLimbName, limbKeyRepAreas] of Object.entries(
+        keyRepAreasForEachLimb
+      )) {
+        found =
+          !!limbKeyRepAreas.find(
+            (keyRepArea) => keyRepArea.relativeToWhichKeypoint === keypoint.name
+          ) || focusLimbName === keypoint.name;
+
+        if (found) return true;
+      }
+    });
+
+  let pauseDelay = 5;
+</script>
+
+<div class="container">
+  <!-- svelte-ignore a11y-media-has-caption -->
+
+  <div style="position: relative;">
+    <video src="" bind:this={$videoEl} />
+    <RepCounter
+      keyRepAreas={keyRepAreasForEachLimb}
+      exerciseName="bicep curl"
+    />
+    <KeypointsOverlay keypoints={relativeAndFocusKeypoints} />
+
+    <!-- the divider so mouse events can interact with 👇 but not ☝️ -->
+    <div class="divider" />
+
+    {#each Object.entries(keyRepAreasForEachLimb) as [focusLimb, limbKeyRepAreas] (limbKeyRepAreas)}
+      <KeyRepAreas
+        keyRepAreas={limbKeyRepAreas}
+        keypoints={$controlledKeypoints}
+        focusKeypoint={focusLimb}
+      />
+    {/each}
+  </div>
+
+  <!-- controlling pause/play ⏯️ -->
+  <div
+    style="display: flex; flex-direction: column;width: 150px; align-items:flex-start;"
+  >
+    <button
+      on:click={() => {
+        paused.toggle();
+      }}
+    >
+      {$paused ? "play ▶️" : "pause ⏸️"}
+    </button>
+
+    {#if !$paused}
+      <button
+        on:click={() => {
+          console.log(pauseDelay, typeof pauseDelay);
+          setTimeout(() => {
+            paused.toggle();
+          }, pauseDelay * 1000);
+        }}
+        >pause in <input
+          bind:value={pauseDelay}
+          type="number"
+          style="max-width: 50px;"
+        /> s</button
+      >{/if}
+  </div>
+</div>
+
+<style>
+  .container {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: flex-start;
+    justify-content: left;
+  }
+
+  .inputs {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+
+    overflow-y: auto;
+  }
+
+  .divider {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+</style>
