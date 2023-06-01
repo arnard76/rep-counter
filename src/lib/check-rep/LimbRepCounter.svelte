@@ -1,8 +1,7 @@
 <script>
   import { keypoints } from "$lib/pose-detection/keypoints.js";
-  import {
-    LimbRepCounter,
-    canNotStartNextRep,
+  import LimbRepCounter, {
+    finishedRep,
   } from "$lib/check-rep/limbRepCounter.js";
 
   import { onDestroy } from "svelte";
@@ -17,7 +16,7 @@
     let repUpdated = repCounter.updateRepProgress($keypoints);
     if (!repUpdated) return;
 
-    repCounter.lastKeyAreaIndex == canNotStartNextRep &&
+    repCounter.lastKeyAreaIndex == finishedRep &&
       repCounter.getReadyForNextRep();
     repCounter = repCounter;
   }, 500);

@@ -1,30 +1,30 @@
 import Area from "$lib/check-rep/keyRepArea.js";
 
-export const canNotStartNextRep = -2;
+export const finishedRep = -2;
 export const canStartNextRep = -1;
 
-export class LimbRepCounter {
+export default class LimbRepCounter {
   numberOfReps = 0;
 
   /**
    * @param {string} focusLimbName
-   * @param {Array<Area>} keyAreas - Array of key rep areas
+   * @param {Array<Area>} keyRepAreas - Array of key rep areas
    */
-  constructor(focusLimbName, keyAreas) {
-    if (!keyAreas.length) {
+  constructor(focusLimbName, keyRepAreas) {
+    if (!keyRepAreas.length) {
       throw Error(
         "keyAreas must be not be empty. Include all the key areas of a rep for this limb in input Array."
       );
     }
 
-    if (keyAreas.length === 1) {
+    if (keyRepAreas.length === 1) {
       throw Error(
         "keyAreas has to have a start point & endpoint and they can't be the same so add at least two key areas to input Array."
       );
     }
 
     // check if all elements are keyArea types
-    for (let keyArea of keyAreas) {
+    for (let keyArea of keyRepAreas) {
       if (!(keyArea instanceof Area)) {
         throw Error(
           `one of the key areas (${keyArea}) is not of type KeyRepArea. It is type ${typeof keyArea}.`
@@ -33,13 +33,13 @@ export class LimbRepCounter {
     }
 
     this.focusLimbName = focusLimbName;
-    this.keyAreas = keyAreas;
+    this.keyAreas = keyRepAreas;
     this.lastKeyAreaIndex = -1; // hasn't started a rep yet
   }
 
   finishRep() {
     this.numberOfReps++;
-    this.lastKeyAreaIndex = canNotStartNextRep;
+    this.lastKeyAreaIndex = finishedRep;
   }
 
   getReadyForNextRep() {
@@ -52,7 +52,7 @@ export class LimbRepCounter {
    * @returns {boolean} - was the rep updated? true means yes
    */
   updateRepProgress(keypoints) {
-    if (this.lastKeyAreaIndex === canNotStartNextRep) return false;
+    if (this.lastKeyAreaIndex === finishedRep) return false;
 
     if (!this.isLimbInNextKeyArea(keypoints, this.focusLimbName)) return false;
 
