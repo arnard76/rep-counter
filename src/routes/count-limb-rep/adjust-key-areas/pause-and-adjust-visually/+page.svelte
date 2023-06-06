@@ -2,10 +2,8 @@
   import { browser } from "$app/environment";
   import { videoEl } from "$lib/video/getUserVideo.js";
   import keypointNames from "$lib/pose-detection/keypointNames.json";
-  import {
-    paused,
-    controlledKeypoints,
-  } from "$lib/pose-detection/keypoints.js";
+  import { controlledKeypoints } from "$lib/pose-detection/keypoints.js";
+  import { paused } from "$lib/paused";
 
   import KeypointsOverlay from "$lib/common-shapes/KeypointsOverlay.svelte";
   import SelectOneKeypoint from "$lib/inputs/SelectOneKeypoint.svelte";
