@@ -1,8 +1,8 @@
 <script>
   import { browser } from "$app/environment";
+  import { videoEl } from "$lib/video/getUserVideo.js";
   import keypointNames from "$lib/pose-detection/keypointNames.json";
   import {
-    videoEl,
     paused,
     controlledKeypoints,
   } from "$lib/pose-detection/keypoints.js";
