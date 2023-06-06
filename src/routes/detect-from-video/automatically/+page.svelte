@@ -22,7 +22,7 @@
   }
 
   let snapAndDetect;
-  $: if (videoEl) {
+  $: if (videoEl && !snapAndDetect) {
     snapAndDetect = setInterval(() => {
       // imageSrcEl.src = captureVideo(videoEl);
       getPose(videoEl).then((res) => {
