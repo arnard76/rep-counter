@@ -5,15 +5,13 @@
 </script>
 
 <!-- controlling pause/play ⏯️ -->
-<div
-  style="display: flex; flex-direction: column;width: 150px; align-items:flex-start;"
->
+<div style="display: flex;">
   <button
     on:click={() => {
       paused.toggle();
     }}
   >
-    {$paused ? "play ▶️" : "pause ⏸️"}
+    {$paused ? "▶️" : "⏸️"}
   </button>
 
   {#if !$paused}
@@ -23,7 +21,7 @@
           paused.toggle();
         }, pauseDelay * 1000);
       }}
-      >pause in <input
+      >⏸️ in <input
         bind:value={pauseDelay}
         type="number"
         style="max-width: 50px;"
