@@ -92,7 +92,6 @@
     {#if !$paused}
       <button
         on:click={() => {
-          console.log(pauseDelay, typeof pauseDelay);
           setTimeout(() => {
             paused.toggle();
           }, pauseDelay * 1000);
