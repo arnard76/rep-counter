@@ -2,7 +2,7 @@
   import { keypoints } from "$lib/pose-detection/keypoints.js";
   import LimbRepCounter, {
     finishedRep,
-  } from "$lib/check-rep/limbRepCounter.js";
+  } from "$lib/count-reps/limbRepCounter.js";
 
   import { onDestroy } from "svelte";
 

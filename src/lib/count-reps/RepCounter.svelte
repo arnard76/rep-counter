@@ -1,6 +1,6 @@
 <script>
   import { keypoints } from "$lib/pose-detection/keypoints.js";
-  import RepCounter from "$lib/check-rep/repCounter.js";
+  import RepCounter from "$lib/count-reps/repCounter.js";
   import { onDestroy } from "svelte";
 
   export let exerciseName, keyRepAreas;

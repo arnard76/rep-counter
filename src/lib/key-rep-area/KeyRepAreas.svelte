@@ -1,5 +1,5 @@
 <script>
-  import KeyRepArea from "$lib/check-rep/KeyRepArea.svelte";
+  import KeyRepArea from "$lib/key-rep-area/keyRepArea.svelte";
 
   export let keyRepAreas;
   export let keypoints;

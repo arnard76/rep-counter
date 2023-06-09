@@ -1,5 +1,5 @@
-import KeyRepArea from "$lib/check-rep/keyRepArea.js";
-import limbRepCounter, { finishedRep } from "$lib/check-rep/limbRepCounter.js";
+import KeyRepArea from "$lib/key-rep-area/keyRepArea.js";
+import limbRepCounter, { finishedRep } from "$lib/count-reps/limbRepCounter.js";
 
 class repCounter {
   numberOfReps = 0;
