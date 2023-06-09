@@ -6,7 +6,7 @@
 
   import KeypointsOverlay from "$lib/common-shapes/KeypointsOverlay.svelte";
   import SelectOneKeypoint from "$lib/inputs/SelectOneKeypoint.svelte";
-  import LimbRepCounter from "$lib/count-rep/LimbRepCounter.svelte";
+  import LimbRepCounter from "$lib/count-reps/LimbRepCounter.svelte";
   import KeyRepArea from "$lib/key-rep-area/keyRepArea.js";
   import KeyRepAreaSC from "$lib/key-rep-area/keyRepArea.svelte";
 
