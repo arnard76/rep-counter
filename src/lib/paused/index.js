@@ -1,6 +1,6 @@
 import { writable, derived, get } from "svelte/store";
 import { videoEl } from "$lib/video/getUserVideo.js";
-import { keypoints } from "$lib/pose-detection/keypoints.js";
+import keypoints from "$lib/pose-detection/keypoints.js";
 
 export const paused = {
   ...writable(false),

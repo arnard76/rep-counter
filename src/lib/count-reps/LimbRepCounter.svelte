@@ -1,5 +1,5 @@
 <script>
-  import { keypoints } from "$lib/pose-detection/keypoints.js";
+  import keypoints from "$lib/pose-detection/keypoints.js";
   import LimbRepCounter, {
     finishedRep,
   } from "$lib/count-reps/limbRepCounter.js";

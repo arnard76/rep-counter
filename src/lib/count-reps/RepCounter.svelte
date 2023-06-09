@@ -1,5 +1,5 @@
 <script>
-  import { keypoints } from "$lib/pose-detection/keypoints.js";
+  import keypoints from "$lib/pose-detection/keypoints.js";
   import RepCounter from "$lib/count-reps/repCounter.js";
   import { onDestroy } from "svelte";
 
