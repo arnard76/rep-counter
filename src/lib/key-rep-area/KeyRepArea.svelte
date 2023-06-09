@@ -1,6 +1,7 @@
 <script>
   import Keypoint from "$lib/common-shapes/Keypoint.svelte";
   import Line from "$lib/common-shapes/StraightLine.svelte";
+  import { selectedKeyRepArea } from "$lib/key-rep-area/keyRepAreas.js";
 
   export let keyRepArea;
   export let keypoints;
@@ -27,6 +28,8 @@
     keyRepArea.areaSize.width = keyRepArea.areaSize.width - e.offsetX;
     keyRepArea.areaSize.height = keyRepArea.areaSize.height - e.offsetY;
   }
+
+  $: thisIsASelectedKRA = $selectedKeyRepArea == keyRepArea;
 </script>
 
 {#if corners}
@@ -34,11 +37,15 @@
     class="area"
     style="--width: {keyRepArea.areaSize.width}px; --height: {keyRepArea
       .areaSize.height}px; --topLeftCornerX: {corners.topLeft
-      .x}px; --topLeftCornerY: {corners.topLeft.y}px;"
+      .x}px; --topLeftCornerY: {corners.topLeft.y}px;
+       --KRA-bg-colour: {thisIsASelectedKRA
+      ? 'rgba(25, 60, 150, 0.3)'
+      : 'rgba(0, 0, 0, 0.3)'};"
     on:drag={(e) => {
       moveTopLeft(e);
     }}
     on:dragend={(e) => moveTopLeft(e)}
+    on:dblclick={(e) => selectedKeyRepArea.select(keyRepArea)}
   >
     <!-- lines -->
     <Line
@@ -108,7 +115,7 @@
     height: var(--height);
     transform: translate(var(--topLeftCornerX), var(--topLeftCornerY));
 
-    background-color: rgba(0, 0, 0, 0.3);
+    background-color: var(--KRA-bg-colour);
     cursor: move;
   }
 </style>

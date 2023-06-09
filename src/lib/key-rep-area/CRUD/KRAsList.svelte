@@ -1,5 +1,7 @@
 <script>
-  import exercise from "$lib/key-rep-area/keyRepAreas.js";
+  import exercise, {
+    selectedKeyRepArea,
+  } from "$lib/key-rep-area/keyRepAreas.js";
   import SelectOneKeypointName from "$lib/inputs/SelectOneKeypoint.svelte";
   import keypointNames from "$lib/pose-detection/keypointNames.json";
 </script>
@@ -12,7 +14,15 @@
 
         {#each keyRepAreasForLimb as keyRepArea, index (keyRepArea)}
           {@const { areaSize, topLeft } = keyRepArea}
-          <div class="key-rep-area">
+          <div
+            class="key-rep-area"
+            style={`${
+              $selectedKeyRepArea == keyRepArea
+                ? "background-color: rgba(40,40,40,0.9); color: rgb(255,255,255);"
+                : ""
+            }`}
+            on:dblclick={() => selectedKeyRepArea.select(keyRepArea)}
+          >
             <p>{areaSize.width}x{areaSize.height}</p>
             <p>({topLeft.x}, {topLeft.y})</p>
 

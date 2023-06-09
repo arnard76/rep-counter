@@ -85,4 +85,19 @@ function turnKRAsDataToKRAInstances(KRAsData) {
   return { exerciseName: KRAsData.exerciseName, keyRepAreas };
 }
 
+const { subscribe, set } = writable(null);
+export const selectedKeyRepArea = {
+  subscribe,
+  select(KRA) {
+    if (!(KRA instanceof KeyRepArea)) {
+      console.error(
+        `this key rep area (${KRA}) is not of type KeyRepArea. It is type ${typeof keyArea}.`
+      );
+      return;
+    }
+
+    set(KRA == get(selectedKeyRepArea) ? null : KRA);
+  },
+};
+
 export default keyRepAreas;
