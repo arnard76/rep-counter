@@ -10,8 +10,8 @@
   import KeypointsOverlay from "$lib/common-shapes/KeypointsOverlay.svelte";
 
   import exercise from "$lib/key-rep-area/keyRepAreas.js";
-  import KeyRepAreas from "$lib/key-rep-area/keyRepAreas.svelte";
-  import EditingKeyRepAreasPanel from "$lib/key-rep-area/editingKeyRepAreasPanel.svelte";
+  import KeyRepAreas from "$lib/key-rep-area/KeyRepAreas.svelte";
+  import EditingKeyRepAreasPanel from "$lib/key-rep-area/EditingKeyRepAreasPanel.svelte";
 
   import RepCounter from "$lib/count-reps/RepCounter.svelte";
 </script>

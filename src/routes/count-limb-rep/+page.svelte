@@ -8,7 +8,7 @@
   import SelectOneKeypoint from "$lib/inputs/SelectOneKeypoint.svelte";
   import LimbRepCounter from "$lib/count-reps/LimbRepCounter.svelte";
   import KeyRepArea from "$lib/key-rep-area/keyRepArea.js";
-  import KeyRepAreaSC from "$lib/key-rep-area/keyRepArea.svelte";
+  import KeyRepAreaSC from "$lib/key-rep-area/KeyRepArea.svelte";
 
   let stream = null;
 
