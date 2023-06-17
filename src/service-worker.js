@@ -18,7 +18,7 @@ self.addEventListener("install", (event) => {
     const cache = await caches.open(CACHE);
     await cache.addAll(ASSETS);
   }
-
+  self.skipWaiting();
   event.waitUntil(addFilesToCache());
 });
 
