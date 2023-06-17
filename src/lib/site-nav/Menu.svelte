@@ -1,25 +1,35 @@
 <script>
-  export let structuredPages = [];
-
-  let menuStyles = "display:flex; background-color:rgb(150, 150, 150); ";
-  let verticalStyles = "flex-direction: column; background-color:lightgrey;";
-
-  function createMenu(structuredPage, horizontal = true) {
-    let menu = `<li style="${menuStyles} ${
-      !horizontal ? verticalStyles : ""
-    }"><p><a href="${structuredPage.url}"> ${structuredPage.name}</a></p>
-      `;
-
-    for (let page of structuredPage.subPages) {
-      //   console.log(page);
-      menu = menu + createMenu(page, !horizontal);
-    }
-    return menu + "</li>";
-  }
+  export let pagesAtLevel = [];
 </script>
 
-{#each structuredPages as structuredPage (structuredPage.name)}
-  <ul>
-    {@html createMenu(structuredPage)}
-  </ul>
-{/each}
+<ul style="list-style: none;">
+  {#each pagesAtLevel as { name, subPages, url, active }, index (name)}
+    <li on:mouseleave={() => (pagesAtLevel[index].active = false)}>
+      <div class="page-link">
+        <p><a href={url}>{name}</a></p>
+
+        {#if subPages?.length}
+          <div on:mouseenter={() => (pagesAtLevel[index].active = true)}>
+            🔽
+          </div>
+        {/if}
+      </div>
+
+      {#if active && subPages?.length}
+        <svelte:self pagesAtLevel={subPages} />
+      {/if}
+    </li>
+  {/each}
+</ul>
+
+<style>
+  li {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .page-link {
+    display: flex;
+    align-items: center;
+  }
+</style>

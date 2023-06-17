@@ -2,25 +2,17 @@
   import Menu from "$lib/site-nav/Menu.svelte";
   import { browser } from "$app/environment";
 
-  let allPages = Object.keys(import.meta.glob("./**/**.svelte"));
-  let usefulPages = allPages
-    .filter((possiblePage) => {
-      if (possiblePage.includes("+layout.svelte")) return;
-      if (!possiblePage.includes("+page.svelte")) return;
-      return true;
-    })
+  let allComponents = Object.keys(import.meta.glob("./**/**.svelte"));
+  let allPages = allComponents
+    .filter((possiblePage) => possiblePage.includes("+page.svelte"))
+
     .map((usefulPage) => {
       let cleanedPageName = usefulPage;
 
       cleanedPageName = cleanedPageName
-        .replace("+page.svelte", "")
+        .replace("/+page.svelte", "")
         .replace("./", "")
         .replaceAll("/", "|");
-
-      cleanedPageName = cleanedPageName.substring(
-        0,
-        cleanedPageName.length - 1
-      );
 
       return {
         url: usefulPage.replace("+page.svelte", ""),
@@ -29,53 +21,46 @@
     });
 
   // turn into class?
-  let structuredMenu = [];
+  let structuredPages = [];
 
   /**
    * adds a new page into the structured menu
-   * @param {Array} structuredMenu
+   * @param {Array} pagesInLevel
    * @param {Array} pageToAdd - includes a list of sub routes of the page
+   * @param {string} pageUrl - relative link to page
    */
-  function addAPage(structuredMenu, pageToAdd) {
-    let existingStructuredPage = structuredMenu.findIndex((structuredPage) => {
-      return structuredPage.name === pageToAdd[0];
-    });
+  function addPage(pagesInLevel, pageToAdd, pageUrl) {
+    if (pageToAdd.length === 0) return pagesInLevel;
 
-    if (existingStructuredPage !== -1) {
-      let existingRoute = pageToAdd.splice(0, 1)[0];
-      structuredMenu[existingStructuredPage].subPages = addAPage(
-        structuredMenu[existingStructuredPage].subPages,
-        pageToAdd
-      );
-    } else {
-      let remainingSubRoutes = pageToAdd.slice(1);
-      let subPages = !remainingSubRoutes.length
-        ? []
-        : addAPage([], remainingSubRoutes);
+    let existingPageIndex = pagesInLevel.findIndex(
+      (page) => page.name == pageToAdd[0]
+    );
 
-      structuredMenu.push({
-        name: pageToAdd[0],
-        subPages,
-      });
+    if (existingPageIndex < 0) {
+      return [
+        ...pagesInLevel,
+        {
+          name: pageToAdd[0],
+          url: pageUrl,
+          subPages: addPage([], pageToAdd.splice(1), pageUrl),
+        },
+      ];
     }
-    return structuredMenu;
+
+    pagesInLevel[existingPageIndex].subPages = addPage(
+      pagesInLevel[existingPageIndex].subPages,
+      pageToAdd.splice(1),
+      pageUrl
+    );
+    return pagesInLevel;
   }
 
-  $: if (usefulPages) {
-    for (let usefulPage of usefulPages) {
-      let subRoutes = usefulPage.pageTitle.split("|");
-      //   subRoutes.pop();
-      //   let lastRoute = subRoutes.pop();
-      //   console.log(usefulPage, subRoutes, lastRoute);
+  for (let { pageTitle, url } of allPages) {
+    let subRoutes = pageTitle.split("|");
 
-      structuredMenu = addAPage(structuredMenu, subRoutes);
-      //   console.log(structuredMenu);
-    }
+    structuredPages = addPage(structuredPages, subRoutes, url);
   }
 
-  //   if (browser) {
-  //     structuredMenu = addAPage(structuredMenu, ["cool", "beans"]);
-  //   }
   if (browser && "serviceWorker" in navigator) {
     addEventListener("load", function () {
       navigator.serviceWorker.register("service-worker.js");
@@ -91,11 +76,6 @@
   />
 </svelte:head>
 
-{#if usefulPages}
-  {#each usefulPages as { url, pageTitle } (url)}
-    <p>
-      <a href={url}>{pageTitle}</a>
-    </p>
-  {/each}
-  <!-- <Menu structuredPages={structuredMenu} /> -->
+{#if structuredPages?.length}
+  <Menu pagesAtLevel={structuredPages} />
 {/if}

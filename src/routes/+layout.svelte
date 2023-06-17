@@ -10,7 +10,7 @@
 
 {#if $page.route.id !== "/"}
   <p>
-    <a href="/"> back to home 🏠 </a>
+    <a href="/"> back 🏠 </a>
   </p>
 {/if}
 
