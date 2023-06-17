@@ -7,7 +7,9 @@ export const paused = {
   toggle() {
     this.update((currentlyPaused) => {
       let $videoEl = get(videoEl);
-      if ($videoEl && $videoEl.srcObject) {
+
+      // https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement/readyState#value
+      if ($videoEl && $videoEl.readyState >= 3) {
         currentlyPaused ? $videoEl.play() : $videoEl.pause();
         currentlyPaused = !currentlyPaused;
       }

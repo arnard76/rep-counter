@@ -5,7 +5,9 @@ import { getPose } from "$lib/pose-detection/detector.js";
 const keypoints = readable(null, (set) => {
   const snapAndDetect = setInterval(() => {
     let $videoEl = get(videoEl);
-    if (!$videoEl || $videoEl.paused || !$videoEl.srcObject) return;
+
+    // https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement/readyState#value
+    if (!$videoEl || $videoEl.paused || $videoEl.readyState < 4) return;
     getPose($videoEl).then((res) => {
       if (!res || !res.length) return;
 
