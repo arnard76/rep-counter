@@ -7,5 +7,5 @@
 </script>
 
 {#each keyRepAreas as keyRepArea (keyRepArea)}
-  <KeyRepArea {keyRepArea} {keypoints} {focusKeypoint} />
+  <KeyRepArea bind:keyRepArea {keypoints} {focusKeypoint} />
 {/each}
