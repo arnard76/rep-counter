@@ -77,5 +77,5 @@
 </svelte:head>
 
 {#if structuredPages?.length}
-  <Menu pagesAtLevel={structuredPages} />
+  <Menu pagesAtLevel={structuredPages} topLevel />
 {/if}
