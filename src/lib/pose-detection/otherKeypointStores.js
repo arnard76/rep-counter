@@ -2,11 +2,13 @@ import { derived } from "svelte/store";
 import { paused, pausedKeypoints } from "$lib/paused";
 import keypoints from "$lib/pose-detection/keypoints.js";
 import kRAsStore from "$lib/key-rep-area/keyRepAreas.js";
+import { scale, scaleKeypoints } from "$lib/video/scale.js";
 
+// reacts to scale & pause changes 😀
 const controlledKeypoints = derived(
-  [paused, pausedKeypoints, keypoints],
-  ([$paused, $pausedKeypoints, $keypoints], set) => {
-    set($paused ? $pausedKeypoints : $keypoints);
+  [paused, pausedKeypoints, keypoints, scale],
+  ([$paused, $pausedKeypoints, $keypoints, $scale], set) => {
+    set(scaleKeypoints($paused ? $pausedKeypoints : $keypoints, $scale));
   }
 );
 
