@@ -1,14 +1,28 @@
 <script>
-  import keypoints from "$lib/pose-detection/keypoints.js";
+  import { controlledKeypoints } from "$lib/pose-detection/otherKeypointStores.js";
   import RepCounter from "$lib/count-reps/repCounter.js";
   import { onDestroy } from "svelte";
 
   export let exerciseName, keyRepAreas;
+  let theRepCounter;
+  let keepCountingReps;
 
-  let theRepCounter = new RepCounter(exerciseName, keyRepAreas);
+  function renewCounter() {
+    try {
+      theRepCounter = new RepCounter(exerciseName, keyRepAreas);
+    } catch (error) {
+      console.log(
+        "I'm afraid that the new rep counter is not valid because 👇\n",
+        error
+      );
+    }
+  }
 
-  let keepCountingReps = setInterval(() => {
-    let repCounterUpdated = theRepCounter.updateRepProgress($keypoints);
+  $: keyRepAreas && renewCounter();
+
+  keepCountingReps = setInterval(() => {
+    let repCounterUpdated =
+      theRepCounter.updateRepProgress($controlledKeypoints);
     if (!repCounterUpdated) return;
 
     theRepCounter = theRepCounter;
