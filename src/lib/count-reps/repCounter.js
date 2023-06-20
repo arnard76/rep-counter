@@ -1,4 +1,3 @@
-import KeyRepArea from "$lib/key-rep-area/keyRepArea.js";
 import limbRepCounter, { finishedRep } from "$lib/count-reps/limbRepCounter.js";
 
 class repCounter {
@@ -38,19 +37,6 @@ class repCounter {
       }
     }
     return wasUpdated;
-  }
-
-  /**
-   * @param {Array<KeyRepArea>} newRepAreas - list of rep areas
-   */
-  addNewRepAreas(newRepAreas, forLimb) {
-    const verifiedRepAreas = [];
-    for (let newRepArea of newRepAreas) {
-      if (!(newRepArea instanceof KeyRepArea)) continue;
-
-      verifiedRepAreas.push(newRepArea);
-    }
-    this.keyRepAreas4Limbs[forLimb].push(...verifiedRepAreas);
   }
 }
 

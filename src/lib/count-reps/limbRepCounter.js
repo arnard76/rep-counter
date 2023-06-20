@@ -80,12 +80,4 @@ export default class LimbRepCounter {
 
     return true;
   }
-
-  getStartPoint() {
-    return this.keyAreas[0];
-  }
-
-  getEndpoint() {
-    return this.keyAreas.slice(-1)[0];
-  }
 }
