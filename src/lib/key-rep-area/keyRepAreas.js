@@ -64,25 +64,29 @@ function createKRAsStore() {
 function turnKRAsDataToKRAInstances(KRAsData) {
   if (!KRAsData) return;
 
-  let keyRepAreas = {};
+  let exerciseKeyRepAreas = {};
   let keyRepAreasForLimb;
-  for (let [focusLimbName, keyRepAreasForLimbObject] of Object.entries(
-    KRAsData.keyRepAreas
+  for (let [focusLimbName, limbDetails] of Object.entries(
+    KRAsData.exerciseKeyRepAreas
   )) {
-    keyRepAreasForLimb = [];
+    let { keyRepAreas: keyRepAreasForLimbObject } = limbDetails;
+    let keyRepAreas = [];
     for (let {
       areaSize,
       topLeft,
       relativeToWhichKeypoint,
     } of keyRepAreasForLimbObject) {
-      keyRepAreasForLimb.push(
+      keyRepAreas.push(
         new KeyRepArea(relativeToWhichKeypoint, topLeft, areaSize)
       );
     }
-    keyRepAreas[focusLimbName] = keyRepAreasForLimb;
+    exerciseKeyRepAreas[focusLimbName] = {
+      ...limbDetails,
+      keyRepAreas,
+    };
   }
 
-  return { exerciseName: KRAsData.exerciseName, keyRepAreas };
+  return { ...KRAsData, exerciseKeyRepAreas };
 }
 
 const { subscribe, set } = writable(null);

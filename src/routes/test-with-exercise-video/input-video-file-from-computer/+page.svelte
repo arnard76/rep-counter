@@ -88,7 +88,7 @@
           />
           {#if $exercise}
             <RepCounter
-              keyRepAreas={$exercise.keyRepAreas}
+              keyRepAreas={$exercise.exerciseKeyRepAreas}
               exerciseName={$exercise.exerciseName}
             />
 
@@ -105,9 +105,13 @@
             <!-- the divider so mouse events can interact with 👇 but not ☝️ -->
             <div class="divider" />
 
-            {#each Object.entries($exercise.keyRepAreas) as [focusLimb, _] (focusLimb)}
+            {#each Object.entries($exercise.exerciseKeyRepAreas) as [focusLimb, _] (focusLimb)}
               <KeyRepAreas
-                bind:keyRepAreas={$exercise.keyRepAreas[focusLimb]}
+                bind:keyRepAreas={$exercise.exerciseKeyRepAreas[focusLimb]
+                  .keyRepAreas}
+                bind:startKeyRepAreaIsEnd={$exercise.exerciseKeyRepAreas[
+                  focusLimb
+                ].startKeyRepAreaIsEnd}
                 keypoints={$controlledKeypoints}
                 focusKeypoint={focusLimb}
               />

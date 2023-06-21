@@ -2,7 +2,11 @@
   import { browser } from "$app/environment";
   import { videoEl } from "$lib/video/getUserVideo.js";
   import keypointNames from "$lib/pose-detection/keypointNames.json";
-  import { controlledKeypoints } from "$lib/pose-detection/otherKeypointStores.js";
+  import {
+    controlledKeypoints,
+    focusLimbKeypoints,
+    relativeToKeypoints,
+  } from "$lib/pose-detection/otherKeypointStores.js";
   import { paused } from "$lib/paused";
 
   import KeypointsOverlay from "$lib/common-shapes/KeypointsOverlay.svelte";
@@ -28,57 +32,45 @@
   }
 
   const keyRepAreasForEachLimb = {
-    right_wrist: [
-      new KeyRepArea(
-        "right_elbow",
-        { x: 20, y: -40 },
-        { width: 80, height: 80 }
-      ),
-      new KeyRepArea(
-        "right_shoulder",
-        { x: -20, y: -40 },
-        { width: 80, height: 80 }
-      ),
-      new KeyRepArea(
-        "right_elbow",
-        { x: 20, y: -40 },
-        { width: 80, height: 80 }
-      ),
-    ],
-    left_wrist: [
-      new KeyRepArea(
-        "left_elbow",
-        { x: 20, y: -40 },
-        { width: 80, height: 80 }
-      ),
-      new KeyRepArea(
-        "left_shoulder",
-        { x: -20, y: -40 },
-        { width: 80, height: 80 }
-      ),
-      new KeyRepArea(
-        "left_elbow",
-        { x: 20, y: -40 },
-        { width: 80, height: 80 }
-      ),
-    ],
+    right_wrist: {
+      keyRepAreas: [
+        new KeyRepArea(
+          "right_elbow",
+          { x: 20, y: -40 },
+          { width: 80, height: 80 }
+        ),
+        new KeyRepArea(
+          "right_shoulder",
+          { x: -20, y: -40 },
+          { width: 80, height: 80 }
+        ),
+        new KeyRepArea(
+          "right_elbow",
+          { x: 20, y: -40 },
+          { width: 80, height: 80 }
+        ),
+      ],
+    },
+    left_wrist: {
+      keyRepAreas: [
+        new KeyRepArea(
+          "left_elbow",
+          { x: 20, y: -40 },
+          { width: 80, height: 80 }
+        ),
+        new KeyRepArea(
+          "left_shoulder",
+          { x: -20, y: -40 },
+          { width: 80, height: 80 }
+        ),
+        new KeyRepArea(
+          "left_elbow",
+          { x: 20, y: -40 },
+          { width: 80, height: 80 }
+        ),
+      ],
+    },
   };
-
-  $: relativeAndFocusKeypoints =
-    $controlledKeypoints &&
-    $controlledKeypoints.filter((keypoint) => {
-      let found = false;
-      for (const [focusLimbName, limbKeyRepAreas] of Object.entries(
-        keyRepAreasForEachLimb
-      )) {
-        found =
-          !!limbKeyRepAreas.find(
-            (keyRepArea) => keyRepArea.relativeToWhichKeypoint === keypoint.name
-          ) || focusLimbName === keypoint.name;
-
-        if (found) return true;
-      }
-    });
 
   let pauseDelay = 5;
 </script>
@@ -92,14 +84,15 @@
       keyRepAreas={keyRepAreasForEachLimb}
       exerciseName="bicep curl"
     />
-    <KeypointsOverlay keypoints={relativeAndFocusKeypoints} />
+    <KeypointsOverlay keypoints={$relativeToKeypoints} />
+    <KeypointsOverlay keypoints={$focusLimbKeypoints} />
 
     <!-- the divider so mouse events can interact with 👇 but not ☝️ -->
     <div class="divider" />
 
-    {#each Object.entries(keyRepAreasForEachLimb) as [focusLimb, limbKeyRepAreas] (limbKeyRepAreas)}
+    {#each Object.entries(keyRepAreasForEachLimb) as [focusLimb, { keyRepAreas }] (keyRepAreas)}
       <KeyRepAreas
-        keyRepAreas={limbKeyRepAreas}
+        {keyRepAreas}
         keypoints={$controlledKeypoints}
         focusKeypoint={focusLimb}
       />

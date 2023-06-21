@@ -8,10 +8,19 @@
 
 <div style="height:100%; overflow-y:scroll;">
   {#if $exercise}
-    {#each Object.entries($exercise.keyRepAreas) as [focusLimbName, keyRepAreasForLimb] (focusLimbName)}
+    {#each Object.entries($exercise.exerciseKeyRepAreas) as [focusLimbName, { keyRepAreas: keyRepAreasForLimb }] (focusLimbName)}
       <div class="KRAs-for-limb">
         <p>{focusLimbName}</p>
-
+        <div>
+          is start point (key rep area) same as end point?
+          <input
+            type="checkbox"
+            name=""
+            id=""
+            bind:checked={$exercise.exerciseKeyRepAreas[focusLimbName]
+              .startKeyRepAreaIsEnd}
+          />
+        </div>
         {#each keyRepAreasForLimb as keyRepArea, index (keyRepArea)}
           {@const { areaSize, topLeft } = keyRepArea}
           <div
@@ -28,8 +37,9 @@
 
             <SelectOneKeypointName
               {keypointNames}
-              bind:selectedKeypoint={$exercise.keyRepAreas[focusLimbName][index]
-                .relativeToWhichKeypoint}
+              bind:selectedKeypoint={$exercise.exerciseKeyRepAreas[
+                focusLimbName
+              ].keyRepAreas[index].relativeToWhichKeypoint}
             />
 
             <button

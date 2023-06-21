@@ -3,11 +3,11 @@ import limbRepCounter, { finishedRep } from "$lib/count-reps/limbRepCounter.js";
 class repCounter {
   numberOfReps = 0;
 
-  constructor(exerciseName, keyRepAreas) {
+  constructor(exerciseName, exerciseKeyRepAreas) {
     this.name = exerciseName;
-    this.limbRepCounters = Object.entries(keyRepAreas).map(
-      ([limbName, keyRepAreasForLimb]) => {
-        return new limbRepCounter(limbName, keyRepAreasForLimb);
+    this.limbRepCounters = Object.entries(exerciseKeyRepAreas).map(
+      ([limbName, { keyRepAreas, startKeyRepAreaIsEnd }]) => {
+        return new limbRepCounter(limbName, keyRepAreas, startKeyRepAreaIsEnd);
       }
     );
   }

@@ -18,7 +18,9 @@ const focusLimbNames = derived(
     if (!$kRAsStore) return [];
 
     let focusLimbNames = [];
-    for (let [focusLimbName, _] of Object.entries($kRAsStore.keyRepAreas)) {
+    for (let [focusLimbName, _] of Object.entries(
+      $kRAsStore.exerciseKeyRepAreas
+    )) {
       focusLimbNames.push(focusLimbName);
     }
 
@@ -49,7 +51,9 @@ const relativeToKeypointNames = derived(
     if (!$kRAsStore) return [];
 
     let relativeToKeypointNames = [];
-    for (let [_, keyRepAreas] of Object.entries($kRAsStore.keyRepAreas)) {
+    for (let [_, { keyRepAreas }] of Object.entries(
+      $kRAsStore.exerciseKeyRepAreas
+    )) {
       for (let keyRepArea of keyRepAreas) {
         relativeToKeypointNames.push(keyRepArea.relativeToWhichKeypoint);
       }

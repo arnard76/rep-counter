@@ -10,7 +10,7 @@ export default class LimbRepCounter {
    * @param {string} focusLimbName
    * @param {Array<Area>} keyRepAreas - Array of key rep areas
    */
-  constructor(focusLimbName, keyRepAreas) {
+  constructor(focusLimbName, keyRepAreas, startKeyRepAreaIsEnd = true) {
     if (!keyRepAreas.length) {
       throw Error(
         "keyAreas must be not be empty. Include all the key areas of a rep for this limb in input Array."
@@ -35,6 +35,7 @@ export default class LimbRepCounter {
     this.focusLimbName = focusLimbName;
     this.keyAreas = keyRepAreas;
     this.lastKeyAreaIndex = -1; // hasn't started a rep yet
+    this.startKeyRepAreaIsEnd = startKeyRepAreaIsEnd;
   }
 
   finishRep() {
@@ -43,7 +44,8 @@ export default class LimbRepCounter {
   }
 
   getReadyForNextRep() {
-    this.lastKeyAreaIndex = canStartNextRep;
+    //  0 represents the 1st key rep area
+    this.lastKeyAreaIndex = this.startKeyRepAreaIsEnd ? 0 : canStartNextRep;
   }
 
   /**

@@ -1,0 +1,46 @@
+[
+  {
+    "exerciseName": "bicep curls 💪💪🪨🪨",
+
+    "exerciseKeyRepAreas": {
+      "left_wrist": {
+        "startKeyRepAreaIsEnd": true,
+        "keyRepAreas": [
+          {
+            "areaSize": {
+              "height": 29,
+              "width": 45
+            },
+            "relativeToWhichKeypoint": "left_elbow",
+            "topLeft": {
+              "x": -44,
+              "y": 1
+            }
+          },
+          {
+            "areaSize": {
+              "height": 19,
+              "width": 41
+            },
+            "relativeToWhichKeypoint": "left_shoulder",
+            "topLeft": {
+              "x": -21,
+              "y": -6
+            }
+          },
+          {
+            "areaSize": {
+              "height": 30,
+              "width": 46
+            },
+            "relativeToWhichKeypoint": "left_elbow",
+            "topLeft": {
+              "x": -44,
+              "y": 2
+            }
+          }
+        ]
+      }
+    }
+  }
+]

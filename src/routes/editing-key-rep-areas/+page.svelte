@@ -32,7 +32,7 @@
 
 <p>{exerciseName}</p>
 {#if $kRAsStore}
-  {#each Object.entries($kRAsStore.keyRepAreas) as [focusLimbName, keyRepAreasForLimb] (focusLimbName)}
+  {#each Object.entries($kRAsStore.exerciseKeyRepAreas) as [focusLimbName, keyRepAreasForLimb] (focusLimbName)}
     <div class="KRAs-for-limb">
       <p>{focusLimbName}</p>
 
