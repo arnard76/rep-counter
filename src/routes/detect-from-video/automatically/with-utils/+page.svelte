@@ -4,7 +4,7 @@
   import { drawCanvas } from "$lib/pose-detection/visualizeKeypoints.js";
   import { browser } from "$app/environment";
   import { onDestroy } from "svelte";
-  import KeypointsOverlay from "$lib/common-shapes/KeypointsOverlay.svelte";
+  import KeypointsOverlay from "$lib/pose-detection/KeypointsOverlay.svelte";
 
   let cameraLiveFeedVideoEl = null;
   let snapshotFrameImgEl = null;

@@ -6,7 +6,7 @@
   import { connectTheDots } from "$lib/pose-detection/visualizeKeypoints.js";
 
   import SelectMany from "$lib/inputs/SelectManyKeypoints.svelte";
-  import KeypointsOverlay from "$lib/common-shapes/KeypointsOverlay.svelte";
+  import KeypointsOverlay from "$lib/pose-detection/KeypointsOverlay.svelte";
 
   let stream = null;
 

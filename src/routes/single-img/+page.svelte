@@ -3,7 +3,7 @@
   import "@tensorflow/tfjs-backend-cpu";
   import "@tensorflow/tfjs-backend-webgl";
   import { onMount } from "svelte";
-  import Keypoint from "$lib/common-shapes/Keypoint.svelte";
+  import Keypoint from "$lib/pose-detection/Keypoint.svelte";
 
   const model = poseDetection.SupportedModels.PoseNet;
 

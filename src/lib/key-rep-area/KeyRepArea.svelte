@@ -1,6 +1,6 @@
 <script>
-  import Keypoint from "$lib/common-shapes/Keypoint.svelte";
-  import Line from "$lib/common-shapes/StraightLine.svelte";
+  import Keypoint from "$lib/pose-detection/Keypoint.svelte";
+  import Line from "$lib/pose-detection/StraightLine.svelte";
   import { selectedKeyRepArea } from "$lib/key-rep-area/keyRepAreas.js";
 
   export let keyRepArea;

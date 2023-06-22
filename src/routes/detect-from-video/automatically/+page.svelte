@@ -3,7 +3,7 @@
   // import { captureVideo } from "$lib/video/frameCapture.js";
   import { browser } from "$app/environment";
   import { onDestroy } from "svelte";
-  import KeypointsOverlay from "$lib/common-shapes/KeypointsOverlay.svelte";
+  import KeypointsOverlay from "$lib/pose-detection/KeypointsOverlay.svelte";
 
   let videoEl = null;
   // let imageSrcEl = null;
