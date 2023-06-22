@@ -2,7 +2,7 @@
   import { getPose } from "$lib/pose-detection/detector.js";
   import { captureVideo } from "$lib/video/frameCapture.js";
   import { browser } from "$app/environment";
-  import KeypointsOverlay from "$lib/common-shapes/KeypointsOverlay.svelte";
+  import KeypointsOverlay from "$lib/pose-detection/KeypointsOverlay.svelte";
 
   let videoEl = null;
   let imageSrcEl = null;

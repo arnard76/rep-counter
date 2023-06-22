@@ -1,5 +1,5 @@
 <script>
-  import Keypoint from "$lib/common-shapes/Keypoint.svelte";
+  import Keypoint from "$lib/pose-detection/Keypoint.svelte";
 
   export let keypoints;
   export let colourTheme = null;
