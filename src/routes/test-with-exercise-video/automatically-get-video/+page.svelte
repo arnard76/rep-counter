@@ -1,7 +1,7 @@
 <script>
   import { videoEl as exerciseVideoEl } from "$lib/video/getUserVideo.js";
   import PauseControls from "$lib/paused/PauseControls.svelte";
-  import { scale } from "$lib/video/scale.js";
+  import { scale } from "$lib/pose-detection/scaleKeypoints.js";
   import {
     controlledKeypoints,
     focusLimbKeypoints,
