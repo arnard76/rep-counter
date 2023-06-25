@@ -12,7 +12,7 @@
   } from "$lib/pose-detection/otherKeypointStores.js";
   import KeypointsOverlay from "$lib/pose-detection/KeypointsOverlay.svelte";
 
-  import exercise from "$lib/key-rep-area/keyRepAreas.js";
+  import exercise from "$lib/exercises/store";
   import KeyRepAreas from "$lib/key-rep-area/KeyRepAreas.svelte";
   import EditingKeyRepAreasPanel from "$lib/key-rep-area/EditingKeyRepAreasPanel.svelte";
 
