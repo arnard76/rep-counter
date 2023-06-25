@@ -1,8 +1,8 @@
 <script>
   import {
-    updateKRAsOnDB,
-    streamKRAsFromDB,
-  } from "$lib/key-rep-area/CRUD/crudDB.js";
+    streamExercisesFromDB,
+    updateExerciseOnDB,
+  } from "$lib/exercises/crudDB";
   import { onDestroy, onMount } from "svelte";
   import exercises from "$lib/exercises/store";
   import { browser } from "$app/environment";
@@ -11,7 +11,7 @@
 
   onMount(() => {
     if (!browser) return;
-    stopReadingDatabase = streamKRAsFromDB();
+    stopReadingDatabase = streamExercisesFromDB();
   });
 
   onDestroy(() => {
@@ -24,7 +24,7 @@
 <button
   type="button"
   on:click={() => {
-    updateKRAsOnDB("0", $exercises[exercises.getIndexOfExercise("0")]);
+    updateExerciseOnDB("0", $exercises[exercises.getIndexOfExercise("0")]);
   }}
 >
   Update database
