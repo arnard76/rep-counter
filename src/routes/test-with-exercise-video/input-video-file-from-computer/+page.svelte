@@ -14,7 +14,7 @@
 
   import exercise from "$lib/exercises/store";
   import KeyRepAreas from "$lib/key-rep-area/KeyRepAreas.svelte";
-  import EditingKeyRepAreasPanel from "$lib/key-rep-area/EditingKeyRepAreasPanel.svelte";
+  import EditingExercisePanel from "$lib/exercises/EditingExercisePanel.svelte";
 
   import RepCounter from "$lib/count-reps/RepCounter.svelte";
 
@@ -124,7 +124,7 @@
         </div>
       </div>
 
-      <EditingKeyRepAreasPanel />
+      <EditingExercisePanel />
     </div>
   {/if}
 </div>
