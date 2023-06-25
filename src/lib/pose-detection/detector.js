@@ -5,6 +5,9 @@ import "@tensorflow/tfjs-backend-webgl";
 
 async function createDetector() {
   await tf.ready();
+  if (tf.findBackend("webgpu")) {
+    await tf.setBackend("webgl");
+  }
 
   const model = poseDetection.SupportedModels.MoveNet;
   const modelType = poseDetection.movenet.modelType.SINGLEPOSE_THUNDER;
