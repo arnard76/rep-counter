@@ -6,12 +6,12 @@
     controlledKeypoints,
     focusLimbKeypoints,
     relativeToKeypoints,
-  } from "$lib/pose-detection/otherKeypointStores.js";
+  } from "$lib/pose-detection/otherKeypointStores";
   import { paused } from "$lib/paused";
 
   import KeypointsOverlay from "$lib/pose-detection/KeypointsOverlay.svelte";
   import SelectOneKeypoint from "$lib/inputs/SelectOneKeypoint.svelte";
-  import KeyRepArea from "$lib/key-rep-area/keyRepArea.js";
+  import KeyRepArea from "$lib/key-rep-area/keyRepArea";
   import KeyRepAreas from "$lib/key-rep-area/KeyRepAreas.svelte";
   import RepCounter from "$lib/count-reps/RepCounter.svelte";
 
@@ -94,7 +94,7 @@
       <KeyRepAreas
         {keyRepAreas}
         keypoints={$controlledKeypoints}
-        focusKeypoint={focusLimb}
+        focusKeypointName={focusLimb}
       />
     {/each}
   </div>

@@ -3,7 +3,7 @@
   import { videoEl } from "$lib/video/getUserVideo.js";
   import keypoints from "$lib/pose-detection/keypoints.js";
   import keypointNames from "$lib/pose-detection/keypointNames.json";
-  import repArea from "$lib/key-rep-area/keyRepArea.js";
+  import repArea from "$lib/key-rep-area/keyRepArea";
 
   import KeypointsOverlay from "$lib/pose-detection/KeypointsOverlay.svelte";
   import SelectOneKeypoint from "$lib/inputs/SelectOneKeypoint.svelte";

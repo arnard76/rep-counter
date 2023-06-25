@@ -1,4 +1,4 @@
-import Area from "$lib/key-rep-area/keyRepArea.js";
+import Area from "$lib/key-rep-area/keyRepArea";
 
 export const finishedRep = -2;
 export const canStartNextRep = -1;
