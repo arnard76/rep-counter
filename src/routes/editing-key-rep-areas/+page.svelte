@@ -4,7 +4,7 @@
     streamKRAsFromDB,
   } from "$lib/key-rep-area/CRUD/crudDB.js";
   import { onDestroy, onMount } from "svelte";
-  import kRAsStore from "$lib/key-rep-area/keyRepAreas.js";
+  import exercises from "$lib/exercises/store";
   import { browser } from "$app/environment";
 
   let stopReadingDatabase = () => {};
@@ -18,21 +18,21 @@
     stopReadingDatabase();
   });
 
-  $: exerciseName = $kRAsStore?.exerciseName;
+  $: exerciseName = $exercises?.exerciseName;
 </script>
 
 <button
   type="button"
   on:click={() => {
-    updateKRAsOnDB($kRAsStore);
+    updateKRAsOnDB("0", $exercises[exercises.getIndexOfExercise("0")]);
   }}
 >
   Update database
 </button>
 
 <p>{exerciseName}</p>
-{#if $kRAsStore}
-  {#each Object.entries($kRAsStore.exerciseKeyRepAreas) as [focusLimbName, keyRepAreasForLimb] (focusLimbName)}
+{#if $exercises}
+  {#each Object.entries($exercises.exerciseKeyRepAreas) as [focusLimbName, keyRepAreasForLimb] (focusLimbName)}
     <div class="KRAs-for-limb">
       <p>{focusLimbName}</p>
 
@@ -43,7 +43,7 @@
           <button
             type="button"
             on:click={() => {
-              kRAsStore.deleteKRA(focusLimbName, keyRepArea);
+              exercises.deleteKRA(focusLimbName, keyRepArea);
             }}>delete🗑️</button
           >
         </div>
