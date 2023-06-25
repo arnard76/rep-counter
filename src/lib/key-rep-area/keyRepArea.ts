@@ -8,16 +8,10 @@ export default class KeyRepArea {
   topLeft = null;
   areaSize = null;
 
-  /**
-   *
-   * @param {string} relativeKeypointName
-   * @param {{x : number, y :number}} topleft
-   * @param {{width: number, height: number}} areaSize
-   */
   constructor(
-    relativeKeypointName,
-    { x, y } = defaultKeyRepAreaTopLeft,
-    { width, height } = defaultKeyRepAreaSize
+    relativeKeypointName: string = null,
+    { x, y }: { x: number; y: number } = defaultKeyRepAreaTopLeft,
+    { width, height }: { width: number; height: number } = defaultKeyRepAreaSize
   ) {
     if (!relativeKeypointName && !keypointNames.length) {
       throw Error(

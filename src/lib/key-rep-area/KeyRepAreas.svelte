@@ -1,12 +1,13 @@
-<script>
-  import KeyRepArea from "$lib/key-rep-area/KeyRepArea.svelte";
+<script lang="ts">
+  import type KeyRepArea from "$lib/key-rep-area/keyRepArea";
+  import KeyRepAreaComponent from "$lib/key-rep-area/KeyRepArea.svelte";
 
-  export let keyRepAreas;
-  export let keypoints;
-  export let focusKeypoint;
-  export let startKeyRepAreaIsEnd = undefined;
+  export let keyRepAreas: KeyRepArea[];
+  export let keypoints: any[];
+  export let focusKeypointName: string;
+  export let startKeyRepAreaIsEnd: boolean | undefined = undefined;
 
-  let showingKeyRepAreas;
+  let showingKeyRepAreas: KeyRepArea[];
   $: if (startKeyRepAreaIsEnd) {
     showingKeyRepAreas = [...keyRepAreas];
     showingKeyRepAreas.pop();
@@ -14,5 +15,9 @@
 </script>
 
 {#each startKeyRepAreaIsEnd ? showingKeyRepAreas : keyRepAreas as keyRepArea (keyRepArea)}
-  <KeyRepArea bind:keyRepArea {keypoints} {focusKeypoint} />
+  <KeyRepAreaComponent
+    bind:keyRepArea
+    {keypoints}
+    focusKeypoint={focusKeypointName}
+  />
 {/each}

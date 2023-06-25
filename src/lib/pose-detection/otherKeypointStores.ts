@@ -1,7 +1,7 @@
 import { derived } from "svelte/store";
 import { paused, pausedKeypoints } from "$lib/paused";
 import keypoints from "$lib/pose-detection/keypoints.js";
-import kRAsStore from "$lib/key-rep-area/keyRepAreas.js";
+import { selectedExercise } from "$lib/exercises/selected";
 import { scale, scaleKeypoints } from "$lib/pose-detection/scaleKeypoints.js";
 
 // reacts to scale & pause changes 😀
@@ -9,17 +9,18 @@ const controlledKeypoints = derived(
   [paused, pausedKeypoints, keypoints, scale],
   ([$paused, $pausedKeypoints, $keypoints, $scale], set) => {
     set(scaleKeypoints($paused ? $pausedKeypoints : $keypoints, $scale));
-  }
+  },
+  undefined as any[]
 );
 
 const focusLimbNames = derived(
-  [kRAsStore],
-  ([$kRAsStore], set) => {
-    if (!$kRAsStore) return [];
+  selectedExercise,
+  ($selectedExercise, set) => {
+    if (!$selectedExercise) return;
 
     let focusLimbNames = [];
     for (let [focusLimbName, _] of Object.entries(
-      $kRAsStore.exerciseKeyRepAreas
+      $selectedExercise.focusLimbs
     )) {
       focusLimbNames.push(focusLimbName);
     }
@@ -32,7 +33,7 @@ const focusLimbNames = derived(
 const focusLimbKeypoints = derived(
   [focusLimbNames, controlledKeypoints],
   ([$focusLimbNames, $controlledKeypoints], set) => {
-    if (!$focusLimbNames || !$controlledKeypoints) return [];
+    if (!$focusLimbNames || !$controlledKeypoints) return;
 
     let focusLimbKeypoints = [];
     for (let keypoint of $controlledKeypoints) {
@@ -46,13 +47,13 @@ const focusLimbKeypoints = derived(
 );
 
 const relativeToKeypointNames = derived(
-  [kRAsStore],
-  ([$kRAsStore], set) => {
-    if (!$kRAsStore) return [];
+  [selectedExercise],
+  ([$selectedExercise], set) => {
+    if (!$selectedExercise) return;
 
     let relativeToKeypointNames = [];
     for (let [_, { keyRepAreas }] of Object.entries(
-      $kRAsStore.exerciseKeyRepAreas
+      $selectedExercise.focusLimbs
     )) {
       for (let keyRepArea of keyRepAreas) {
         relativeToKeypointNames.push(keyRepArea.relativeToWhichKeypoint);
@@ -67,7 +68,7 @@ const relativeToKeypointNames = derived(
 const relativeToKeypoints = derived(
   [relativeToKeypointNames, controlledKeypoints],
   ([$relativeToKeypointNames, $controlledKeypoints], set) => {
-    if (!$relativeToKeypointNames || !$controlledKeypoints) return [];
+    if (!$relativeToKeypointNames || !$controlledKeypoints) return null;
 
     let relativeToKeypoints = [];
     for (let keypoint of $controlledKeypoints) {

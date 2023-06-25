@@ -9,7 +9,7 @@
     controlledKeypoints,
     focusLimbKeypoints,
     relativeToKeypoints,
-  } from "$lib/pose-detection/otherKeypointStores.js";
+  } from "$lib/pose-detection/otherKeypointStores";
   import KeypointsOverlay from "$lib/pose-detection/KeypointsOverlay.svelte";
 
   import exercise from "$lib/exercises/store";
@@ -113,7 +113,7 @@
                   focusLimb
                 ].startKeyRepAreaIsEnd}
                 keypoints={$controlledKeypoints}
-                focusKeypoint={focusLimb}
+                focusKeypointName={focusLimb}
               />
             {/each}
           {/if}
