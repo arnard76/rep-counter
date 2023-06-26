@@ -9,20 +9,25 @@
   } from "$lib/pose-detection/otherKeypointStores";
   import KeypointsOverlay from "$lib/pose-detection/KeypointsOverlay.svelte";
 
-  import exercise from "$lib/exercises/store";
+  import exercises, {
+    selectedExercise,
+    selectedExerciseId,
+  } from "$lib/exercises/store";
   import KeyRepAreas from "$lib/key-rep-area/KeyRepAreas.svelte";
   import EditingExercisePanel from "$lib/exercises/EditingExercisePanel.svelte";
 
   import RepCounter from "$lib/count-reps/RepCounter.svelte";
+
+  selectedExerciseId.select($exercises?.length ? $exercises[0].id : "0");
 </script>
 
-{#if $exercise} <p>{$exercise.exerciseName}</p> {/if}
+{#if $selectedExercise}
+  <p>{$selectedExercise.name}</p>
 
-<div class="container">
-  <div class="videoNrep-counter-container">
-    <UserVideo />
+  <div class="container">
+    <div class="videoNrep-counter-container">
+      <UserVideo />
 
-    {#if $exercise}
       <RepCounter focusLimbs={$selectedExercise.focusLimbs} />
 
       <!-- Relative for KRA's & Focus limb keypoints -->
@@ -32,25 +37,29 @@
       <!-- the divider so mouse events can interact with 👇 but not ☝️ -->
       <div class="divider" />
 
-      {#each Object.entries($exercise.exerciseKeyRepAreas) as [focusLimb] (focusLimb)}
+      {#each Object.entries($selectedExercise.focusLimbs) as [focusLimb] (focusLimb)}
         <KeyRepAreas
-          bind:keyRepAreas={$exercise.exerciseKeyRepAreas[focusLimb]
-            .keyRepAreas}
-          bind:startKeyRepAreaIsEnd={$exercise.exerciseKeyRepAreas[focusLimb]
-            .startKeyRepAreaIsEnd}
+          bind:keyRepAreas={$exercises[
+            exercises.getIndexOfExercise($selectedExerciseId)
+          ].focusLimbs[focusLimb].keyRepAreas}
+          startKeyRepAreaIsEnd
           keypoints={$controlledKeypoints}
           focusKeypointName={focusLimb}
         />
       {/each}
-    {/if}
 
-    <div style="position:absolute; bottom:0; left:0;">
-      <PauseControls />
+      <div style="position:absolute; bottom:0; left:0;">
+        <PauseControls />
+      </div>
     </div>
-  </div>
 
-  <EditingExercisePanel />
-</div>
+    <EditingExercisePanel
+      bind:exercise={$exercises[
+        exercises.getIndexOfExercise($selectedExerciseId)
+      ]}
+    />
+  </div>
+{/if}
 
 <style>
   .videoNrep-counter-container {

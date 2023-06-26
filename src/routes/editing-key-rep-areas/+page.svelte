@@ -1,32 +1,39 @@
 <script>
   import { updateExerciseOnDB } from "$lib/exercises/CRUD/crudDB";
-  import exercises from "$lib/exercises/store";
-  $: exerciseName = $exercises?.exerciseName;
+  import exercises, {
+    selectedExercise,
+    selectedExerciseId,
+  } from "$lib/exercises/store";
+
+  $: $exercises?.length && selectedExerciseId.select($exercises[0].id);
 </script>
 
 <button
   type="button"
   on:click={() => {
-    updateExerciseOnDB("0", $exercises[exercises.getIndexOfExercise("0")]);
+    updateExerciseOnDB(
+      "0",
+      $selectedExercise[exercises.getIndexOfExercise("0")]
+    );
   }}
 >
   Update database
 </button>
 
-<p>{exerciseName}</p>
-{#if $exercises}
-  {#each Object.entries($exercises.exerciseKeyRepAreas) as [focusLimbName, keyRepAreasForLimb] (focusLimbName)}
+{#if $selectedExercise}
+  <p>{$selectedExercise.name}</p>
+  {#each Object.entries($selectedExercise.focusLimbs) as [focusLimbName, { keyRepAreas }] (focusLimbName)}
     <div class="KRAs-for-limb">
       <p>{focusLimbName}</p>
 
-      {#each keyRepAreasForLimb as keyRepArea (keyRepArea)}
+      {#each keyRepAreas as keyRepArea (keyRepArea)}
         <div class="key-rep-area">
           <p>{JSON.stringify(keyRepArea)}</p>
 
           <button
             type="button"
             on:click={() => {
-              exercises.deleteKRA(focusLimbName, keyRepArea);
+              exercises.deleteKRAInSelectedExercise(focusLimbName, keyRepArea);
             }}>delete🗑️</button
           >
         </div>

@@ -12,11 +12,16 @@
   } from "$lib/pose-detection/otherKeypointStores";
   import KeypointsOverlay from "$lib/pose-detection/KeypointsOverlay.svelte";
 
-  import exercise from "$lib/exercises/store";
+  import exercises, {
+    selectedExercise,
+    selectedExerciseId,
+  } from "$lib/exercises/store";
   import KeyRepAreas from "$lib/key-rep-area/KeyRepAreas.svelte";
   import EditingExercisePanel from "$lib/exercises/EditingExercisePanel.svelte";
 
   import RepCounter from "$lib/count-reps/RepCounter.svelte";
+
+  selectedExerciseId.select($exercises?.length ? $exercises[0].id : "0");
 
   // setting scale for keypoints
   // so that they align with video size on screen (instead of video resolution)
@@ -67,26 +72,26 @@
   />
 
   {#if haveAVideoFile}
-    {#if $exercise} <p>{$exercise.exerciseName}</p> {/if}
+    {#if $selectedExercise}
+      <p>{$selectedExercise.name}</p>
 
-    <div style="display: flex;">
-      <div class="video-border">
-        <div
-          class="videoNrep-counter-container"
-          bind:clientHeight
-          bind:clientWidth
-        >
-          <!-- svelte-ignore a11y-media-has-caption -->
-          <video
-            bind:this={$exerciseVideoEl}
-            bind:videoWidth
-            bind:videoHeight
-            alt="the uploaded video file🤞"
-            loop
-            muted
-            autoplay
-          />
-          {#if $exercise}
+      <div style="display: flex;">
+        <div class="video-border">
+          <div
+            class="videoNrep-counter-container"
+            bind:clientHeight
+            bind:clientWidth
+          >
+            <!-- svelte-ignore a11y-media-has-caption -->
+            <video
+              bind:this={$exerciseVideoEl}
+              bind:videoWidth
+              bind:videoHeight
+              alt="the uploaded video file🤞"
+              loop
+              muted
+              autoplay
+            />
             <RepCounter focusLimbs={$selectedExercise.focusLimbs} />
 
             <!-- Relative for KRA's & Focus limb keypoints -->
@@ -102,27 +107,30 @@
             <!-- the divider so mouse events can interact with 👇 but not ☝️ -->
             <div class="divider" />
 
-            {#each Object.entries($exercise.exerciseKeyRepAreas) as [focusLimb, _] (focusLimb)}
+            {#each Object.entries($selectedExercise.focusLimbs) as [focusLimb] (focusLimb)}
               <KeyRepAreas
-                bind:keyRepAreas={$exercise.exerciseKeyRepAreas[focusLimb]
-                  .keyRepAreas}
-                bind:startKeyRepAreaIsEnd={$exercise.exerciseKeyRepAreas[
-                  focusLimb
-                ].startKeyRepAreaIsEnd}
+                bind:keyRepAreas={$exercises[
+                  exercises.getIndexOfExercise($selectedExerciseId)
+                ].focusLimbs[focusLimb].keyRepAreas}
+                startKeyRepAreaIsEnd
                 keypoints={$controlledKeypoints}
                 focusKeypointName={focusLimb}
               />
             {/each}
-          {/if}
 
-          <div style="position:absolute; bottom:0; left:0;">
-            <PauseControls />
+            <div style="position:absolute; bottom:0; left:0;">
+              <PauseControls />
+            </div>
           </div>
         </div>
-      </div>
 
-      <EditingExercisePanel />
-    </div>
+        <EditingExercisePanel
+          bind:exercise={$exercises[
+            exercises.getIndexOfExercise($selectedExerciseId)
+          ]}
+        />
+      </div>
+    {/if}
   {/if}
 </div>
 
