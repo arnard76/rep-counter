@@ -6,7 +6,7 @@
   import repArea from "$lib/key-rep-area/keyRepArea";
 
   import KeypointsOverlay from "$lib/pose-detection/KeypointsOverlay.svelte";
-  import SelectOneKeypoint from "$lib/inputs/SelectOneKeypoint.svelte";
+  import SelectOneKeypoint from "$lib/pose-detection/SelectOneKeypoint.svelte";
   import KeyRepArea from "$lib/key-rep-area/KeyRepArea.svelte";
 
   let stream = null;
