@@ -4,7 +4,10 @@
 
   let allComponents = Object.keys(import.meta.glob("./**/**.svelte"));
   let allPages = allComponents
-    .filter((possiblePage) => possiblePage.includes("+page.svelte"))
+    .filter(
+      (possiblePage) =>
+        possiblePage.includes("+page.svelte") && !possiblePage.includes("[")
+    )
 
     .map((usefulPage) => {
       let cleanedPageName = usefulPage;
