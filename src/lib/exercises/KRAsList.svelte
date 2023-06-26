@@ -3,7 +3,7 @@
 <script lang="ts">
   import exercises from "$lib/exercises/store";
   import selectedKeyRepArea from "$lib/key-rep-area/selected";
-  import SelectOneKeypointName from "$lib/inputs/SelectOneKeypoint.svelte";
+  import SelectOneKeypointName from "$lib/pose-detection/SelectOneKeypoint.svelte";
   import keypointNames from "$lib/pose-detection/keypointNames.json";
   import type KeyRepArea from "$lib/key-rep-area/keyRepArea";
 

@@ -6,7 +6,7 @@
   import { paused } from "$lib/paused";
 
   import KeypointsOverlay from "$lib/pose-detection/KeypointsOverlay.svelte";
-  import SelectOneKeypoint from "$lib/inputs/SelectOneKeypoint.svelte";
+  import SelectOneKeypoint from "$lib/pose-detection/SelectOneKeypoint.svelte";
   import LimbRepCounter from "$lib/count-reps/LimbRepCounter.svelte";
   import KeyRepArea from "$lib/key-rep-area/keyRepArea";
   import KeyRepAreas from "$lib/key-rep-area/KeyRepAreas.svelte";

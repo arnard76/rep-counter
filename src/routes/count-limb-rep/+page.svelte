@@ -5,7 +5,7 @@
   import keypointNames from "$lib/pose-detection/keypointNames.json";
 
   import KeypointsOverlay from "$lib/pose-detection/KeypointsOverlay.svelte";
-  import SelectOneKeypoint from "$lib/inputs/SelectOneKeypoint.svelte";
+  import SelectOneKeypoint from "$lib/pose-detection/SelectOneKeypoint.svelte";
   import LimbRepCounter from "$lib/count-reps/LimbRepCounter.svelte";
   import KeyRepArea from "$lib/key-rep-area/keyRepArea";
   import KeyRepAreaSC from "$lib/key-rep-area/KeyRepArea.svelte";
