@@ -3,11 +3,20 @@ import type Exercise from "$lib/exercises";
 import type { Exercises, ExercisesData } from "$lib/exercises";
 import KeyRepArea from "$lib/key-rep-area/keyRepArea";
 import { streamExercisesFromDB } from "$lib/exercises/CRUD/crudDB";
+import { browser } from "$app/environment";
 
 const exercises = createExercisesStore();
 
 function createExercisesStore() {
-  const store = writable(null as Exercises);
+  const store = writable(null as Exercises, () => {
+    console.log("subscribed to exercises");
+    let stopReadingDatabase = browser ? streamExercisesFromDB() : () => {};
+
+    return () => {
+      console.log("no more subscribers for exercises");
+      stopReadingDatabase();
+    };
+  });
 
   function getIndexOfExercise(exerciseId: Exercise["id"]) {
     return get(store).findIndex(({ id }) => id === exerciseId);
