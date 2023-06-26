@@ -3,13 +3,13 @@
   import RepCounter from "$lib/count-reps/repCounter.js";
   import { onDestroy } from "svelte";
 
-  export let exerciseName, focusLimbs;
+  export let focusLimbs;
   let theRepCounter;
   let keepCountingReps;
 
   function renewCounter() {
     try {
-      theRepCounter = new RepCounter(exerciseName, focusLimbs);
+      theRepCounter = new RepCounter(focusLimbs);
     } catch (error) {
       console.log(
         "I'm afraid that the new rep counter is not valid because 👇\n",

@@ -80,10 +80,7 @@
 
   <div style="position: relative;">
     <video src="" bind:this={$videoEl} />
-    <RepCounter
-      keyRepAreas={keyRepAreasForEachLimb}
-      exerciseName="bicep curl"
-    />
+    <RepCounter focusLimbs={keyRepAreasForEachLimb} />
     <KeypointsOverlay keypoints={$relativeToKeypoints} />
     <KeypointsOverlay keypoints={$focusLimbKeypoints} />
 
