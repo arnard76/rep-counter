@@ -2,7 +2,7 @@
   import {
     streamExercisesFromDB,
     updateExerciseOnDB,
-  } from "$lib/exercises/crudDB";
+  } from "$lib/exercises/CRUD/crudDB";
   import { onDestroy, onMount } from "svelte";
   import exercises from "$lib/exercises/store";
   import { browser } from "$app/environment";

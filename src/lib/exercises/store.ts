@@ -2,7 +2,7 @@ import { writable, get, derived } from "svelte/store";
 import type Exercise from "$lib/exercises";
 import type { Exercises, ExercisesData } from "$lib/exercises";
 import KeyRepArea from "$lib/key-rep-area/keyRepArea";
-import { selectedExerciseId } from "./selected";
+import { streamExercisesFromDB } from "$lib/exercises/CRUD/crudDB";
 
 const exercises = createExercisesStore();
 
