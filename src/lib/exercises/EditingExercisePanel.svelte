@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { updateExerciseOnDB } from "$lib/exercises/crudDB";
+  import { updateExerciseOnDB } from "$lib/exercises/CRUD/crudDB";
 
   import type Exercise from "$lib/exercises";
   import FocusLimbsList from "./FocusLimbsList.svelte";
