@@ -57,10 +57,7 @@
         autoplay
       />
 
-      <RepCounter
-        focusLimbs={$selectedExercise.focusLimbs}
-        exerciseName={$selectedExercise.name}
-      />
+      <RepCounter focusLimbs={$selectedExercise.focusLimbs} />
 
       <!-- Relative for KRA's & Focus limb keypoints -->
       <KeypointsOverlay keypoints={$relativeToKeypoints} colourTheme="gray" />

@@ -87,10 +87,7 @@
             autoplay
           />
           {#if $exercise}
-            <RepCounter
-              keyRepAreas={$exercise.exerciseKeyRepAreas}
-              exerciseName={$exercise.exerciseName}
-            />
+            <RepCounter focusLimbs={$selectedExercise.focusLimbs} />
 
             <!-- Relative for KRA's & Focus limb keypoints -->
             <KeypointsOverlay

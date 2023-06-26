@@ -3,8 +3,7 @@ import limbRepCounter, { finishedRep } from "$lib/count-reps/limbRepCounter.js";
 class repCounter {
   numberOfReps = 0;
 
-  constructor(exerciseName, focusLimbs) {
-    this.name = exerciseName;
+  constructor(focusLimbs) {
     this.limbRepCounters = Object.entries(focusLimbs).map(
       ([limbName, { keyRepAreas, startKeyRepAreaIsEnd }]) => {
         return new limbRepCounter(limbName, keyRepAreas, startKeyRepAreaIsEnd);
