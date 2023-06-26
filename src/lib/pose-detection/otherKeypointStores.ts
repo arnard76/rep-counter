@@ -1,7 +1,7 @@
 import { derived } from "svelte/store";
 import { paused, pausedKeypoints } from "$lib/paused";
 import keypoints from "$lib/pose-detection/keypoints.js";
-import { selectedExercise } from "$lib/exercises/selected";
+import { selectedExercise } from "$lib/exercises/store";
 import { scale, scaleKeypoints } from "$lib/pose-detection/scaleKeypoints.js";
 
 // reacts to scale & pause changes 😀

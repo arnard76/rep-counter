@@ -141,4 +141,27 @@ function createKRAInstancesFromKRAObjects(exercisesData: ExercisesData) {
   return exercises;
 }
 
+export const selectedExerciseId = {
+  ...writable(null),
+  select(exerciseId: Exercise["id"]) {
+    this.set(exerciseId === get(selectedExerciseId) ? null : exerciseId);
+  },
+};
+export const selectedExercise = derived(
+  [exercises, selectedExerciseId],
+  ([$exercises, $selectedExerciseId], set) => {
+    if (!$exercises) {
+      set(undefined);
+      return;
+    }
+
+    let found = $exercises.find(
+      (exercise) => exercise.id === $selectedExerciseId
+    );
+
+    set($exercises ? found : undefined);
+  },
+  undefined as Exercise
+);
+
 export default exercises;
