@@ -1,23 +1,6 @@
 <script>
-  import {
-    streamExercisesFromDB,
-    updateExerciseOnDB,
-  } from "$lib/exercises/CRUD/crudDB";
-  import { onDestroy, onMount } from "svelte";
+  import { updateExerciseOnDB } from "$lib/exercises/CRUD/crudDB";
   import exercises from "$lib/exercises/store";
-  import { browser } from "$app/environment";
-
-  let stopReadingDatabase = () => {};
-
-  onMount(() => {
-    if (!browser) return;
-    stopReadingDatabase = streamExercisesFromDB();
-  });
-
-  onDestroy(() => {
-    stopReadingDatabase();
-  });
-
   $: exerciseName = $exercises?.exerciseName;
 </script>
 
