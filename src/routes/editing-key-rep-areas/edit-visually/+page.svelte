@@ -1,5 +1,5 @@
 <script>
-  import UserVideo from "$lib/video/UserVideo.svelte";
+  import UserVideo from "$lib/video/LiveVideo.svelte";
   import PauseControls from "$lib/paused/PauseControls.svelte";
 
   import {

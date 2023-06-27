@@ -1,8 +1,9 @@
 <script>
   import { browser } from "$app/environment";
-  import getUserVideo, { videoEl } from "$lib/video/getUserVideo.js";
+  import getLiveVideo from "$lib/video/liveVideo.js";
+  import videoEl from "$lib/video/video";
 
-  if (browser) getUserVideo();
+  if (browser) getLiveVideo();
 </script>
 
 <!-- svelte-ignore a11y-media-has-caption -->

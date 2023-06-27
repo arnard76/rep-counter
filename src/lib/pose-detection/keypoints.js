@@ -1,5 +1,5 @@
 import { get, readable } from "svelte/store";
-import { videoEl } from "$lib/video/getUserVideo.js";
+import videoEl from "$lib/video/video";
 import { getPose } from "$lib/pose-detection/detector.js";
 
 // doesn't react to scale changes (use controlledKeypoints instead)

@@ -1,6 +1,6 @@
 <script>
-  import UserVideo from "$lib/video/UserVideo.svelte";
-  import { videoEl } from "$lib/video/getUserVideo.js";
+  import UserVideo from "$lib/video/LiveVideo.svelte";
+  import videoEl from "$lib/video/video";
 </script>
 
 <UserVideo />
