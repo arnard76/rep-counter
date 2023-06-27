@@ -23,6 +23,7 @@
 
   import RepCounter from "$lib/count-reps/RepCounter.svelte";
   import VideoFromFile from "$lib/video/VideoFromFile.svelte";
+  import LiveVideo from "$lib/video/LiveVideo.svelte";
 
   $: selectedExerciseId.select($page.params.exerciseId);
 
@@ -44,24 +45,24 @@
     });
   });
 
-  export let validVideoFile: Readable<File> | null;
+  let validVideoFile: Readable<File> | null;
+
+  let live: boolean = false;
 </script>
 
 <p>{JSON.stringify($selectedExercise)}</p>
-<InputVideoFile bind:validVideoFile />
+{#if !live}<InputVideoFile bind:validVideoFile />{/if}
+<input type="checkbox" name="live video as source" bind:checked={live} />
 
-{#if $selectedExercise}
+{#if $selectedExercise && (live || $validVideoFile)}
   <p>{$selectedExercise.name}</p>
   <div class="container">
     <div class="videoNrep-counter-container" bind:clientHeight bind:clientWidth>
-      <!-- svelte-ignore a11y-media-has-caption -->
-
-      <VideoFromFile
-        bind:videoWidth
-        bind:videoHeight
-        {validVideoFile}
-        fallback="/testing/bicep-curls-9-reps.mp4"
-      />
+      {#if live}
+        <LiveVideo bind:videoWidth bind:videoHeight />
+      {:else}
+        <VideoFromFile bind:videoWidth bind:videoHeight {validVideoFile} />
+      {/if}
 
       <RepCounter focusLimbs={$selectedExercise.focusLimbs} />
 
