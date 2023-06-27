@@ -7,7 +7,16 @@
   if (browser) getLiveVideo();
 
   onDestroy(stopUsingUserMedia);
+
+  export let videoWidth, videoHeight;
 </script>
 
 <!-- svelte-ignore a11y-media-has-caption -->
-<video src="" bind:this={$videoEl} />
+<video src="" bind:this={$videoEl} bind:videoWidth bind:videoHeight />
+
+<style>
+  video {
+    width: 100%;
+    height: 100%;
+  }
+</style>
