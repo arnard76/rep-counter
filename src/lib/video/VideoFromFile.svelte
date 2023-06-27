@@ -10,7 +10,6 @@
   }
 
   export let videoWidth: number, videoHeight: number;
-  export let fallback = null;
 </script>
 
 <!-- svelte-ignore a11y-media-has-caption -->
@@ -18,7 +17,6 @@
   bind:this={$videoEl}
   bind:videoWidth
   bind:videoHeight
-  src={fallback}
   title="the uploaded video file🤞"
   loop
   muted
