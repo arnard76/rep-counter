@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { page } from "$app/stores";
   import { onDestroy } from "svelte";
   import exercises, {
@@ -6,8 +6,10 @@
     selectedExercise,
   } from "$lib/exercises/store";
 
-  import { videoEl as exerciseVideoEl } from "$lib/video/getUserVideo.js";
+  import InputVideoFile from "$lib/video/InputVideoFile.svelte";
+  import type { Readable } from "svelte/store";
   import PauseControls from "$lib/paused/PauseControls.svelte";
+
   import { scale } from "$lib/pose-detection/scaleKeypoints.js";
   import {
     controlledKeypoints,
@@ -20,10 +22,14 @@
   import EditingExercisePanel from "$lib/exercises/EditingExercisePanel.svelte";
 
   import RepCounter from "$lib/count-reps/RepCounter.svelte";
+  import VideoFromFile from "$lib/video/VideoFromFile.svelte";
 
   $: selectedExerciseId.select($page.params.exerciseId);
 
-  let clientWidth, clientHeight, videoWidth, videoHeight;
+  let clientWidth: number,
+    clientHeight: number,
+    videoWidth: number,
+    videoHeight: number;
   $: if (clientWidth && clientHeight && videoWidth && videoHeight) {
     scale.set({
       horizontal: clientWidth / videoWidth,
@@ -37,24 +43,24 @@
       vertical: 1,
     });
   });
+
+  export let validVideoFile: Readable<File> | null;
 </script>
 
 <p>{JSON.stringify($selectedExercise)}</p>
+<InputVideoFile bind:validVideoFile />
 
 {#if $selectedExercise}
   <p>{$selectedExercise.name}</p>
   <div class="container">
     <div class="videoNrep-counter-container" bind:clientHeight bind:clientWidth>
       <!-- svelte-ignore a11y-media-has-caption -->
-      <video
-        bind:this={$exerciseVideoEl}
+
+      <VideoFromFile
         bind:videoWidth
         bind:videoHeight
-        alt="the uploaded video file🤞"
-        src="/testing/bicep-curls-9-reps.mp4"
-        loop
-        muted
-        autoplay
+        {validVideoFile}
+        fallback="/testing/bicep-curls-9-reps.mp4"
       />
 
       <RepCounter focusLimbs={$selectedExercise.focusLimbs} />
@@ -66,7 +72,7 @@
       <!-- the divider so mouse events can interact with 👇 but not ☝️ -->
       <div class="divider" />
 
-      {#each Object.entries($selectedExercise.focusLimbs) as [focusLimb, { keyRepAreas, startKeyRepAreaIsEnd }] (focusLimb)}
+      {#each Object.entries($selectedExercise.focusLimbs) as [focusLimb, _] (focusLimb)}
         <KeyRepAreas
           bind:keyRepAreas={$exercises[
             exercises.getIndexOfExercise($selectedExerciseId)
@@ -97,11 +103,5 @@
 
   .container {
     display: flex;
-  }
-
-  video {
-    width: 100%;
-    height: 100%;
-    display: block;
   }
 </style>
