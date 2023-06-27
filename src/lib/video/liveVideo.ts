@@ -6,7 +6,7 @@ export default function getLiveVideo() {
   if (browser) {
     window.navigator.mediaDevices
       .getUserMedia({ video: true })
-      .then((stream: any) => {
+      .then((stream: MediaStream) => {
         videoEl.update(($videoEl) => {
           if ($videoEl) $videoEl.srcObject = stream;
           return $videoEl;
@@ -20,4 +20,10 @@ export default function getLiveVideo() {
         );
       });
   }
+}
+
+export function stopUsingUserMedia() {
+  get(videoEl)
+    ?.srcObject.getTracks()
+    .forEach((track: MediaStreamTrack) => track.stop());
 }
