@@ -7,7 +7,7 @@
   export let exercise: Exercise;
 </script>
 
-<div style="width: 100%; max-height: 40vh;">
+<div style="width: 100%; height: 100%; ">
   <button
     type="button"
     on:click={() => updateExerciseOnDB(exercise.id, exercise)}
