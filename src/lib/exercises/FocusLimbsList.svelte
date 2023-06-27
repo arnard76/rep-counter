@@ -19,24 +19,25 @@
 </script>
 
 {#if focusLimbs}
-  <div style="height:100%; overflow-y:scroll;">
-    <div>
-      <SelectManyKeypoints
-        bind:selectedKeypoints={newFocusLimbNames}
-        {keypointNames}
-      />
-      <button
-        on:click={() => {
-          if (!newFocusLimbNames?.length) return;
+  <div>
+    <SelectManyKeypoints
+      bind:selectedKeypoints={newFocusLimbNames}
+      {keypointNames}
+    />
+    <button
+      on:click={() => {
+        if (!newFocusLimbNames?.length) return;
 
-          for (let newFocusLimbName of newFocusLimbNames)
-            addKRA(newFocusLimbName);
-        }}>add new focus limbs</button
-      >
-    </div>
+        for (let newFocusLimbName of newFocusLimbNames)
+          addKRA(newFocusLimbName);
+      }}>add new focus limbs</button
+    >
+  </div>
+
+  <div style="width:  100%;overflow-y:scroll;">
     {#each Object.entries(focusLimbs) as [focusLimbName, { keyRepAreas }] (focusLimbName)}
       <div class="KRAs-for-limb">
-        <p>{focusLimbName}</p>
+        <h3>{focusLimbName}</h3>
 
         <div>
           start & end point (key rep area) are same?
