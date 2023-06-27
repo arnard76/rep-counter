@@ -43,6 +43,7 @@
       horizontal: 1,
       vertical: 1,
     });
+    selectedExerciseId.select($page.params.exerciseId);
   });
 
   let validVideoFile: Readable<File> | null;
@@ -56,6 +57,7 @@
 
 {#if $selectedExercise && (live || $validVideoFile)}
   <p>{$selectedExercise.name}</p>
+
   <div class="container" style="--height: {clientHeight}px;">
     <div class="videoNrep-counter-container" bind:clientHeight bind:clientWidth>
       {#if live}
@@ -100,12 +102,12 @@
 <style>
   .videoNrep-counter-container {
     position: relative;
+    margin-right: 20px;
   }
 
   .container {
     display: flex;
     align-items: flex-start;
     height: var(--height);
-    overflow: hidden;
   }
 </style>
