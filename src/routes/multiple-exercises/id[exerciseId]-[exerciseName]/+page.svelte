@@ -56,7 +56,7 @@
 
 {#if $selectedExercise && (live || $validVideoFile)}
   <p>{$selectedExercise.name}</p>
-  <div class="container">
+  <div class="container" style="--height: {clientHeight}px;">
     <div class="videoNrep-counter-container" bind:clientHeight bind:clientWidth>
       {#if live}
         <LiveVideo bind:videoWidth bind:videoHeight />
@@ -104,5 +104,8 @@
 
   .container {
     display: flex;
+    align-items: flex-start;
+    height: var(--height);
+    overflow: hidden;
   }
 </style>
