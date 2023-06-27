@@ -1,5 +1,5 @@
 <script>
-  import { videoEl as exerciseVideoEl } from "$lib/video/getUserVideo.js";
+  import exerciseVideoEl from "$lib/video/video";
   import PauseControls from "$lib/paused/PauseControls.svelte";
 
   import { scale } from "$lib/pose-detection/scaleKeypoints.js";
