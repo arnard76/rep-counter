@@ -48,7 +48,9 @@ function createExercisesStore() {
           focusLimbName
         )
       ) {
-        $exercises[indexOfExercise].focusLimbs[focusLimbName].keyRepAreas = [];
+        $exercises[indexOfExercise].focusLimbs[focusLimbName] = {
+          keyRepAreas: [],
+        };
       }
       $exercises[indexOfExercise].focusLimbs[focusLimbName].keyRepAreas.push(
         KRA
