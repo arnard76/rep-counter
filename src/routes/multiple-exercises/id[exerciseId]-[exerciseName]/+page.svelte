@@ -75,12 +75,12 @@
       <!-- the divider so mouse events can interact with 👇 but not ☝️ -->
       <div class="divider" />
 
-      {#each Object.entries($selectedExercise.focusLimbs) as [focusLimb, _] (focusLimb)}
+      {#each Object.entries($selectedExercise.focusLimbs) as [focusLimb, { startKeyRepAreaIsEnd }] (focusLimb)}
         <KeyRepAreas
           bind:keyRepAreas={$exercises[
             exercises.getIndexOfExercise($selectedExerciseId)
           ].focusLimbs[focusLimb].keyRepAreas}
-          startKeyRepAreaIsEnd
+          {startKeyRepAreaIsEnd}
           keypoints={$controlledKeypoints}
           focusKeypointName={focusLimb}
         />
