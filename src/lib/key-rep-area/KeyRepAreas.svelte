@@ -14,9 +14,9 @@
   }
 </script>
 
-{#each startKeyRepAreaIsEnd ? showingKeyRepAreas : keyRepAreas as keyRepArea (keyRepArea)}
+{#each startKeyRepAreaIsEnd ? showingKeyRepAreas : keyRepAreas as keyRepArea, index (keyRepArea)}
   <KeyRepAreaComponent
-    bind:keyRepArea
+    bind:keyRepArea={keyRepAreas[index]}
     {keypoints}
     focusKeypoint={focusKeypointName}
   />
