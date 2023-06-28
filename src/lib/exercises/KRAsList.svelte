@@ -15,7 +15,7 @@
   export let keyRepAreas: KeyRepArea[];
 </script>
 
-{#each keyRepAreas as keyRepArea, index (keyRepArea)}
+{#each keyRepAreas as keyRepArea, index (index)}
   {@const { areaSize, topLeft } = keyRepArea}
   <div
     class="key-rep-area"

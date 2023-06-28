@@ -24,13 +24,7 @@ export default class KeyRepArea {
     this.areaSize = { width, height };
   }
 
-  /**
-   * Checks if a keypoint is in this area
-   * @param {Array} keypoints - array of all keypoints (not just names)
-   * @param {string} keypoint - name of keypoint
-   * @returns {boolean}
-   */
-  pointInArea(keypoints, keypoint) {
+  pointInArea(keypoints: any[], keypoint: string) {
     if (!this.relativeToWhichKeypoint) return false;
     if (!keypoint || !keypoints || !keypoints.length) return false;
 
@@ -53,11 +47,7 @@ export default class KeyRepArea {
     return true;
   }
 
-  /**
-   *
-   * @param {Array} keypoints
-   */
-  calcAreaCorners(keypoints) {
+  calcAreaCorners(keypoints: any[]) {
     if (!this.relativeToWhichKeypoint) return;
 
     let relativeKeypoint = keypoints.find(
@@ -85,11 +75,8 @@ export default class KeyRepArea {
     };
   }
 
-  cloneInstance() {
-    return new KeyRepArea(
-      this.relativeToWhichKeypoint,
-      this.topLeft,
-      this.areaSize
-    );
+  static cloneInstance(existingKeyRepArea: KeyRepArea) {
+    const { relativeToWhichKeypoint, topLeft, areaSize } = existingKeyRepArea;
+    return new KeyRepArea(relativeToWhichKeypoint, topLeft, areaSize);
   }
 }

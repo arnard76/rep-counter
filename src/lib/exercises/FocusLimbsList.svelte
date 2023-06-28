@@ -4,10 +4,10 @@
   import exercises from "$lib/exercises/store";
   import type Exercise from "$lib/exercises";
   import KeyRepArea from "$lib/key-rep-area/keyRepArea";
-  import KRAsList from "$lib/exercises/KRAsList.svelte";
 
   import keypointNames from "$lib/pose-detection/keypointNames.json";
   import SelectManyKeypoints from "$lib/pose-detection/SelectManyKeypoints.svelte";
+  import FocusLimb from "./FocusLimb.svelte";
 
   export let focusLimbs: Exercise["focusLimbs"];
 
@@ -35,32 +35,13 @@
   </div>
 
   <div style="width:  100%;overflow-y:scroll;">
-    {#each Object.entries(focusLimbs) as [focusLimbName, { keyRepAreas }] (focusLimbName)}
-      <div class="KRAs-for-limb">
-        <h3>{focusLimbName}</h3>
-
-        <div>
-          start & end point (key rep area) are same?
-          <input
-            type="checkbox"
-            name=""
-            id=""
-            bind:checked={focusLimbs[focusLimbName].startKeyRepAreaIsEnd}
-          />
-        </div>
-
-        <KRAsList bind:keyRepAreas {focusLimbName} />
-        <button type="button" on:click={() => addKRA(focusLimbName)}>
-          Add new KRA
-        </button>
-      </div>
+    {#each Object.entries(focusLimbs) as [focusLimbName, _] (focusLimbName)}
+      <FocusLimb
+        {focusLimbName}
+        bind:keyRepAreas={focusLimbs[focusLimbName].keyRepAreas}
+        bind:startKeyRepAreaIsEnd={focusLimbs[focusLimbName]
+          .startKeyRepAreaIsEnd}
+      />
     {/each}
   </div>
 {/if}
-
-<style>
-  .KRAs-for-limb {
-    background-color: rgba(0, 25, 35, 0.15);
-    margin-top: 20px;
-  }
-</style>
