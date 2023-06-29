@@ -77,7 +77,10 @@
       </div>
     </div>
 
-    <EditingExercisePanel bind:exercise={$exercises[$selectedExerciseId]} />
+    <EditingExercisePanel
+      bind:exercise={$exercises[$selectedExerciseId]}
+      exerciseId={$selectedExerciseId}
+    />
   </div>
 {/if}
 
