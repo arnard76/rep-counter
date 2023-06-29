@@ -11,13 +11,10 @@
 
 {#if $exercises}
   <ul>
-    {#each Object.entries($exercises) as [id, exercise] (id)}
-      {@const { name } = exercise}
-      <li>
-        <a href={`${$page.url.href}/id${id.toString()}-${name}`}>
-          <p>{name}</p>
-        </a>
-      </li>
+    {#each Object.entries($exercises) as [id, { name }] (id)}
+      {@const exercisePageUrl = `${$page.url.href}/id${id.toString()}-${name}`}
+
+      <li><a href={exercisePageUrl}>{name}</a></li>
     {/each}
 
     <li>
@@ -27,3 +24,17 @@
     </li>
   </ul>
 {/if}
+
+<style>
+  ul {
+    list-style: none;
+  }
+
+  li {
+    padding: 10px 0;
+  }
+
+  a {
+    text-decoration: none;
+  }
+</style>
