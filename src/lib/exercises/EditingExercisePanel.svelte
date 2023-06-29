@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { updateExerciseOnDB } from "$lib/exercises/CRUD/crudDB";
+  import { updateExercise } from "$lib/exercises/CRUD/crudDB";
 
   import type Exercise from "$lib/exercises";
   import FocusLimbsList from "./FocusLimbsList.svelte";
@@ -11,10 +11,7 @@
 <div
   style="width: 100%; height: 100%; display:flex; flex-direction:column; align-items:flex-start;"
 >
-  <button
-    type="button"
-    on:click={() => updateExerciseOnDB(exerciseId, exercise)}
-  >
+  <button type="button" on:click={() => updateExercise(exerciseId, exercise)}>
     Update Database
   </button>
 

@@ -1,5 +1,5 @@
 <script>
-  import { updateExerciseOnDB } from "$lib/exercises/CRUD/crudDB";
+  import { updateExercise } from "$lib/exercises/CRUD/crudDB";
   import exercises, {
     selectedExercise,
     selectedExerciseId,
@@ -11,7 +11,7 @@
 <button
   type="button"
   on:click={() => {
-    updateExerciseOnDB("0", $selectedExercise);
+    updateExercise("0", $selectedExercise);
   }}
 >
   Update database

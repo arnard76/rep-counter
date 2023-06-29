@@ -11,7 +11,7 @@ function createExercise(exercise: ExerciseData) {
   push(ref(database), exercise);
 }
 
-function streamExercisesFromDB() {
+function streamExercises() {
   return onValue(ref(database), (snapshot) => {
     const exerciseData: ExercisesData = snapshot.val();
     console.log("exercises data:", exerciseData);
@@ -19,4 +19,4 @@ function streamExercisesFromDB() {
   });
 }
 
-export { streamExercisesFromDB, createExercise, updateExerciseOnDB };
+export { streamExercises, createExercise, updateExercise };
