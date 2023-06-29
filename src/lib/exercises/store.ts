@@ -2,7 +2,7 @@ import { writable, get, derived } from "svelte/store";
 import type Exercise from "$lib/exercises";
 import type { Exercises, ExercisesData } from "$lib/exercises";
 import KeyRepArea from "$lib/key-rep-area/keyRepArea";
-import { streamExercisesFromDB } from "$lib/exercises/CRUD/crudDB";
+import { streamExercises } from "$lib/exercises/CRUD/crudDB";
 import { browser } from "$app/environment";
 
 const exercises = createExercisesStore();
@@ -10,7 +10,7 @@ const exercises = createExercisesStore();
 function createExercisesStore() {
   const store = writable(null as Exercises, () => {
     console.log("subscribed to exercises");
-    let stopReadingDatabase = browser ? streamExercisesFromDB() : () => {};
+    let stopReadingDatabase = browser ? streamExercises() : () => {};
 
     return () => {
       console.log("no more subscribers for exercises");
