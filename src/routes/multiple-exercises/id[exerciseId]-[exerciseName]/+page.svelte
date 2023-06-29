@@ -77,9 +77,9 @@
 
       {#each Object.entries($selectedExercise.focusLimbs) as [focusLimb, { startKeyRepAreaIsEnd }] (focusLimb)}
         <KeyRepAreas
-          bind:keyRepAreas={$exercises[
-            exercises.getIndexOfExercise($selectedExerciseId)
-          ].focusLimbs[focusLimb].keyRepAreas}
+          bind:keyRepAreas={$exercises[$selectedExerciseId].focusLimbs[
+            focusLimb
+          ].keyRepAreas}
           {startKeyRepAreaIsEnd}
           keypoints={$controlledKeypoints}
           focusKeypointName={focusLimb}
@@ -91,11 +91,7 @@
       </div>
     </div>
 
-    <EditingExercisePanel
-      bind:exercise={$exercises[
-        exercises.getIndexOfExercise($selectedExerciseId)
-      ]}
-    />
+    <EditingExercisePanel bind:exercise={$exercises[$selectedExerciseId]} />
   </div>
 {/if}
 

@@ -19,7 +19,7 @@
   import RepCounter from "$lib/count-reps/RepCounter.svelte";
   import { onDestroy } from "svelte";
 
-  selectedExerciseId.select($exercises?.length ? $exercises[0].id : "0");
+  selectedExerciseId.select("0");
 
   let clientWidth, clientHeight, videoWidth, videoHeight;
   $: if (clientWidth && clientHeight && videoWidth && videoHeight) {
@@ -63,9 +63,9 @@
 
       {#each Object.entries($selectedExercise.focusLimbs) as [focusLimb] (focusLimb)}
         <KeyRepAreas
-          bind:keyRepAreas={$exercises[
-            exercises.getIndexOfExercise($selectedExerciseId)
-          ].focusLimbs[focusLimb].keyRepAreas}
+          bind:keyRepAreas={$exercises[$selectedExerciseId].focusLimbs[
+            focusLimb
+          ].keyRepAreas}
           startKeyRepAreaIsEnd
           keypoints={$controlledKeypoints}
           focusKeypointName={focusLimb}
@@ -77,11 +77,7 @@
       </div>
     </div>
 
-    <EditingExercisePanel
-      bind:exercise={$exercises[
-        exercises.getIndexOfExercise($selectedExerciseId)
-      ]}
-    />
+    <EditingExercisePanel bind:exercise={$exercises[$selectedExerciseId]} />
   </div>
 {/if}
 

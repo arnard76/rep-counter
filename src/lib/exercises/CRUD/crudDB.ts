@@ -1,10 +1,9 @@
 import { database } from "$lib/exercises/CRUD/firebase.js";
 import { ref, set, onValue } from "firebase/database";
 import exercises from "$lib/exercises/store.js";
-import type { ExercisesData } from "$lib/exercises";
-import type Exercise from "$lib/exercises";
+import type { ExercisesData, ExerciseData } from "$lib/exercises";
 
-function updateExerciseOnDB(exerciseId: string, updatedExercise: Exercise) {
+function updateExercise(exerciseId: string, updatedExercise: ExerciseData) {
   set(ref(database, exerciseId), updatedExercise);
 }
 
