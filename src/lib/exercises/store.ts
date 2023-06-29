@@ -124,14 +124,12 @@ function createKRAInstancesFromKRAObjects(exercisesData: ExercisesData) {
       focusLimbs: {},
     };
 
-    console.log(exerciseData);
-    for (const [
-      limbName,
-      { keyRepAreas, startKeyRepAreaIsEnd },
-    ] of Object.entries(exerciseData.focusLimbs || {})) {
+    for (const [limbName, focusLimb] of Object.entries(
+      exerciseData.focusLimbs || {}
+    )) {
       exercise.focusLimbs[limbName] = {
-        startKeyRepAreaIsEnd,
-        keyRepAreas: keyRepAreas.map(
+        ...focusLimb,
+        keyRepAreas: focusLimb.keyRepAreas.map(
           ({ relativeToWhichKeypoint, topLeft, areaSize }) =>
             new KeyRepArea(relativeToWhichKeypoint, topLeft, areaSize)
         ),
