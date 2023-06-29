@@ -18,86 +18,75 @@ function createExercisesStore() {
     };
   });
 
-  function getIndexOfExercise(exerciseId: Exercise["id"]) {
-    return get(store).findIndex(({ id }) => id === exerciseId);
-  }
-
   /**
    * Adds KRA locally
    * NOTE: have to save in order to put in DB
    */
   function addKRAToExercise(
-    exerciseId: Exercise["id"],
+    exerciseId: string,
     focusLimbName: string,
     KRA: KeyRepArea
   ) {
-    const indexOfExercise = getIndexOfExercise(exerciseId);
-
-    if (indexOfExercise === -1) {
-      console.error(
-        `this exercise with id: ${exerciseId}, doesn't exist in $exercises:\n ${get(
-          store
-        )}.`
-      );
-      return;
-    }
-
     store.update(($exercises) => {
-      if (
-        !Object.keys($exercises[indexOfExercise].focusLimbs).includes(
-          focusLimbName
-        )
-      ) {
-        $exercises[indexOfExercise].focusLimbs[focusLimbName] = {
-          keyRepAreas: [],
-        };
+      if ($exercises[exerciseId]) {
+        if (
+          !Object.keys($exercises[exerciseId].focusLimbs).includes(
+            focusLimbName
+          )
+        ) {
+          $exercises[exerciseId].focusLimbs[focusLimbName] = {
+            keyRepAreas: [],
+          };
+        }
+
+        $exercises[exerciseId].focusLimbs[focusLimbName].keyRepAreas.push(KRA);
+      } else {
+        console.error(
+          `this exercise with id: ${exerciseId}, doesn't exist in $exercises:\n ${get(
+            store
+          )}.`
+        );
       }
-      $exercises[indexOfExercise].focusLimbs[focusLimbName].keyRepAreas.push(
-        KRA
-      );
+
       return $exercises;
     });
   }
 
   function deleteKRAInExercise(
-    exerciseId: Exercise["id"],
+    exerciseId: string,
     focusLimbName: string,
     KRA: KeyRepArea
   ) {
-    const indexOfExercise = getIndexOfExercise(exerciseId);
-
-    if (indexOfExercise === -1) {
-      console.error(
-        `this exercise with id: ${exerciseId}, doesn't exist in $exercises:\n ${get(
-          store
-        )}.`
-      );
-      return;
-    }
-
     store.update(($exercises) => {
-      const indexOfKRA =
-        $exercises[indexOfExercise].focusLimbs[
-          focusLimbName
-        ].keyRepAreas.indexOf(KRA);
+      if ($exercises[exerciseId]) {
+        const indexOfKRA =
+          $exercises[exerciseId].focusLimbs[focusLimbName].keyRepAreas.indexOf(
+            KRA
+          );
 
-      if (indexOfKRA === -1) {
-        console.error(
-          `this KRA ${KRA}, doesn't exist in this limb ${focusLimbName} of this $exercise: ${exerciseId}\n ${$exercises[indexOfExercise].focusLimbs[focusLimbName].keyRepAreas}.`
+        if (indexOfKRA === -1) {
+          console.error(
+            `this KRA ${KRA}, doesn't exist in this limb ${focusLimbName} of this $exercise: ${exerciseId}\n ${$exercises[exerciseId].focusLimbs[focusLimbName].keyRepAreas}.`
+          );
+          return $exercises;
+        }
+
+        $exercises[exerciseId].focusLimbs[focusLimbName].keyRepAreas.splice(
+          indexOfKRA,
+          1
         );
-        return $exercises;
-      }
 
-      $exercises[indexOfExercise].focusLimbs[focusLimbName].keyRepAreas.splice(
-        indexOfKRA,
-        1
-      );
-
-      if (
-        !$exercises[indexOfExercise].focusLimbs[focusLimbName].keyRepAreas
-          .length
-      ) {
-        delete $exercises[indexOfExercise].focusLimbs[focusLimbName];
+        if (
+          !$exercises[exerciseId].focusLimbs[focusLimbName].keyRepAreas.length
+        ) {
+          delete $exercises[exerciseId].focusLimbs[focusLimbName];
+        }
+      } else {
+        console.error(
+          `this exercise with id: ${exerciseId}, doesn't exist in $exercises:\n ${get(
+            store
+          )}.`
+        );
       }
 
       return $exercises;
@@ -107,7 +96,6 @@ function createExercisesStore() {
   return {
     subscribe: store.subscribe,
     set: store.set,
-    getIndexOfExercise,
 
     syncWithDatabase(updatedExercisesData: ExercisesData) {
       store.set(createKRAInstancesFromKRAObjects(updatedExercisesData));
@@ -128,15 +116,19 @@ function createExercisesStore() {
 function createKRAInstancesFromKRAObjects(exercisesData: ExercisesData) {
   if (!exercisesData) return;
 
-  let exercises: Exercises = [];
+  let exercises: Exercises = {};
 
-  for (const exerciseData of exercisesData) {
-    let exercise: Exercise = { ...exerciseData, focusLimbs: {} };
+  for (const [exerciseId, exerciseData] of Object.entries(exercisesData)) {
+    let exercise: Exercise = {
+      ...exerciseData,
+      focusLimbs: {},
+    };
 
+    console.log(exerciseData);
     for (const [
       limbName,
       { keyRepAreas, startKeyRepAreaIsEnd },
-    ] of Object.entries(exerciseData.focusLimbs)) {
+    ] of Object.entries(exerciseData.focusLimbs || {})) {
       exercise.focusLimbs[limbName] = {
         startKeyRepAreaIsEnd,
         keyRepAreas: keyRepAreas.map(
@@ -146,7 +138,7 @@ function createKRAInstancesFromKRAObjects(exercisesData: ExercisesData) {
       };
     }
 
-    exercises.push(exercise);
+    exercises[exerciseId] = exercise;
   }
 
   return exercises;
@@ -154,10 +146,11 @@ function createKRAInstancesFromKRAObjects(exercisesData: ExercisesData) {
 
 export const selectedExerciseId = {
   ...writable(null),
-  select(exerciseId: Exercise["id"]) {
+  select(exerciseId: string) {
     this.set(exerciseId === get(selectedExerciseId) ? null : exerciseId);
   },
 };
+
 export const selectedExercise = derived(
   [exercises, selectedExerciseId],
   ([$exercises, $selectedExerciseId], set) => {
@@ -166,9 +159,7 @@ export const selectedExercise = derived(
       return;
     }
 
-    let found = $exercises.find(
-      (exercise) => exercise.id === $selectedExerciseId
-    );
+    let found = $exercises[$selectedExerciseId];
 
     set($exercises ? found : undefined);
   },

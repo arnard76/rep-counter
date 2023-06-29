@@ -5,8 +5,8 @@
 
 {#if $exercises}
   <ul>
-    {#each $exercises as exercise (exercise.id)}
-      {@const { name, id } = exercise}
+    {#each Object.entries($exercises) as [id, exercise] (id)}
+      {@const { name } = exercise}
       <li>
         <a href={`${$page.url.href}/id${id.toString()}-${name}`}>
           <p>{name}</p>

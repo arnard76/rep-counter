@@ -18,7 +18,7 @@
 
   import RepCounter from "$lib/count-reps/RepCounter.svelte";
 
-  selectedExerciseId.select($exercises?.length ? $exercises[0].id : "0");
+  selectedExerciseId.select("0");
 </script>
 
 {#if $selectedExercise}
@@ -39,9 +39,9 @@
 
       {#each Object.entries($selectedExercise.focusLimbs) as [focusLimb] (focusLimb)}
         <KeyRepAreas
-          bind:keyRepAreas={$exercises[
-            exercises.getIndexOfExercise($selectedExerciseId)
-          ].focusLimbs[focusLimb].keyRepAreas}
+          bind:keyRepAreas={$exercises[$selectedExerciseId].focusLimbs[
+            focusLimb
+          ].keyRepAreas}
           startKeyRepAreaIsEnd
           keypoints={$controlledKeypoints}
           focusKeypointName={focusLimb}
@@ -53,11 +53,7 @@
       </div>
     </div>
 
-    <EditingExercisePanel
-      bind:exercise={$exercises[
-        exercises.getIndexOfExercise($selectedExerciseId)
-      ]}
-    />
+    <EditingExercisePanel bind:exercise={$exercises[$selectedExerciseId]} />
   </div>
 {/if}
 
