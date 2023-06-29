@@ -5,6 +5,7 @@
   import FocusLimbsList from "./FocusLimbsList.svelte";
 
   export let exercise: Exercise;
+  export let exerciseId: string;
 </script>
 
 <div
@@ -12,7 +13,7 @@
 >
   <button
     type="button"
-    on:click={() => updateExerciseOnDB(exercise.id, exercise)}
+    on:click={() => updateExerciseOnDB(exerciseId, exercise)}
   >
     Update Database
   </button>
