@@ -1,12 +1,8 @@
 import KeyRepArea from "$lib/key-rep-area/keyRepArea";
 import type KeyRepAreaObject from "$lib/key-rep-area";
 
-type Exercises = {
-  // key is exercise id
-  [key: string]: Exercise;
-};
-
 type Exercise = {
+  id: string;
   name: string;
   focusLimbs: {
     [key: string]: {
@@ -16,7 +12,13 @@ type Exercise = {
   };
 };
 
+type Exercises = {
+  // key is exercise id as well
+  [key: string]: Exercise;
+};
+
 type ExerciseData = {
+  id: string;
   name: string;
   focusLimbs: {
     [key: string]: {
@@ -27,7 +29,7 @@ type ExerciseData = {
 };
 
 type ExercisesData = {
-  // key is exercise id
+  // key is exercise id as well
   [key: string]: ExerciseData;
 };
 
