@@ -19,7 +19,7 @@
 
   $: startKeyRepAreaIsEnd ? makeEndKRASameAsStart() : seperateStartEnd();
 
-  function addKRA(focusLimbName: string) {
+  function addKRA() {
     exercises.addKRAToSelectedExercise(focusLimbName, new KeyRepArea());
   }
 </script>
@@ -33,9 +33,7 @@
   </div>
 
   <KRAsList bind:keyRepAreas {focusLimbName} />
-  <button type="button" on:click={() => addKRA(focusLimbName)}>
-    Add new KRA
-  </button>
+  <button type="button" on:click={() => addKRA()}> Add new KRA </button>
 </div>
 
 <style>
