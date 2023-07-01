@@ -145,7 +145,7 @@ function createKRAInstancesFromKRAObjects(exercisesData: ExercisesData) {
 export const selectedExerciseId = {
   ...writable(null),
   select(exerciseId: string) {
-    this.set(exerciseId === get(selectedExerciseId) ? null : exerciseId);
+    this.set(exerciseId);
   },
 };
 
