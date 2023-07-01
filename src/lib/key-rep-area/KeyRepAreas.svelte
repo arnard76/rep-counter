@@ -7,14 +7,12 @@
   export let focusKeypointName: string;
   export let startKeyRepAreaIsEnd: boolean | undefined = undefined;
 
-  let showingKeyRepAreas: KeyRepArea[];
-  $: if (startKeyRepAreaIsEnd) {
-    showingKeyRepAreas = [...keyRepAreas];
-    showingKeyRepAreas.pop();
-  }
+  $: showingKeyRepAreas = startKeyRepAreaIsEnd
+    ? [...keyRepAreas].slice(0, -1)
+    : [...keyRepAreas];
 </script>
 
-{#each startKeyRepAreaIsEnd ? showingKeyRepAreas : keyRepAreas as keyRepArea, index (keyRepArea)}
+{#each showingKeyRepAreas as keyRepArea, index (keyRepArea)}
   <KeyRepAreaComponent
     bind:keyRepArea={keyRepAreas[index]}
     {keypoints}
