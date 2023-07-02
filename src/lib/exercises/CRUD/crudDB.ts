@@ -3,8 +3,8 @@ import { ref, set, onValue, push } from "firebase/database";
 import exercises from "$lib/exercises/store.js";
 import type { ExercisesData, ExerciseData } from "$lib/exercises";
 
-function updateExercise(updatedExercise: ExerciseData) {
-  set(ref(database, updatedExercise.id), updatedExercise);
+function updateExercise(exerciseId: string, updatedExercise: ExerciseData) {
+  set(ref(database, exerciseId), updatedExercise);
 }
 
 function createExercise(exercise: ExerciseData) {

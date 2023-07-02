@@ -11,7 +11,7 @@
 <button
   type="button"
   on:click={() => {
-    updateExercise($selectedExercise);
+    updateExercise("0", $selectedExercise);
   }}
 >
   Update database
