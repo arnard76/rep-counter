@@ -46,16 +46,20 @@
     selectedExerciseId.select($page.params.exerciseId);
   });
 
-  let validVideoFile: Readable<File> | null;
-
   let live: boolean = false;
+  let validVideoFile: File | null;
 </script>
 
 <p>{JSON.stringify($selectedExercise)}</p>
-{#if !live}<InputVideoFile bind:validVideoFile />{/if}
+{#if !live}
+  <InputVideoFile
+    updateVideoFile={(newValidVideoFile) =>
+      (validVideoFile = newValidVideoFile)}
+  />
+{/if}
 <input type="checkbox" name="live video as source" bind:checked={live} />
 
-{#if $selectedExercise && (live || $validVideoFile)}
+{#if $selectedExercise && (live || validVideoFile)}
   <p>{$selectedExercise.name}</p>
 
   <div class="container" style="--height: {clientHeight}px;">

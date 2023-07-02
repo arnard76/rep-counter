@@ -1,10 +1,9 @@
 <script lang="ts">
-  import type { Readable } from "svelte/store";
   import videoEl from "./video";
 
-  export let validVideoFile: Readable<File>;
-  $: if ($videoEl && $validVideoFile) {
-    $videoEl.src = URL.createObjectURL($validVideoFile); // set src to blob url
+  export let validVideoFile: File;
+  $: if ($videoEl && validVideoFile) {
+    $videoEl.src = URL.createObjectURL(validVideoFile); // set src to blob url
     console.log("setting src of video :)");
     $videoEl.play();
   }
