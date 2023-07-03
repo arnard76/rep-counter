@@ -107,11 +107,13 @@
             <!-- the divider so mouse events can interact with 👇 but not ☝️ -->
             <div class="divider" />
 
-            {#each Object.entries($selectedExercise.focusLimbs) as [focusLimb, { startKeyRepAreaIsEnd }] (focusLimb)}
+            {#each Object.entries($selectedExercise.focusLimbs) as [focusLimb, { keyRepAreas, startKeyRepAreaIsEnd }] (focusLimb)}
               <KeyRepAreas
-                bind:keyRepAreas={$exercises[$selectedExerciseId].focusLimbs[
-                  focusLimb
-                ].keyRepAreas}
+                {keyRepAreas}
+                updateKeyRepAreas={(updated) =>
+                  ($exercises[$selectedExerciseId].focusLimbs[
+                    focusLimb
+                  ].keyRepAreas = updated)}
                 {startKeyRepAreaIsEnd}
                 keypoints={$controlledKeypoints}
                 focusKeypointName={focusLimb}
@@ -125,7 +127,9 @@
         </div>
 
         <EditingExercisePanel
-          bind:exercise={$exercises[$selectedExerciseId]}
+          exercise={$selectedExercise}
+          updateExercise={(updated) =>
+            ($exercises[$selectedExerciseId] = updated)}
           exerciseId={$selectedExerciseId}
         />
       </div>

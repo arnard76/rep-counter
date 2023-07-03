@@ -6,6 +6,8 @@
   export let focusLimbName: string;
   export let keyRepAreas: KeyRepArea[];
   export let startKeyRepAreaIsEnd: boolean;
+  export let updateStartKeyRepAreaIsEnd: (updated: boolean) => void;
+  export let updateKeyRepAreas: (updated: KeyRepArea[]) => void;
 
   function makeEndKRASameAsStart() {
     keyRepAreas[keyRepAreas.length - 1] = keyRepAreas[0];
@@ -17,11 +19,22 @@
     );
   }
 
-  $: startKeyRepAreaIsEnd ? makeEndKRASameAsStart() : seperateStartEnd();
-
   function addKRA() {
     exercises.addKRAToSelectedExercise(focusLimbName, new KeyRepArea());
   }
+
+  function onCheckboxChange({ target }: Event) {
+    // because typescript doesn't work in the HTML section 🤔
+    onStartEndSameChange((target as HTMLInputElement).checked);
+  }
+
+  function onStartEndSameChange(updated: boolean) {
+    updated ? makeEndKRASameAsStart() : seperateStartEnd();
+    updateStartKeyRepAreaIsEnd(updated);
+    updateKeyRepAreas(keyRepAreas);
+  }
+
+  onStartEndSameChange(startKeyRepAreaIsEnd);
 </script>
 
 <div class="KRAs-for-limb">
@@ -29,10 +42,16 @@
 
   <div>
     start & end point (key rep area) are same?
-    <input type="checkbox" name="" id="" bind:checked={startKeyRepAreaIsEnd} />
+    <input
+      type="checkbox"
+      name=""
+      id=""
+      on:change={onCheckboxChange}
+      checked={startKeyRepAreaIsEnd}
+    />
   </div>
 
-  <KRAsList bind:keyRepAreas {focusLimbName} />
+  <KRAsList {keyRepAreas} {updateKeyRepAreas} {focusLimbName} />
   <button type="button" on:click={() => addKRA()}> Add new KRA </button>
 </div>
 
