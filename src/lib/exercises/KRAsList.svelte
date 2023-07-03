@@ -13,10 +13,18 @@
 
   export let focusLimbName: string;
   export let keyRepAreas: KeyRepArea[];
+  export let updateKeyRepAreas: (updated: KeyRepArea[]) => void;
+
+  const onRelativeKeypointChange = ({ target }: Event, index: number) => {
+    keyRepAreas[index].relativeToWhichKeypoint = (
+      target as HTMLSelectElement
+    ).selectedOptions[0].value;
+    updateKeyRepAreas(keyRepAreas);
+  };
 </script>
 
 {#each keyRepAreas as keyRepArea, index (index)}
-  {@const { areaSize, topLeft } = keyRepArea}
+  {@const { areaSize, topLeft, relativeToWhichKeypoint } = keyRepArea}
   <div
     class="key-rep-area"
     style={`${
@@ -31,7 +39,8 @@
 
     <SelectOneKeypointName
       {keypointNames}
-      bind:selectedKeypoint={keyRepAreas[index].relativeToWhichKeypoint}
+      selectedKeypoint={relativeToWhichKeypoint}
+      on:change={(e) => onRelativeKeypointChange(e, index)}
     />
 
     <button type="button" on:click={() => deleteKRA(focusLimbName, keyRepArea)}

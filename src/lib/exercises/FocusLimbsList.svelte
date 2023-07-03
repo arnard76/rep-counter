@@ -10,6 +10,7 @@
   import FocusLimb from "./FocusLimb.svelte";
 
   export let focusLimbs: Exercise["focusLimbs"];
+  export let updateFocusLimbs: (updated: Exercise["focusLimbs"]) => void;
 
   function addKRA(focusLimbName: string) {
     exercises.addKRAToSelectedExercise(focusLimbName, new KeyRepArea());
@@ -35,12 +36,19 @@
   </div>
 
   <div style="width:  100%;overflow-y:scroll;">
-    {#each Object.entries(focusLimbs) as [focusLimbName, _] (focusLimbName)}
+    {#each Object.entries(focusLimbs) as [focusLimbName, { keyRepAreas, startKeyRepAreaIsEnd }] (focusLimbName)}
       <FocusLimb
         {focusLimbName}
-        bind:keyRepAreas={focusLimbs[focusLimbName].keyRepAreas}
-        bind:startKeyRepAreaIsEnd={focusLimbs[focusLimbName]
-          .startKeyRepAreaIsEnd}
+        {keyRepAreas}
+        updateKeyRepAreas={(updated) => {
+          focusLimbs[focusLimbName].keyRepAreas = updated;
+          updateFocusLimbs(focusLimbs);
+        }}
+        {startKeyRepAreaIsEnd}
+        updateStartKeyRepAreaIsEnd={(updated) => {
+          focusLimbs[focusLimbName].startKeyRepAreaIsEnd = updated;
+          updateFocusLimbs(focusLimbs);
+        }}
       />
     {/each}
   </div>

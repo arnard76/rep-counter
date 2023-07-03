@@ -1,13 +1,15 @@
-<script>
+<script lang="ts">
   import Keypoint from "$lib/pose-detection/Keypoint.svelte";
   import Line from "$lib/pose-detection/StraightLine.svelte";
   import selectedKeyRepArea from "$lib/key-rep-area/selected";
+  import type KeyRepArea from "./keyRepArea";
 
-  export let keyRepArea;
-  export let keypoints;
+  export let keyRepArea: KeyRepArea;
+  export let keypoints: any[];
   export let focusKeypoint = null;
+  export let updateKeyRepAreas: (newKeyRepArea: KeyRepArea) => void;
 
-  let corners, inArea;
+  let corners, inArea: boolean;
   const origin = { x: 0, y: 0 };
 
   $: if (keyRepArea && keypoints) {
@@ -19,14 +21,16 @@
 
   $: colour = inArea ? "green" : "lightgrey";
 
-  function moveTopLeft(e) {
+  function moveTopLeft(e: MouseEvent) {
     keyRepArea.topLeft.x = keyRepArea.topLeft.x + e.offsetX;
     keyRepArea.topLeft.y = keyRepArea.topLeft.y + e.offsetY;
+    updateKeyRepAreas(keyRepArea);
   }
 
-  function adjustSize(e) {
+  function adjustSize(e: MouseEvent) {
     keyRepArea.areaSize.width = keyRepArea.areaSize.width - e.offsetX;
     keyRepArea.areaSize.height = keyRepArea.areaSize.height - e.offsetY;
+    updateKeyRepAreas(keyRepArea);
   }
 
   $: thisIsASelectedKRA = $selectedKeyRepArea == keyRepArea;
@@ -41,9 +45,7 @@
        --KRA-bg-colour: {thisIsASelectedKRA
       ? 'rgba(25, 60, 150, 0.3)'
       : 'rgba(0, 0, 0, 0.3)'};"
-    on:drag={(e) => {
-      moveTopLeft(e);
-    }}
+    on:drag={(e) => moveTopLeft(e)}
     on:dragend={(e) => moveTopLeft(e)}
     on:dblclick={(e) => selectedKeyRepArea.select(keyRepArea)}
   >
