@@ -25,7 +25,7 @@
   import VideoFromFile from "$lib/video/VideoFromFile.svelte";
   import LiveVideo from "$lib/video/LiveVideo.svelte";
 
-  $: selectedExerciseId.select($page.params.exerciseId);
+  selectedExerciseId.select($page.params.exerciseId);
 
   let clientWidth: number,
     clientHeight: number,
@@ -43,7 +43,6 @@
       horizontal: 1,
       vertical: 1,
     });
-    selectedExerciseId.select($page.params.exerciseId);
   });
 
   let live: boolean = false;
