@@ -25,7 +25,7 @@
 </script>
 
 {#each keyRepAreas as keyRepArea, index (index)}
-  {@const { areaSize, topLeft, relativeToWhichKeypoint } = keyRepArea}
+  {@const { relativeToWhichKeypoint, topLeft, areaSize } = keyRepArea}
   <div
     class="key-rep-area"
     style={`${
@@ -35,18 +35,16 @@
     }`}
     on:dblclick={() => selectedKeyRepArea.select(keyRepArea)}
   >
-    <p>{areaSize.width}x{areaSize.height}</p>
-    <p>({topLeft.x}, {topLeft.y})</p>
-
     <SelectOneKeypointName
       {keypointNames}
       selectedKeypoint={relativeToWhichKeypoint}
       on:change={(e) => onRelativeKeypointChange(e, index)}
     />
 
-    <button type="button" on:click={() => deleteKRA(focusLimbName, keyRepArea)}
-      >delete🗑️</button
-    >
+    <p>({topLeft.x}, {topLeft.y})</p>
+    <p>{areaSize.width}x{areaSize.height}</p>
+
+    <button on:click={() => deleteKRA(focusLimbName, keyRepArea)}>🗑️</button>
   </div>
 {/each}
 
@@ -54,10 +52,16 @@
   .key-rep-area {
     display: flex;
     align-items: center;
-    margin-left: 20px;
+    gap: 15px;
   }
 
   .key-rep-area > p {
     width: 55%;
+    text-align: center;
+  }
+
+  button {
+    background-color: black;
+    cursor: pointer;
   }
 </style>

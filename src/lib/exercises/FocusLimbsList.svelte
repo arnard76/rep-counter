@@ -32,7 +32,7 @@
 </script>
 
 {#if focusLimbs}
-  <div>
+  <div style="display: flex;">
     <SelectManyKeypoints
       bind:selectedKeypoints={newFocusLimbNames}
       {keypointNames}
@@ -43,11 +43,11 @@
 
         for (let newFocusLimbName of newFocusLimbNames)
           addKRA(newFocusLimbName);
-      }}>add new focus limbs</button
+      }}>add</button
     >
   </div>
 
-  <div style="width:  100%;overflow-y:scroll;">
+  <div style="width: 100%; overflow-y: auto;">
     {#each Object.entries(focusLimbs) as [focusLimbName, { keyRepAreas, startKeyRepAreaIsEnd }] (focusLimbName)}
       <FocusLimb
         {focusLimbName}
