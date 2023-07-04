@@ -18,97 +18,12 @@ function createExercisesStore() {
     };
   });
 
-  /**
-   * Adds KRA locally
-   * NOTE: have to save in order to put in DB
-   */
-  function addKRAToExercise(
-    exerciseId: string,
-    focusLimbName: string,
-    KRA: KeyRepArea
-  ) {
-    store.update(($exercises) => {
-      if ($exercises[exerciseId]) {
-        if (
-          !Object.keys($exercises[exerciseId].focusLimbs).includes(
-            focusLimbName
-          )
-        ) {
-          $exercises[exerciseId].focusLimbs[focusLimbName] = {
-            keyRepAreas: [],
-          };
-        }
-
-        $exercises[exerciseId].focusLimbs[focusLimbName].keyRepAreas.push(KRA);
-      } else {
-        console.error(
-          `this exercise with id: ${exerciseId}, doesn't exist in $exercises:\n ${get(
-            store
-          )}.`
-        );
-      }
-
-      return $exercises;
-    });
-  }
-
-  function deleteKRAInExercise(
-    exerciseId: string,
-    focusLimbName: string,
-    KRA: KeyRepArea
-  ) {
-    store.update(($exercises) => {
-      if ($exercises[exerciseId]) {
-        const indexOfKRA =
-          $exercises[exerciseId].focusLimbs[focusLimbName].keyRepAreas.indexOf(
-            KRA
-          );
-
-        if (indexOfKRA === -1) {
-          console.error(
-            `this KRA ${KRA}, doesn't exist in this limb ${focusLimbName} of this $exercise: ${exerciseId}\n ${$exercises[exerciseId].focusLimbs[focusLimbName].keyRepAreas}.`
-          );
-          return $exercises;
-        }
-
-        $exercises[exerciseId].focusLimbs[focusLimbName].keyRepAreas.splice(
-          indexOfKRA,
-          1
-        );
-
-        if (
-          !$exercises[exerciseId].focusLimbs[focusLimbName].keyRepAreas.length
-        ) {
-          delete $exercises[exerciseId].focusLimbs[focusLimbName];
-        }
-      } else {
-        console.error(
-          `this exercise with id: ${exerciseId}, doesn't exist in $exercises:\n ${get(
-            store
-          )}.`
-        );
-      }
-
-      return $exercises;
-    });
-  }
-
   return {
     subscribe: store.subscribe,
     set: store.set,
 
     syncWithDatabase(updatedExercisesData: ExercisesData) {
       store.set(createKRAInstancesFromKRAObjects(updatedExercisesData));
-    },
-
-    addKRAToSelectedExercise(focusLimbName: string, KRA: KeyRepArea) {
-      const exerciseId = get(selectedExerciseId);
-      addKRAToExercise(exerciseId, focusLimbName, KRA);
-    },
-
-    deleteKRAInSelectedExercise(focusLimbName: string, KRA: KeyRepArea) {
-      const exerciseId = get(selectedExerciseId);
-      deleteKRAInExercise(exerciseId, focusLimbName, KRA);
     },
   };
 }

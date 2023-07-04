@@ -7,13 +7,14 @@
   import keypointNames from "$lib/pose-detection/keypointNames.json";
   import type KeyRepArea from "$lib/key-rep-area/keyRepArea";
 
-  function deleteKRA(focusLimbName: string, KRA: KeyRepArea) {
-    exercises.deleteKRAInSelectedExercise(focusLimbName, KRA);
-  }
-
   export let focusLimbName: string;
   export let keyRepAreas: KeyRepArea[];
   export let updateKeyRepAreas: (updated: KeyRepArea[]) => void;
+
+  function deleteKRA(focusLimbName: string, KRA: KeyRepArea) {
+    keyRepAreas.splice(keyRepAreas.indexOf(KRA), 1);
+    updateKeyRepAreas(keyRepAreas);
+  }
 
   const onRelativeKeypointChange = ({ target }: Event, index: number) => {
     keyRepAreas[index].relativeToWhichKeypoint = (
