@@ -9,7 +9,7 @@
 </svelte:head>
 
 {#if $page.route.id !== "/"}
-  <p>
+  <p style="margin-top: 0;">
     <a href="/"> back 🏠 </a>
   </p>
 {/if}
