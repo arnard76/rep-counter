@@ -1,5 +1,4 @@
 <script lang="ts">
-  import exercises from "./store";
   import KRAsList from "$lib/exercises/KRAsList.svelte";
   import KeyRepArea from "$lib/key-rep-area/keyRepArea";
 
@@ -20,7 +19,7 @@
   }
 
   function addKRA() {
-    exercises.addKRAToSelectedExercise(focusLimbName, new KeyRepArea());
+    updateKeyRepAreas([...keyRepAreas, new KeyRepArea()]);
   }
 
   function onCheckboxChange({ target }: Event) {
@@ -52,7 +51,7 @@
   </div>
 
   <KRAsList {keyRepAreas} {updateKeyRepAreas} {focusLimbName} />
-  <button type="button" on:click={() => addKRA()}> Add new KRA </button>
+  <button type="button" on:click={addKRA}> Add new KRA </button>
 </div>
 
 <style>

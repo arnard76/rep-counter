@@ -1,7 +1,6 @@
 <!-- List out detials of all focusLimbs (plus delete ability) -->
 
 <script lang="ts">
-  import exercises from "$lib/exercises/store";
   import type Exercise from "$lib/exercises";
   import KeyRepArea from "$lib/key-rep-area/keyRepArea";
 
@@ -13,7 +12,12 @@
   export let updateFocusLimbs: (updated: Exercise["focusLimbs"]) => void;
 
   function addKRA(focusLimbName: string) {
-    exercises.addKRAToSelectedExercise(focusLimbName, new KeyRepArea());
+    if (!Object.keys(focusLimbs).includes(focusLimbName)) {
+      focusLimbs[focusLimbName] = { keyRepAreas: [] };
+    }
+
+    focusLimbs[focusLimbName].keyRepAreas.push(new KeyRepArea());
+    updateFocusLimbs(focusLimbs);
   }
 
   let newFocusLimbNames: string[] | undefined;
@@ -41,12 +45,20 @@
         {focusLimbName}
         {keyRepAreas}
         updateKeyRepAreas={(updated) => {
-          focusLimbs[focusLimbName].keyRepAreas = updated;
+          if (!updated.length) {
+            delete focusLimbs[focusLimbName];
+          } else {
+            focusLimbs[focusLimbName].keyRepAreas = updated;
+          }
           updateFocusLimbs(focusLimbs);
         }}
         {startKeyRepAreaIsEnd}
         updateStartKeyRepAreaIsEnd={(updated) => {
-          focusLimbs[focusLimbName].startKeyRepAreaIsEnd = updated;
+          if (updated === undefined) {
+            delete focusLimbs[focusLimbName].startKeyRepAreaIsEnd;
+          } else {
+            focusLimbs[focusLimbName].startKeyRepAreaIsEnd = updated;
+          }
           updateFocusLimbs(focusLimbs);
         }}
       />

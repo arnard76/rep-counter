@@ -23,14 +23,26 @@
     <div class="KRAs-for-limb">
       <p>{focusLimbName}</p>
 
-      {#each keyRepAreas as keyRepArea (keyRepArea)}
+      {#each keyRepAreas as keyRepArea, index (keyRepArea)}
         <div class="key-rep-area">
           <p>{JSON.stringify(keyRepArea)}</p>
 
           <button
             type="button"
             on:click={() => {
-              exercises.deleteKRAInSelectedExercise(focusLimbName, keyRepArea);
+              $exercises[$selectedExerciseId].focusLimbs[
+                focusLimbName
+              ].keyRepAreas.splice(index, 1);
+
+              if (
+                !$exercises[$selectedExerciseId].focusLimbs[focusLimbName]
+                  .keyRepAreas.length
+              ) {
+                delete $exercises[$selectedExerciseId].focusLimbs[
+                  focusLimbName
+                ];
+              }
+              $exercises = $exercises;
             }}>delete🗑️</button
           >
         </div>
