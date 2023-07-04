@@ -16,7 +16,15 @@
       focusLimbs[focusLimbName] = { keyRepAreas: [] };
     }
 
-    focusLimbs[focusLimbName].keyRepAreas.push(new KeyRepArea());
+    const defaultKRA = new KeyRepArea();
+    focusLimbs[focusLimbName].keyRepAreas.push(defaultKRA);
+    const length = focusLimbs[focusLimbName].keyRepAreas.length;
+
+    if (length >= 2 && focusLimbs[focusLimbName].startKeyRepAreaIsEnd) {
+      focusLimbs[focusLimbName].keyRepAreas[length - 1] =
+        focusLimbs[focusLimbName].keyRepAreas[length - 2];
+      focusLimbs[focusLimbName].keyRepAreas[length - 2] = defaultKRA;
+    }
     updateFocusLimbs(focusLimbs);
   }
 
