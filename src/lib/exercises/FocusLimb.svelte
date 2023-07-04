@@ -14,7 +14,7 @@
 
   function seperateStartEnd() {
     keyRepAreas[keyRepAreas.length - 1] = KeyRepArea.cloneInstance(
-      keyRepAreas[0]
+      keyRepAreas[keyRepAreas.length - 1]
     );
   }
 
