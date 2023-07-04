@@ -19,7 +19,15 @@
   }
 
   function addKRA() {
-    updateKeyRepAreas([...keyRepAreas, new KeyRepArea()]);
+    const defaultKRA = new KeyRepArea();
+    keyRepAreas.push(defaultKRA);
+    const length = keyRepAreas.length;
+
+    if (length >= 2 && startKeyRepAreaIsEnd) {
+      keyRepAreas[length - 1] = keyRepAreas[length - 2];
+      keyRepAreas[length - 2] = defaultKRA;
+    }
+    updateKeyRepAreas(keyRepAreas);
   }
 
   function onCheckboxChange({ target }: Event) {
