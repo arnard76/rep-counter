@@ -1,16 +1,21 @@
-import Area from "$lib/key-rep-area/keyRepArea";
+import type Area from "$lib/key-rep-area/keyRepArea";
 
 export const finishedRep = -2;
 export const canStartNextRep = -1;
 
 export default class LimbRepCounter {
+  focusLimbName: string;
+  keyAreas: Area[];
+  lastKeyAreaIndex: number;
+  startKeyRepAreaIsEnd: boolean;
+
   numberOfReps = 0;
 
-  /**
-   * @param {string} focusLimbName
-   * @param {Array<Area>} keyRepAreas - Array of key rep areas
-   */
-  constructor(focusLimbName, keyRepAreas, startKeyRepAreaIsEnd = true) {
+  constructor(
+    focusLimbName: string,
+    keyRepAreas: Area[],
+    startKeyRepAreaIsEnd: boolean = true
+  ) {
     if (!keyRepAreas.length) {
       throw Error(
         "keyAreas must be not be empty. Include all the key areas of a rep for this limb in input Array."
@@ -21,15 +26,6 @@ export default class LimbRepCounter {
       throw Error(
         "keyAreas has to have a start point & endpoint and they can't be the same so add at least two key areas to input Array."
       );
-    }
-
-    // check if all elements are keyArea types
-    for (let keyArea of keyRepAreas) {
-      if (!(keyArea instanceof Area)) {
-        throw Error(
-          `one of the key areas (${keyArea}) is not of type KeyRepArea. It is type ${typeof keyArea}.`
-        );
-      }
     }
 
     this.focusLimbName = focusLimbName;
@@ -48,15 +44,11 @@ export default class LimbRepCounter {
     this.lastKeyAreaIndex = this.startKeyRepAreaIsEnd ? 0 : canStartNextRep;
   }
 
-  /**
-   *
-   * @param {Array} keypoints - list of all keypoints
-   * @returns {boolean} - was the rep updated? true means yes
-   */
-  updateRepProgress(keypoints) {
+  // was the rep updated? return value of true means yes
+  updateRepProgress(keypoints: any[]) {
     if (this.lastKeyAreaIndex === finishedRep) return false;
 
-    if (!this.isLimbInNextKeyArea(keypoints, this.focusLimbName)) return false;
+    if (!this.isLimbInNextKeyArea(keypoints)) return false;
 
     this.lastKeyAreaIndex++;
 
@@ -66,20 +58,11 @@ export default class LimbRepCounter {
     return true;
   }
 
-  /**
-   *
-   * @param {Array} keypoints - list of all keypoints
-   * @returns {boolean} - is limb in next area
-   */
-  isLimbInNextKeyArea(keypoints) {
-    if (
-      !this.keyAreas[this.lastKeyAreaIndex + 1].pointInArea(
-        keypoints,
-        this.focusLimbName
-      )
-    )
-      return false;
-
-    return true;
+  // is limb in next area? return value true if yes
+  isLimbInNextKeyArea(keypoints: any[]) {
+    return this.keyAreas[this.lastKeyAreaIndex + 1].pointInArea(
+      keypoints,
+      this.focusLimbName
+    );
   }
 }

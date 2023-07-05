@@ -1,18 +1,14 @@
 import keypointNames from "$lib/pose-detection/keypointNames.json";
 
-const defaultKeyRepAreaSize = { width: 40, height: 40 };
 const defaultKeyRepAreaTopLeft = { x: 20, y: 20 };
+const defaultKeyRepAreaSize = { width: 40, height: 40 };
 
 export default class KeyRepArea {
-  relativeToWhichKeypoint = null;
-  topLeft = null;
-  areaSize = null;
+  relativeToWhichKeypoint: string = null;
+  topLeft = defaultKeyRepAreaTopLeft;
+  areaSize = defaultKeyRepAreaSize;
 
-  constructor(
-    relativeKeypointName: string = null,
-    { x, y }: { x: number; y: number } = defaultKeyRepAreaTopLeft,
-    { width, height }: { width: number; height: number } = defaultKeyRepAreaSize
-  ) {
+  constructor(relativeKeypointName: string, { x, y }, { width, height }) {
     if (!relativeKeypointName && !keypointNames.length) {
       throw Error(
         `keypointNames not an array with more than one keypoint name 😥 keypointNames: ${keypointNames}`
