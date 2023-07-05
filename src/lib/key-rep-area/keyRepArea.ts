@@ -4,11 +4,15 @@ const defaultKeyRepAreaTopLeft = { x: 20, y: 20 };
 const defaultKeyRepAreaSize = { width: 40, height: 40 };
 
 export default class KeyRepArea {
-  relativeToWhichKeypoint: string = null;
-  topLeft = defaultKeyRepAreaTopLeft;
-  areaSize = defaultKeyRepAreaSize;
+  relativeToWhichKeypoint: string;
+  topLeft: typeof defaultKeyRepAreaTopLeft;
+  areaSize: typeof defaultKeyRepAreaSize;
 
-  constructor(relativeKeypointName: string, { x, y }, { width, height }) {
+  constructor(
+    relativeKeypointName = null,
+    { x, y } = defaultKeyRepAreaTopLeft,
+    { width, height } = defaultKeyRepAreaSize
+  ) {
     if (!relativeKeypointName && !keypointNames.length) {
       throw Error(
         `keypointNames not an array with more than one keypoint name 😥 keypointNames: ${keypointNames}`
