@@ -1,8 +1,6 @@
 <script>
   import keypoints from "$lib/pose-detection/keypoints.js";
-  import LimbRepCounter, {
-    finishedRep,
-  } from "$lib/count-reps/limbRepCounter.js";
+  import LimbRepCounter, { finishedRep } from "$lib/count-reps/limbRepCounter";
 
   import { onDestroy } from "svelte";
 

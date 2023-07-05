@@ -1,4 +1,4 @@
-import limbRepCounter, { finishedRep } from "$lib/count-reps/limbRepCounter.js";
+import limbRepCounter, { finishedRep } from "$lib/count-reps/limbRepCounter";
 
 class repCounter {
   numberOfReps = 0;
