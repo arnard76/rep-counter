@@ -66,6 +66,7 @@
         {keyRepArea}
         keypoints={$keypoints}
         focusKeypoint={focusKeypoints[index]}
+        updateKeyRepArea={() => {}}
       />
     {/each}
 

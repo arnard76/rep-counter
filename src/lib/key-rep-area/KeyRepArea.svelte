@@ -7,7 +7,7 @@
   export let keyRepArea: KeyRepArea;
   export let keypoints: any[];
   export let focusKeypoint = null;
-  export let updateKeyRepAreas: (newKeyRepArea: KeyRepArea) => void;
+  export let updateKeyRepArea: (updated: KeyRepArea) => void;
 
   let corners, inArea: boolean;
   const origin = { x: 0, y: 0 };
@@ -24,13 +24,13 @@
   function moveTopLeft(e: MouseEvent) {
     keyRepArea.topLeft.x = keyRepArea.topLeft.x + e.offsetX;
     keyRepArea.topLeft.y = keyRepArea.topLeft.y + e.offsetY;
-    updateKeyRepAreas(keyRepArea);
+    updateKeyRepArea(keyRepArea);
   }
 
   function adjustSize(e: MouseEvent) {
     keyRepArea.areaSize.width = keyRepArea.areaSize.width - e.offsetX;
     keyRepArea.areaSize.height = keyRepArea.areaSize.height - e.offsetY;
-    updateKeyRepAreas(keyRepArea);
+    updateKeyRepArea(keyRepArea);
   }
 
   $: thisIsASelectedKRA = $selectedKeyRepArea == keyRepArea;

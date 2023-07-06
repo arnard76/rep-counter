@@ -1,4 +1,6 @@
 <script>
+  import { onDestroy } from "svelte";
+  import { scale } from "$lib/pose-detection/scaleKeypoints";
   import UserVideo from "$lib/video/LiveVideo.svelte";
   import PauseControls from "$lib/paused/PauseControls.svelte";
 
@@ -18,6 +20,21 @@
 
   import RepCounter from "$lib/count-reps/RepCounter.svelte";
 
+  let clientWidth, clientHeight, videoWidth, videoHeight;
+  $: if (clientWidth && clientHeight && videoWidth && videoHeight) {
+    scale.set({
+      horizontal: clientWidth / videoWidth,
+      vertical: clientHeight / videoHeight,
+    });
+  }
+
+  onDestroy(() => {
+    scale.set({
+      horizontal: 1,
+      vertical: 1,
+    });
+  });
+
   selectedExerciseId.select("0");
 </script>
 
@@ -25,8 +42,8 @@
   <p>{$selectedExercise.name}</p>
 
   <div class="container">
-    <div class="videoNrep-counter-container">
-      <UserVideo />
+    <div class="videoNrep-counter-container" bind:clientHeight bind:clientWidth>
+      <UserVideo bind:videoWidth bind:videoHeight />
 
       <RepCounter focusLimbs={$selectedExercise.focusLimbs} />
 
@@ -43,7 +60,6 @@
           updateKeyRepAreas={(updated) =>
             ($exercises[$selectedExerciseId].focusLimbs[focusLimb].keyRepAreas =
               updated)}
-          {startKeyRepAreaIsEnd}
           keypoints={$controlledKeypoints}
           focusKeypointName={focusLimb}
         />
@@ -65,6 +81,7 @@
 <style>
   .videoNrep-counter-container {
     position: relative;
+    height: 100%;
   }
 
   .container {
