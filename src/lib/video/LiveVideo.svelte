@@ -1,12 +1,21 @@
 <script>
   import { browser } from "$app/environment";
-  import getLiveVideo, { stopUsingUserMedia } from "$lib/video/liveVideo";
+  import getLiveVideo, {
+    stopUsingUserMedia,
+    loading,
+  } from "$lib/video/liveVideo";
   import videoEl from "$lib/video/video";
   import { onDestroy } from "svelte";
 
   if (browser) getLiveVideo();
 
-  onDestroy(stopUsingUserMedia);
+  onDestroy(async () => {
+    while (loading) {
+      await new Promise((res) => setTimeout(res, 5000));
+    }
+
+    stopUsingUserMedia();
+  });
 
   export let videoWidth, videoHeight;
 </script>
