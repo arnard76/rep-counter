@@ -92,6 +92,7 @@
         {keyRepAreas}
         keypoints={$controlledKeypoints}
         focusKeypointName={focusLimb}
+        updateKeyRepAreas={() => {}}
       />
     {/each}
   </div>
