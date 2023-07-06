@@ -78,13 +78,12 @@
       <!-- the divider so mouse events can interact with 👇 but not ☝️ -->
       <div class="divider" />
 
-      {#each Object.entries($selectedExercise.focusLimbs) as [focusLimb, { keyRepAreas, startKeyRepAreaIsEnd }] (focusLimb)}
+      {#each Object.entries($selectedExercise.focusLimbs) as [focusLimb, { keyRepAreas }] (focusLimb)}
         <KeyRepAreas
           {keyRepAreas}
           updateKeyRepAreas={(updated) =>
             ($exercises[$selectedExerciseId].focusLimbs[focusLimb].keyRepAreas =
               updated)}
-          {startKeyRepAreaIsEnd}
           keypoints={$controlledKeypoints}
           focusKeypointName={focusLimb}
         />

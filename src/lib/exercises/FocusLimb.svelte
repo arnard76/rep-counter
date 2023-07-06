@@ -8,40 +8,19 @@
   export let updateStartKeyRepAreaIsEnd: (updated: boolean) => void;
   export let updateKeyRepAreas: (updated: KeyRepArea[]) => void;
 
-  function makeEndKRASameAsStart() {
-    keyRepAreas[keyRepAreas.length - 1] = keyRepAreas[0];
+  function hideEnd() {
+    keyRepAreas.pop();
   }
 
-  function seperateStartEnd() {
-    keyRepAreas[keyRepAreas.length - 1] = KeyRepArea.cloneInstance(
-      keyRepAreas[keyRepAreas.length - 1]
-    );
-  }
-
-  function addKRA() {
-    const defaultKRA = new KeyRepArea();
-    keyRepAreas.push(defaultKRA);
-    const length = keyRepAreas.length;
-
-    if (length >= 2 && startKeyRepAreaIsEnd) {
-      keyRepAreas[length - 1] = keyRepAreas[length - 2];
-      keyRepAreas[length - 2] = defaultKRA;
-    }
-    updateKeyRepAreas(keyRepAreas);
+  function showHiddenEnd() {
+    keyRepAreas.push(KeyRepArea.cloneInstance(keyRepAreas[0]));
   }
 
   function onCheckboxChange({ target }: Event) {
-    // because typescript doesn't work in the HTML section 🤔
-    onStartEndSameChange((target as HTMLInputElement).checked);
-  }
-
-  function onStartEndSameChange(updated: boolean) {
-    updated ? makeEndKRASameAsStart() : seperateStartEnd();
-    updateStartKeyRepAreaIsEnd(updated);
+    (target as HTMLInputElement).checked ? hideEnd() : showHiddenEnd();
+    updateStartKeyRepAreaIsEnd((target as HTMLInputElement).checked);
     updateKeyRepAreas(keyRepAreas);
   }
-
-  onStartEndSameChange(startKeyRepAreaIsEnd);
 </script>
 
 <div class="KRAs-for-limb">
@@ -58,8 +37,13 @@
     />
   </div>
 
-  <KRAsList {keyRepAreas} {updateKeyRepAreas} {focusLimbName} />
-  <button type="button" on:click={addKRA}> Add new KRA </button>
+  <KRAsList {keyRepAreas} {updateKeyRepAreas} {startKeyRepAreaIsEnd} />
+
+  <button
+    on:click={() => updateKeyRepAreas([...keyRepAreas, new KeyRepArea()])}
+  >
+    Add KRA
+  </button>
 </div>
 
 <style>

@@ -5,7 +5,7 @@ export const canStartNextRep = -1;
 
 export default class LimbRepCounter {
   focusLimbName: string;
-  keyAreas: Area[];
+  keyAreas: Area[]; // includes hidden last KRA (if applicable)
   lastKeyAreaIndex: number;
   startKeyRepAreaIsEnd: boolean;
 
@@ -16,20 +16,16 @@ export default class LimbRepCounter {
     keyRepAreas: Area[],
     startKeyRepAreaIsEnd: boolean = true
   ) {
-    if (!keyRepAreas.length) {
+    if (keyRepAreas.length < 2) {
       throw Error(
-        "keyAreas must be not be empty. Include all the key areas of a rep for this limb in input Array."
-      );
-    }
-
-    if (keyRepAreas.length === 1) {
-      throw Error(
-        "keyAreas has to have a start point & endpoint and they can't be the same so add at least two key areas to input Array."
+        "an limb rep counter needs at least 2 key rep areas. And if start & end are the same, the end KRA can not be counted as one of the minimum two KRA's required."
       );
     }
 
     this.focusLimbName = focusLimbName;
-    this.keyAreas = keyRepAreas;
+    this.keyAreas = startKeyRepAreaIsEnd
+      ? [...keyRepAreas, keyRepAreas[0]]
+      : keyRepAreas;
     this.lastKeyAreaIndex = -1; // hasn't started a rep yet
     this.startKeyRepAreaIsEnd = startKeyRepAreaIsEnd;
   }
