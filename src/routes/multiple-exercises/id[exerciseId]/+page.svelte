@@ -1,15 +1,16 @@
 <script lang="ts">
   import { page } from "$app/stores";
-  import { onDestroy } from "svelte";
   import exercises, {
     selectedExerciseId,
     selectedExercise,
   } from "$lib/exercises/store";
 
   import InputVideoFile from "$lib/video/InputVideoFile.svelte";
-  import type { Readable } from "svelte/store";
+  import VideoFromFile from "$lib/video/VideoFromFile.svelte";
+  import LiveVideo from "$lib/video/LiveVideo.svelte";
   import PauseControls from "$lib/paused/PauseControls.svelte";
 
+  import { onDestroy } from "svelte";
   import { scale } from "$lib/pose-detection/scaleKeypoints.js";
   import {
     controlledKeypoints,
@@ -22,8 +23,6 @@
   import EditingExercisePanel from "$lib/exercises/EditingExercisePanel.svelte";
 
   import RepCounter from "$lib/count-reps/RepCounter.svelte";
-  import VideoFromFile from "$lib/video/VideoFromFile.svelte";
-  import LiveVideo from "$lib/video/LiveVideo.svelte";
 
   selectedExerciseId.select($page.params.exerciseId);
 
@@ -50,17 +49,19 @@
 </script>
 
 <p>{JSON.stringify($selectedExercise)}</p>
+
+<label>
+  Use camera?
+  <input type="checkbox" name="live video as source" bind:checked={live} />
+</label>
+
 {#if !live}
-  <InputVideoFile
-    updateVideoFile={(newValidVideoFile) =>
-      (validVideoFile = newValidVideoFile)}
-  />
+  <InputVideoFile updateVideoFile={(updated) => (validVideoFile = updated)} />
 {/if}
-<input type="checkbox" name="live video as source" bind:checked={live} />
 
 {#if $selectedExercise && (live || validVideoFile)}
-  <div class="container" style="--height: {clientHeight}px;">
-    <div class="videoNrep-counter-container" bind:clientHeight bind:clientWidth>
+  <div class="container" style="--height: {clientHeight || 150}px;">
+    <div class="video-container" bind:clientHeight bind:clientWidth>
       {#if live}
         <LiveVideo bind:videoWidth bind:videoHeight />
       {:else}
@@ -73,7 +74,7 @@
       <KeypointsOverlay keypoints={$relativeToKeypoints} colourTheme="gray" />
       <KeypointsOverlay keypoints={$focusLimbKeypoints} colourTheme="gold" />
 
-      <!-- the divider so mouse events can interact with 👇 but not ☝️ -->
+      <!-- so mouse events can interact with 👇 but not ☝️ -->
       <div class="divider" />
 
       {#each Object.entries($selectedExercise.focusLimbs) as [focusLimb, { keyRepAreas }] (focusLimb)}
@@ -101,14 +102,21 @@
 {/if}
 
 <style>
-  .videoNrep-counter-container {
-    position: relative;
-    margin-right: 20px;
-  }
-
   .container {
     display: flex;
     align-items: flex-start;
     height: var(--height);
+    gap: 20px;
+  }
+
+  .video-container {
+    position: relative;
+  }
+
+  .divider {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    inset: 0;
   }
 </style>
