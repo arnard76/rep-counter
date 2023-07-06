@@ -32,7 +32,7 @@
     new KeyRepArea("left_ear", { x: 100, y: 25 }, { width: 50, height: 30 }),
   ];
 
-  keyRepAreas.push(keyRepAreas[0].cloneInstance());
+  keyRepAreas.push(KeyRepArea.cloneInstance(keyRepAreas[0]));
 
   let focusKeypoint = "right_wrist";
 
@@ -75,6 +75,7 @@
       {keyRepAreas}
       keypoints={$controlledKeypoints}
       focusKeypointName={focusKeypoint}
+      updateKeyRepAreas={() => {}}
     />
   </div>
 
