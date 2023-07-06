@@ -5,15 +5,10 @@
     selectedExerciseId,
   } from "$lib/exercises/store";
 
-  $: $exercises?.length && selectedExerciseId.select("0");
+  selectedExerciseId.select("0");
 </script>
 
-<button
-  type="button"
-  on:click={() => {
-    updateExercise("0", $selectedExercise);
-  }}
->
+<button type="button" on:click={() => updateExercise("0", $selectedExercise)}>
   Update database
 </button>
 

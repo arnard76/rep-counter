@@ -114,7 +114,6 @@
                   ($exercises[$selectedExerciseId].focusLimbs[
                     focusLimb
                   ].keyRepAreas = updated)}
-                {startKeyRepAreaIsEnd}
                 keypoints={$controlledKeypoints}
                 focusKeypointName={focusLimb}
               />

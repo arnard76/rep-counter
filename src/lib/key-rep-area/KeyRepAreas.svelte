@@ -11,7 +11,7 @@
 {#each keyRepAreas as keyRepArea, index (keyRepArea)}
   <KeyRepAreaComponent
     {keyRepArea}
-    updateKeyRepAreas={(updated) => {
+    updateKeyRepArea={(updated) => {
       keyRepAreas[index] = updated;
       updateKeyRepAreas(keyRepAreas);
     }}
