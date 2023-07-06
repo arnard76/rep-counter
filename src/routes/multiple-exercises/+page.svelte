@@ -12,7 +12,7 @@
 {#if $exercises}
   <ul>
     {#each Object.entries($exercises) as [id, { name }] (id)}
-      {@const exercisePageUrl = `${$page.url.href}/id${id.toString()}-${name}`}
+      {@const exercisePageUrl = `${$page.url.href}/id${id.toString()}`}
 
       <li><a href={exercisePageUrl}>{name}</a></li>
     {/each}

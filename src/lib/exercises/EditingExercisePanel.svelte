@@ -3,6 +3,7 @@
 
   import type Exercise from "$lib/exercises";
   import FocusLimbsList from "./FocusLimbsList.svelte";
+  import EditExerciseName from "./EditExerciseName.svelte";
 
   export let exercise: Exercise;
   export let exerciseId: string;
@@ -10,6 +11,8 @@
 </script>
 
 <div>
+  <EditExerciseName bind:name={exercise.name} />
+
   <FocusLimbsList
     focusLimbs={exercise.focusLimbs}
     updateFocusLimbs={(updated) =>
