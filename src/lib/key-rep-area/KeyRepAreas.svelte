@@ -5,15 +5,10 @@
   export let keyRepAreas: KeyRepArea[];
   export let keypoints: any[];
   export let focusKeypointName: string;
-  export let startKeyRepAreaIsEnd: boolean | undefined = undefined;
   export let updateKeyRepAreas: (updated: KeyRepArea[]) => void;
-
-  $: showingKeyRepAreas = startKeyRepAreaIsEnd
-    ? [...keyRepAreas].slice(0, -1)
-    : [...keyRepAreas];
 </script>
 
-{#each showingKeyRepAreas as keyRepArea, index (keyRepArea)}
+{#each keyRepAreas as keyRepArea, index (keyRepArea)}
   <KeyRepAreaComponent
     {keyRepArea}
     updateKeyRepAreas={(updated) => {

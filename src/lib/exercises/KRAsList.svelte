@@ -6,24 +6,28 @@
   import keypointNames from "$lib/pose-detection/keypointNames.json";
   import type KeyRepArea from "$lib/key-rep-area/keyRepArea";
 
-  export let focusLimbName: string;
   export let keyRepAreas: KeyRepArea[];
+  export let startKeyRepAreaIsEnd: boolean;
   export let updateKeyRepAreas: (updated: KeyRepArea[]) => void;
 
-  function deleteKRA(focusLimbName: string, KRA: KeyRepArea) {
+  function deleteKRA(KRA: KeyRepArea) {
     keyRepAreas.splice(keyRepAreas.indexOf(KRA), 1);
     updateKeyRepAreas(keyRepAreas);
   }
 
   const onRelativeKeypointChange = ({ target }: Event, index: number) => {
-    keyRepAreas[index].relativeToWhichKeypoint = (
+    showingKeyRepAreas[index].relativeToWhichKeypoint = (
       target as HTMLSelectElement
     ).selectedOptions[0].value;
     updateKeyRepAreas(keyRepAreas);
   };
+
+  $: showingKeyRepAreas = startKeyRepAreaIsEnd
+    ? [...keyRepAreas, keyRepAreas[0]]
+    : keyRepAreas;
 </script>
 
-{#each keyRepAreas as keyRepArea, index (index)}
+{#each showingKeyRepAreas as keyRepArea, index (index)}
   {@const { relativeToWhichKeypoint, topLeft, areaSize } = keyRepArea}
   <div
     class="key-rep-area"
@@ -43,7 +47,7 @@
     <p>({topLeft.x}, {topLeft.y})</p>
     <p>{areaSize.width}x{areaSize.height}</p>
 
-    <button on:click={() => deleteKRA(focusLimbName, keyRepArea)}>🗑️</button>
+    <button on:click={() => deleteKRA(keyRepArea)}>🗑️</button>
   </div>
 {/each}
 
