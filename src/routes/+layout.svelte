@@ -1,29 +1,34 @@
 <script>
   import { page } from "$app/stores";
+
+  $: formattedPageName = $page.route.id.replaceAll("/", " ").trim();
 </script>
 
 <svelte:head>
-  <title>
-    {$page.route.id.replaceAll("/", " ").trim()}
-  </title>
+  <title>{formattedPageName}</title>
 </svelte:head>
 
 {#if $page.route.id !== "/"}
-  <p style="margin-top: 0;">
-    <a href="/"> back 🏠 </a>
-  </p>
+  <div>
+    <p><a href="/"> back 🏠 </a></p>
+    <p>{formattedPageName}</p>
+  </div>
 {/if}
-
-<p>
-  {$page.route.id.replaceAll("/", " ").trim()}
-</p>
 
 <slot />
 
 <style>
+  div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    background-color: lightgreen;
+  }
+
   p {
+    margin: 0;
     font-weight: 900;
     font-size: 20px;
-    text-transform: uppercase;
   }
 </style>
