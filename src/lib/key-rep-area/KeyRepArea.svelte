@@ -3,9 +3,10 @@
   import Line from "$lib/pose-detection/StraightLine.svelte";
   import selectedKeyRepArea from "$lib/key-rep-area/selected";
   import type KeyRepArea from "./keyRepArea";
+  import type { keypoint } from "$lib/pose-detection";
 
   export let keyRepArea: KeyRepArea;
-  export let keypoints: any[];
+  export let keypoints: keypoint[];
   export let focusKeypoint = null;
   export let updateKeyRepArea: (updated: KeyRepArea) => void;
 

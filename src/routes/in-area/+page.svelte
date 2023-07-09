@@ -1,7 +1,7 @@
 <script>
   import { browser } from "$app/environment";
   import videoEl from "$lib/video/video";
-  import keypoints from "$lib/pose-detection/keypoints.js";
+  import keypoints from "$lib/pose-detection/keypoints";
   import keypointNames from "$lib/pose-detection/keypointNames.json";
   import repArea from "$lib/key-rep-area/keyRepArea";
 

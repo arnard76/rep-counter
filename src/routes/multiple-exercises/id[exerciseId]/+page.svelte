@@ -11,7 +11,7 @@
   import PauseControls from "$lib/paused/PauseControls.svelte";
 
   import { onDestroy } from "svelte";
-  import { scale } from "$lib/pose-detection/scaleKeypoints.js";
+  import { scale } from "$lib/pose-detection/scaleKeypoints";
   import {
     controlledKeypoints,
     focusLimbKeypoints,

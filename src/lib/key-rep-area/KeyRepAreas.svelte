@@ -1,9 +1,10 @@
 <script lang="ts">
   import type KeyRepArea from "$lib/key-rep-area/keyRepArea";
   import KeyRepAreaComponent from "$lib/key-rep-area/KeyRepArea.svelte";
+  import type { keypoint } from "$lib/pose-detection";
 
   export let keyRepAreas: KeyRepArea[];
-  export let keypoints: any[];
+  export let keypoints: keypoint[];
   export let focusKeypointName: string;
   export let updateKeyRepAreas: (updated: KeyRepArea[]) => void;
 </script>

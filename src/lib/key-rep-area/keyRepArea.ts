@@ -1,4 +1,5 @@
 import keypointNames from "$lib/pose-detection/keypointNames.json";
+import type { keypoint } from "$lib/pose-detection";
 
 const defaultKeyRepAreaTopLeft = { x: 20, y: 20 };
 const defaultKeyRepAreaSize = { width: 40, height: 40 };
@@ -24,7 +25,7 @@ export default class KeyRepArea {
     this.areaSize = { width, height };
   }
 
-  pointInArea(keypoints: any[], keypoint: string) {
+  pointInArea(keypoints: keypoint[], keypoint: string) {
     if (!this.relativeToWhichKeypoint) return false;
     if (!keypoint || !keypoints || !keypoints.length) return false;
 
@@ -47,7 +48,7 @@ export default class KeyRepArea {
     return true;
   }
 
-  calcAreaCorners(keypoints: any[]) {
+  calcAreaCorners(keypoints: keypoint[]) {
     if (!this.relativeToWhichKeypoint) return;
 
     let relativeKeypoint = keypoints.find(

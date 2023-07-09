@@ -1,8 +1,9 @@
 import { derived } from "svelte/store";
 import { paused, pausedKeypoints } from "$lib/paused";
-import keypoints from "$lib/pose-detection/keypoints.js";
+import keypoints from "$lib/pose-detection/keypoints";
 import { selectedExercise } from "$lib/exercises/store";
-import { scale, scaleKeypoints } from "$lib/pose-detection/scaleKeypoints.js";
+import { scale, scaleKeypoints } from "$lib/pose-detection/scaleKeypoints";
+import type { keypoint } from ".";
 
 // reacts to scale & pause changes 😀
 const controlledKeypoints = derived(
@@ -10,7 +11,7 @@ const controlledKeypoints = derived(
   ([$paused, $pausedKeypoints, $keypoints, $scale], set) => {
     set(scaleKeypoints($paused ? $pausedKeypoints : $keypoints, $scale));
   },
-  undefined as any[]
+  undefined as keypoint[]
 );
 
 const focusLimbNames = derived(
