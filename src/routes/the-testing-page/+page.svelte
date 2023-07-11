@@ -9,7 +9,6 @@
 
   import { onDestroy } from "svelte";
   import { scale } from "$lib/pose-detection/scaleKeypoints";
-  import { controlledKeypoints } from "$lib/pose-detection/otherKeypointStores";
   import RepCounter from "$lib/count-reps/RepCounter.svelte";
   import ExerciseSelector from "$lib/exercises/ExerciseSelector.svelte";
   import KeyRepAreas from "$lib/key-rep-area/KeyRepAreas.svelte";
@@ -59,7 +58,6 @@
         <KeyRepAreas
           {keyRepAreas}
           updateKeyRepAreas={() => {}}
-          keypoints={$controlledKeypoints}
           focusKeypointName={focusLimb}
         />
       {/each}

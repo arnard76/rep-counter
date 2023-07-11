@@ -17,7 +17,6 @@
   import { onDestroy } from "svelte";
   import { scale } from "$lib/pose-detection/scaleKeypoints";
   import {
-    controlledKeypoints,
     focusLimbKeypoints,
     relativeToKeypoints,
   } from "$lib/pose-detection/otherKeypointStores";
@@ -98,7 +97,6 @@
       {#each Object.entries($selectedExercise.focusLimbs) as [focusLimb, { keyRepAreas }] (focusLimb)}
         <KeyRepAreas
           {keyRepAreas}
-          keypoints={$controlledKeypoints}
           updateKeyRepAreas={(updated) =>
             ($exercises[$selectedExerciseId].focusLimbs[focusLimb].keyRepAreas =
               updated)}

@@ -5,11 +5,20 @@ import { selectedExercise } from "$lib/exercises/store";
 import { scale, scaleKeypoints } from "$lib/pose-detection/scaleKeypoints";
 import type { keypoint } from ".";
 
-// reacts to scale & pause changes 😀
+// reacts to pause changes 😀
 const controlledKeypoints = derived(
-  [paused, pausedKeypoints, keypoints, scale],
-  ([$paused, $pausedKeypoints, $keypoints, $scale], set) => {
-    set(scaleKeypoints($paused ? $pausedKeypoints : $keypoints, $scale));
+  [paused, pausedKeypoints, keypoints],
+  ([$paused, $pausedKeypoints, $keypoints], set) => {
+    set($paused ? $pausedKeypoints : $keypoints);
+  },
+  undefined as keypoint[]
+);
+
+// reacts to pause & scale changes
+const scaledControlledKeypoints = derived(
+  [controlledKeypoints, scale],
+  ([$controlledKeypoints, $scale], set) => {
+    set(scaleKeypoints($controlledKeypoints, $scale));
   },
   undefined as keypoint[]
 );
@@ -32,12 +41,12 @@ const focusLimbNames = derived(
 );
 
 const focusLimbKeypoints = derived(
-  [focusLimbNames, controlledKeypoints],
-  ([$focusLimbNames, $controlledKeypoints], set) => {
-    if (!$focusLimbNames || !$controlledKeypoints) return;
+  [focusLimbNames, scaledControlledKeypoints],
+  ([$focusLimbNames, $scaledControlledKeypoints], set) => {
+    if (!$focusLimbNames || !$scaledControlledKeypoints) return;
 
     let focusLimbKeypoints = [];
-    for (let keypoint of $controlledKeypoints) {
+    for (let keypoint of $scaledControlledKeypoints) {
       if ($focusLimbNames.includes(keypoint.name)) {
         focusLimbKeypoints.push(keypoint);
       }
@@ -67,12 +76,12 @@ const relativeToKeypointNames = derived(
 );
 
 const relativeToKeypoints = derived(
-  [relativeToKeypointNames, controlledKeypoints],
-  ([$relativeToKeypointNames, $controlledKeypoints], set) => {
-    if (!$relativeToKeypointNames || !$controlledKeypoints) return null;
+  [relativeToKeypointNames, scaledControlledKeypoints],
+  ([$relativeToKeypointNames, $scaledControlledKeypoints], set) => {
+    if (!$relativeToKeypointNames || !$scaledControlledKeypoints) return null;
 
     let relativeToKeypoints = [];
-    for (let keypoint of $controlledKeypoints) {
+    for (let keypoint of $scaledControlledKeypoints) {
       if ($relativeToKeypointNames.includes(keypoint.name)) {
         relativeToKeypoints.push(keypoint);
       }
@@ -82,4 +91,9 @@ const relativeToKeypoints = derived(
   []
 );
 
-export { controlledKeypoints, focusLimbKeypoints, relativeToKeypoints };
+export {
+  controlledKeypoints,
+  scaledControlledKeypoints,
+  focusLimbKeypoints,
+  relativeToKeypoints,
+};
