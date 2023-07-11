@@ -1,6 +1,6 @@
 <script>
-  import UserVideo from "$lib/video/LiveVideo.svelte";
-  import videoEl from "$lib/video/video";
+  import UserVideo from "$legacy-pages-lib/video/LiveVideo.svelte";
+  import videoEl from "$legacy-pages-lib/video/video";
 </script>
 
 <UserVideo />

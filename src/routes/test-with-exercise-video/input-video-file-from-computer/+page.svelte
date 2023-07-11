@@ -1,25 +1,25 @@
 <script>
-  import exerciseVideoEl from "$lib/video/video";
-  import PauseControls from "$lib/paused/PauseControls.svelte";
+  import exerciseVideoEl from "$legacy-pages-lib/video/video";
+  import PauseControls from "$legacy-pages-lib/paused/PauseControls.svelte";
 
-  import { scale } from "$lib/pose-detection/scaleKeypoints";
+  import { scale } from "$legacy-pages-lib/pose-detection/scaleKeypoints";
   import { onDestroy } from "svelte";
 
   import {
     controlledKeypoints,
     focusLimbKeypoints,
     relativeToKeypoints,
-  } from "$lib/pose-detection/otherKeypointStores";
-  import KeypointsOverlay from "$lib/pose-detection/KeypointsOverlay.svelte";
+  } from "$legacy-pages-lib/pose-detection/otherKeypointStores";
+  import KeypointsOverlay from "$legacy-pages-lib/pose-detection/KeypointsOverlay.svelte";
 
   import exercises, {
     selectedExercise,
     selectedExerciseId,
-  } from "$lib/exercises/store";
-  import KeyRepAreas from "$lib/key-rep-area/KeyRepAreas.svelte";
-  import EditingExercisePanel from "$lib/exercises/EditingExercisePanel.svelte";
+  } from "$legacy-pages-lib/exercises/store";
+  import KeyRepAreas from "$legacy-pages-lib/key-rep-area/KeyRepAreas.svelte";
+  import EditingExercisePanel from "$legacy-pages-lib/exercises/EditingExercisePanel.svelte";
 
-  import RepCounter from "$lib/count-reps/RepCounter.svelte";
+  import RepCounter from "$legacy-pages-lib/count-reps/RepCounter.svelte";
 
   selectedExerciseId.select("0");
 

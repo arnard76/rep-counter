@@ -1,14 +1,14 @@
 <script>
   import { browser } from "$app/environment";
-  import videoEl from "$lib/video/video";
-  import keypoints from "$lib/pose-detection/keypoints";
-  import keypointNames from "$lib/pose-detection/keypointNames.json";
+  import videoEl from "$legacy-pages-lib/video/video";
+  import keypoints from "$legacy-pages-lib/pose-detection/keypoints";
+  import keypointNames from "$legacy-pages-lib/pose-detection/keypointNames.json";
 
-  import KeypointsOverlay from "$lib/pose-detection/KeypointsOverlay.svelte";
-  import SelectOneKeypoint from "$lib/pose-detection/SelectOneKeypoint.svelte";
-  import LimbRepCounter from "$lib/count-reps/LimbRepCounter.svelte";
-  import KeyRepArea from "$lib/key-rep-area/keyRepArea";
-  import KeyRepAreaSC from "$lib/key-rep-area/KeyRepArea.svelte";
+  import KeypointsOverlay from "$legacy-pages-lib/pose-detection/KeypointsOverlay.svelte";
+  import SelectOneKeypoint from "$legacy-pages-lib/pose-detection/SelectOneKeypoint.svelte";
+  import LimbRepCounter from "$legacy-pages-lib/count-reps/LimbRepCounter.svelte";
+  import KeyRepArea from "$legacy-pages-lib/key-rep-area/keyRepArea";
+  import KeyRepAreaSC from "$legacy-pages-lib/key-rep-area/KeyRepArea.svelte";
 
   let stream = null;
 

@@ -1,7 +1,7 @@
 <script lang="ts">
   import { page } from "$app/stores";
-  import { createExercise } from "$lib/exercises/CRUD/crudDB";
-  import exercises from "$lib/exercises/store";
+  import { createExercise } from "$legacy-pages-lib/exercises/CRUD/crudDB";
+  import exercises from "$legacy-pages-lib/exercises/store";
 
   const defaultExerciseFormat = {
     name: "untitled",

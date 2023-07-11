@@ -1,9 +1,9 @@
 <script>
-  import { getPose } from "$lib/pose-detection/detector.js";
-  // import { captureVideo } from "$lib/video/frameCapture.js";
+  import { getPose } from "$legacy-pages-lib/pose-detection/detector.js";
+  // import { captureVideo } from "$legacy-pages-lib/video/frameCapture.js";
   import { browser } from "$app/environment";
   import { onDestroy } from "svelte";
-  import KeypointsOverlay from "$lib/pose-detection/KeypointsOverlay.svelte";
+  import KeypointsOverlay from "$legacy-pages-lib/pose-detection/KeypointsOverlay.svelte";
 
   let videoEl = null;
   // let imageSrcEl = null;

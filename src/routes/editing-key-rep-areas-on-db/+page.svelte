@@ -1,9 +1,9 @@
 <script>
-  import { updateExercise } from "$lib/exercises/CRUD/crudDB";
+  import { updateExercise } from "$legacy-pages-lib/exercises/CRUD/crudDB";
   import exercises, {
     selectedExercise,
     selectedExerciseId,
-  } from "$lib/exercises/store";
+  } from "$legacy-pages-lib/exercises/store";
 
   selectedExerciseId.select("0");
 </script>

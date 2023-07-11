@@ -1,6 +1,5 @@
 <script>
   import { browser } from "$app/environment";
-  // import {} from "$lib";
 
   let videoEl = null;
 

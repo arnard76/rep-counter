@@ -1,24 +1,24 @@
 <script>
   import { onDestroy } from "svelte";
-  import { scale } from "$lib/pose-detection/scaleKeypoints";
-  import UserVideo from "$lib/video/LiveVideo.svelte";
-  import PauseControls from "$lib/paused/PauseControls.svelte";
+  import { scale } from "$legacy-pages-lib/pose-detection/scaleKeypoints";
+  import UserVideo from "$legacy-pages-lib/video/LiveVideo.svelte";
+  import PauseControls from "$legacy-pages-lib/paused/PauseControls.svelte";
 
   import {
     controlledKeypoints,
     focusLimbKeypoints,
     relativeToKeypoints,
-  } from "$lib/pose-detection/otherKeypointStores";
-  import KeypointsOverlay from "$lib/pose-detection/KeypointsOverlay.svelte";
+  } from "$legacy-pages-lib/pose-detection/otherKeypointStores";
+  import KeypointsOverlay from "$legacy-pages-lib/pose-detection/KeypointsOverlay.svelte";
 
   import exercises, {
     selectedExercise,
     selectedExerciseId,
-  } from "$lib/exercises/store";
-  import KeyRepAreas from "$lib/key-rep-area/KeyRepAreas.svelte";
-  import EditingExercisePanel from "$lib/exercises/EditingExercisePanel.svelte";
+  } from "$legacy-pages-lib/exercises/store";
+  import KeyRepAreas from "$legacy-pages-lib/key-rep-area/KeyRepAreas.svelte";
+  import EditingExercisePanel from "$legacy-pages-lib/exercises/EditingExercisePanel.svelte";
 
-  import RepCounter from "$lib/count-reps/RepCounter.svelte";
+  import RepCounter from "$legacy-pages-lib/count-reps/RepCounter.svelte";
 
   let clientWidth, clientHeight, videoWidth, videoHeight;
   $: if (clientWidth && clientHeight && videoWidth && videoHeight) {
