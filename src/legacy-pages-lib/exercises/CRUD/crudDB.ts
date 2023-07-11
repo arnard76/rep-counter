@@ -8,11 +8,11 @@ function updateExercise(exerciseId: string, updatedExercise: ExerciseData) {
 }
 
 function createExercise(exercise: ExerciseData) {
-  push(ref(database), exercise);
+  push(ref(database, "legacy-pages-db"), exercise);
 }
 
 function streamExercises() {
-  return onValue(ref(database), (snapshot) => {
+  return onValue(ref(database, "legacy-pages-db"), (snapshot) => {
     const exerciseData: ExercisesData = snapshot.val();
     console.log("exercises data:", exerciseData);
     exercises.syncWithDatabase(exerciseData);
