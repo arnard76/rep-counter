@@ -54,13 +54,6 @@
 
       <RepCounter focusLimbs={$selectedExercise.focusLimbs} />
 
-      {#each Object.entries($selectedExercise.focusLimbs) as [focusLimb, { keyRepAreas }] (focusLimb)}
-        <KeyRepAreas
-          {keyRepAreas}
-          updateKeyRepAreas={() => {}}
-          focusKeypointName={focusLimb}
-        />
-      {/each}
       <div style="position:absolute; bottom:0; left:0;">
         <PauseControls />
       </div>
