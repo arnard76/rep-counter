@@ -1,10 +1,10 @@
 import { writable, get } from "svelte/store";
-import type { keypoint } from ".";
+import type { Keypoint } from ".";
 
 export const scale = writable({ vertical: 1, horizontal: 1 });
 
 export function scaleKeypoints(
-  keypoints: keypoint[],
+  keypoints: Keypoint[],
   { horizontal: horizontalScale, vertical: verticalScale } = get(scale)
 ) {
   if (!keypoints) return null;

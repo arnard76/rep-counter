@@ -1,7 +1,7 @@
 import { writable, derived, get } from "svelte/store";
 import videoEl from "$lib/video/video";
 import keypoints from "$lib/pose-detection/keypoints";
-import type { keypoint } from "$lib/pose-detection";
+import type { Keypoint } from "$lib/pose-detection";
 
 export const paused = {
   ...writable(false),
@@ -24,5 +24,5 @@ export const pausedKeypoints = derived(
   ($paused, set) => {
     set($paused ? get(keypoints) : null);
   },
-  null as keypoint[]
+  null as Keypoint[]
 );

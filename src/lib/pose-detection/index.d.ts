@@ -1,1 +1,1 @@
-export type keypoint = { name: string; x: number; y: number };
+export type Keypoint = { name: string; x: number; y: number };

@@ -3,7 +3,7 @@ import { paused, pausedKeypoints } from "$lib/paused";
 import keypoints from "$lib/pose-detection/keypoints";
 import { selectedExercise } from "$lib/exercises/store";
 import { scale, scaleKeypoints } from "$lib/pose-detection/scaleKeypoints";
-import type { keypoint } from ".";
+import type { Keypoint } from ".";
 
 // reacts to pause changes 😀
 const controlledKeypoints = derived(
@@ -11,7 +11,7 @@ const controlledKeypoints = derived(
   ([$paused, $pausedKeypoints, $keypoints], set) => {
     set($paused ? $pausedKeypoints : $keypoints);
   },
-  undefined as keypoint[]
+  undefined as Keypoint[]
 );
 
 // reacts to pause & scale changes
@@ -20,7 +20,7 @@ const scaledControlledKeypoints = derived(
   ([$controlledKeypoints, $scale], set) => {
     set(scaleKeypoints($controlledKeypoints, $scale));
   },
-  undefined as keypoint[]
+  undefined as Keypoint[]
 );
 
 const focusLimbNames = derived(

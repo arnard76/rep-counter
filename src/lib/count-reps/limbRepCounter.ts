@@ -1,5 +1,5 @@
 import type Area from "$lib/key-rep-area/keyRepArea";
-import type { keypoint } from "$lib/pose-detection";
+import type { Keypoint } from "$lib/pose-detection";
 
 export const finishedRep = -2;
 export const canStartNextRep = -1;
@@ -42,7 +42,7 @@ export default class LimbRepCounter {
   }
 
   // was the rep updated? return value of true means yes
-  updateRepProgress(keypoints: keypoint[]) {
+  updateRepProgress(keypoints: Keypoint[]) {
     if (this.lastKeyAreaIndex === finishedRep) return false;
 
     if (!this.isLimbInNextKeyArea(keypoints)) return false;
@@ -56,7 +56,7 @@ export default class LimbRepCounter {
   }
 
   // is limb in next area? return value true if yes
-  isLimbInNextKeyArea(keypoints: keypoint[]) {
+  isLimbInNextKeyArea(keypoints: Keypoint[]) {
     return this.keyAreas[this.lastKeyAreaIndex + 1].pointInArea(
       keypoints,
       this.focusLimbName

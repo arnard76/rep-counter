@@ -1,10 +1,10 @@
 import { get, readable } from "svelte/store";
 import videoEl from "$lib/video/video";
 import { getPose } from "$lib/pose-detection/detector.js";
-import type { keypoint } from "./";
+import type { Keypoint } from "./";
 
 // doesn't react to scale changes (use controlledKeypoints instead)
-const keypoints = readable(null as keypoint[], (set) => {
+const keypoints = readable(null as Keypoint[], (set) => {
   const snapAndDetect = setInterval(() => {
     let $videoEl = get(videoEl);
 
@@ -14,7 +14,7 @@ const keypoints = readable(null as keypoint[], (set) => {
     getPose($videoEl).then((res: any[]) => {
       if (!res || !res.length) return;
 
-      set(res[0].keypoints as keypoint[]);
+      set(res[0].keypoints as Keypoint[]);
     });
   }, 100);
 

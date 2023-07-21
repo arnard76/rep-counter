@@ -1,7 +1,7 @@
 import keypointNames from "$lib/pose-detection/keypointNames.json";
 import { get } from "svelte/store";
 import { scale } from "$lib/pose-detection/scaleKeypoints";
-import type { keypoint } from "$lib/pose-detection/";
+import type { Keypoint } from "$lib/pose-detection/";
 import type { FormattedCorners } from ".";
 
 const defaultKeyRepAreaTopLeft = { x: 20, y: 20 };
@@ -29,7 +29,7 @@ export default class KeyRepArea {
   }
 
   // keypoints cannot be scaled
-  pointInArea(keypoints: keypoint[], keypointName: string) {
+  pointInArea(keypoints: Keypoint[], keypointName: string) {
     if (!this.relativeToWhichKeypoint) return false;
     if (!keypointName || !keypoints || !keypoints.length) return false;
 
@@ -52,7 +52,7 @@ export default class KeyRepArea {
     return true;
   }
 
-  calcAreaCorners(keypoints: keypoint[]): FormattedCorners {
+  calcAreaCorners(keypoints: Keypoint[]): FormattedCorners {
     if (!this.relativeToWhichKeypoint) return;
 
     let relativeKeypoint = keypoints.find(
@@ -74,7 +74,7 @@ export default class KeyRepArea {
   }
 
   calcScaledAreaCorners(
-    unscaledKeypoints: keypoint[],
+    unscaledKeypoints: Keypoint[],
     { horizontal, vertical } = get(scale)
   ) {
     const unscaledCorners = this.calcAreaCorners(unscaledKeypoints);
