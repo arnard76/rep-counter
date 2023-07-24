@@ -4,7 +4,7 @@ import { scale } from "$lib/pose-detection/scaleKeypoints";
 import type { Keypoint } from "$lib/pose-detection/";
 import type { FormattedCorners } from ".";
 
-const defaultKeyRepAreaTopLeft = { x: 20, y: 20 };
+const defaultKeyRepAreaTopLeft = { x: "20", y: "20" };
 const defaultKeyRepAreaSize = { width: 40, height: 40 };
 
 export default class KeyRepArea {
@@ -28,6 +28,36 @@ export default class KeyRepArea {
     this.areaSize = { width, height };
   }
 
+  evaluateTopLeftToNumber(keypoints: any[] = []) {
+    if (!keypoints) return { x: null, y: null };
+
+    function getLimb(keypointName: Keypoint["name"]) {
+      return (
+        keypoints.find((kp) => kp.name === keypointName) ||
+        (keypointNames.includes(keypointName) ? { x: 0, y: 0 } : undefined)
+      );
+    }
+
+    function lengthBetween(
+      keypoint1Name: Keypoint["name"],
+      keypoint2Name: Keypoint["name"]
+    ) {
+      try {
+        return Math.sqrt(
+          (getLimb(keypoint1Name).x - getLimb(keypoint2Name).x) ** 2 +
+            (getLimb(keypoint1Name).y - getLimb(keypoint2Name).y) ** 2
+        );
+      } catch (e) {
+        console.log("the limb: ", keypoint1Name, keypoint2Name, keypoints);
+      }
+    }
+
+    return {
+      x: this.roundTo2SF(eval(this.topLeft.x) as number),
+      y: this.roundTo2SF(eval(this.topLeft.y) as number),
+    };
+  }
+
   // keypoints cannot be scaled
   pointInArea(keypoints: Keypoint[], keypointName: string) {
     if (!this.relativeToWhichKeypoint) return false;
@@ -38,8 +68,8 @@ export default class KeyRepArea {
     );
 
     let absTopLeft = {
-      x: relativeKeypoint.x + this.topLeft.x,
-      y: relativeKeypoint.y + this.topLeft.y,
+      x: relativeKeypoint.x + this.evaluateTopLeftToNumber(keypoints).x,
+      y: relativeKeypoint.y + this.evaluateTopLeftToNumber(keypoints).y,
     };
 
     let focusKeypoint = keypoints.find((keypt) => keypt.name === keypointName);
@@ -62,7 +92,7 @@ export default class KeyRepArea {
     if (!relativeKeypoint) return;
 
     let { x: originX, y: originY } = relativeKeypoint;
-    let { x, y } = this.topLeft;
+    let { x, y } = this.evaluateTopLeftToNumber(keypoints);
     let { width, height } = this.areaSize;
 
     return {
@@ -91,20 +121,30 @@ export default class KeyRepArea {
 
   setTopLeftFromMouseDrag({ offsetX, offsetY }) {
     this.topLeft = {
-      x: Number((this.topLeft.x + offsetX / get(scale).horizontal).toFixed(2)),
-      y: Number((this.topLeft.y + offsetY / get(scale).vertical).toFixed(2)),
+      x: (
+        this.evaluateTopLeftToNumber([]).x +
+        offsetX / get(scale).horizontal
+      ).toFixed(2),
+      y: (
+        this.evaluateTopLeftToNumber([]).y +
+        offsetY / get(scale).vertical
+      ).toFixed(2),
     };
   }
 
   setAreaSizeFromMouseDrag({ offsetX, offsetY }) {
     this.areaSize = {
-      width: Number(
-        (this.areaSize.width - offsetX / get(scale).horizontal).toFixed(2)
+      width: this.roundTo2SF(
+        this.areaSize.width - offsetX / get(scale).horizontal
       ),
-      height: Number(
-        (this.areaSize.height - offsetY / get(scale).vertical).toFixed(2)
+      height: this.roundTo2SF(
+        this.areaSize.height - offsetY / get(scale).vertical
       ),
     };
+  }
+
+  roundTo2SF(number: number) {
+    return Number(number.toFixed(2));
   }
 
   static cloneInstance(existingKeyRepArea: KeyRepArea) {
