@@ -1,5 +1,5 @@
 <script>
-  import Menu from "$legacy-pages-lib/site-nav/Menu.svelte";
+  import Menu from "$lib/site-nav/Menu.svelte";
   import { browser } from "$app/environment";
   let structuredPages = [];
   try {
