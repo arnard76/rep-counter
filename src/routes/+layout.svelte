@@ -1,6 +1,5 @@
 <script>
   import { page } from "$app/stores";
-
   $: formattedPageName = $page.route.id.replaceAll("/", " ").trim();
 </script>
 

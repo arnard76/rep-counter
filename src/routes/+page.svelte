@@ -1,73 +1,76 @@
 <script>
   import Menu from "$legacy-pages-lib/site-nav/Menu.svelte";
   import { browser } from "$app/environment";
-
-  let allComponents = Object.keys(import.meta.glob("./**/**.svelte"));
-  let allPages = allComponents
-    .filter(
-      (possiblePage) =>
-        possiblePage.includes("+page.svelte") && !possiblePage.includes("[")
-    )
-
-    .map((usefulPage) => {
-      let cleanedPageName = usefulPage;
-
-      cleanedPageName = cleanedPageName
-        .replace("/+page.svelte", "")
-        .replace("./", "")
-        .replaceAll("/", "|");
-
-      return {
-        url: usefulPage.replace("+page.svelte", ""),
-        pageTitle: cleanedPageName,
-      };
-    });
-
-  // turn into class?
   let structuredPages = [];
+  try {
+    let allComponents = Object.keys(import.meta.glob("./**/**.svelte"));
+    let allPages = allComponents
+      .filter(
+        (possiblePage) =>
+          possiblePage.includes("+page.svelte") && !possiblePage.includes("[")
+      )
 
-  /**
-   * adds a new page into the structured menu
-   * @param {Array} pagesInLevel
-   * @param {Array} pageToAdd - includes a list of sub routes of the page
-   * @param {string} pageUrl - relative link to page
-   */
-  function addPage(pagesInLevel, pageToAdd, pageUrl) {
-    if (pageToAdd.length === 0) return pagesInLevel;
+      .map((usefulPage) => {
+        let cleanedPageName = usefulPage;
 
-    let existingPageIndex = pagesInLevel.findIndex(
-      (page) => page.name == pageToAdd[0]
-    );
+        cleanedPageName = cleanedPageName
+          .replace("/+page.svelte", "")
+          .replace("./", "")
+          .replaceAll("/", "|");
 
-    if (existingPageIndex < 0) {
-      return [
-        ...pagesInLevel,
-        {
-          name: pageToAdd[0],
-          url: pageUrl,
-          subPages: addPage([], pageToAdd.splice(1), pageUrl),
-        },
-      ];
+        return {
+          url: usefulPage.replace("+page.svelte", ""),
+          pageTitle: cleanedPageName,
+        };
+      });
+
+    // turn into class?
+
+    /**
+     * adds a new page into the structured menu
+     * @param {Array} pagesInLevel
+     * @param {Array} pageToAdd - includes a list of sub routes of the page
+     * @param {string} pageUrl - relative link to page
+     */
+    function addPage(pagesInLevel, pageToAdd, pageUrl) {
+      if (pageToAdd.length === 0) return pagesInLevel;
+
+      let existingPageIndex = pagesInLevel.findIndex(
+        (page) => page.name == pageToAdd[0]
+      );
+
+      if (existingPageIndex < 0) {
+        return [
+          ...pagesInLevel,
+          {
+            name: pageToAdd[0],
+            url: pageUrl,
+            subPages: addPage([], pageToAdd.splice(1), pageUrl),
+          },
+        ];
+      }
+
+      pagesInLevel[existingPageIndex].subPages = addPage(
+        pagesInLevel[existingPageIndex].subPages,
+        pageToAdd.splice(1),
+        pageUrl
+      );
+      return pagesInLevel;
     }
 
-    pagesInLevel[existingPageIndex].subPages = addPage(
-      pagesInLevel[existingPageIndex].subPages,
-      pageToAdd.splice(1),
-      pageUrl
-    );
-    return pagesInLevel;
-  }
+    for (let { pageTitle, url } of allPages) {
+      let subRoutes = pageTitle.split("|");
 
-  for (let { pageTitle, url } of allPages) {
-    let subRoutes = pageTitle.split("|");
+      structuredPages = addPage(structuredPages, subRoutes, url);
+    }
 
-    structuredPages = addPage(structuredPages, subRoutes, url);
-  }
-
-  if (browser && "serviceWorker" in navigator) {
-    addEventListener("load", function () {
-      navigator.serviceWorker.register("service-worker.js");
-    });
+    if (browser && "serviceWorker" in navigator) {
+      addEventListener("load", function () {
+        navigator.serviceWorker.register("service-worker.js");
+      });
+    }
+  } catch (e) {
+    console.log("caught :)", e);
   }
 </script>
 
