@@ -19,10 +19,11 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
+let app, database;
 try {
-  const app = initializeApp(firebaseConfig);
+  app = initializeApp(firebaseConfig);
   // const analytics = getAnalytics(app);
-  const database = getDatabase(app);
+  database = getDatabase(app);
 } catch (e) {
   console.log("caught 3", e);
 }
