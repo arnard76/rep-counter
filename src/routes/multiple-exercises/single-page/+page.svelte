@@ -28,6 +28,7 @@
   import RepCounter from "$lib/count-reps/RepCounter.svelte";
   import ExerciseSelector from "$lib/exercises/ExerciseSelector.svelte";
   import debug from "$lib/testing/debugger";
+  import VideoSourceToggle from "$lib/video/VideoSourceToggle.svelte";
 
   let clientWidth: number,
     clientHeight: number,
@@ -57,6 +58,7 @@
 </script>
 
 <ExerciseSelector />
+
 <button on:click={() => createExercise({ ...defaultExerciseFormat })}
   >➕ exercise</button
 >
@@ -67,14 +69,8 @@
 <p>{JSON.stringify($selectedExercise)}</p>
 <hr />
 
-<label>
-  Use camera?
-  <input type="checkbox" name="live video as source" bind:checked={live} />
-</label>
-
-{#if !live}
-  <InputVideoFile updateVideoFile={(updated) => (validVideoFile = updated)} />
-{/if}
+<VideoSourceToggle bind:live bind:validVideoFile />
+<hr />
 
 {#if $selectedExercise && (live || validVideoFile)}
   <div class="container" style="--height: {clientHeight || 150}px;">
