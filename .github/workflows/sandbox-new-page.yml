@@ -1,9 +1,9 @@
 name: setup a new page in the sandbox branch
-run-name: "sandboxing ${{ github.env.LATEST_PAGE_ROUTE }}"
+run-name: "sandboxing ${{ vars.LATEST_PAGE_ROUTE }}"
 on: [push]
 
 env:
-  new_page: ${{ github.env.LATEST_PAGE_ROUTE }}
+  new_page: ${{ vars.LATEST_PAGE_ROUTE }}
 
 jobs:
   Update-Sandbox-Branch:
