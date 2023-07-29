@@ -1,6 +1,6 @@
 name: setup a new page in the sandbox branch
 run-name: "sandboxing ${{ vars.LATEST_PAGE_ROUTE }}"
-on: [push]
+on: [push, workflow_dispatch]
 
 env:
   new_page: ${{ vars.LATEST_PAGE_ROUTE }}
