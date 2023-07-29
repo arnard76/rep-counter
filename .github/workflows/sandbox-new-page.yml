@@ -10,3 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: echo "Hi ${{ env.new_page }}"
+      - run: git clone ${{ github.repositoryUrl }}
+      - run: cd rep-counter
+      - run: ls .
+      - run: echo "printing out the root file"
+      - run: echo "$(</src/routes/+page.svelte )"
